@@ -34,6 +34,10 @@ export const websiteRoutes: Routes = [
         loadComponent: () => import('./about/about').then((m) => m.About),
       },
       {
+        path: 'contact-us',
+        loadComponent: () => import('./contact/contact').then((m) => m.Contact),
+      },
+      {
         path: 'locations',
         loadComponent: () => import('./locations/locations').then((m) => m.Locations),
       },

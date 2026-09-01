@@ -1,0 +1,41 @@
+.zx-hover-card {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.zx-hover-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 34px rgba(18, 105, 232, 0.18);
+  border-color: #1269e8;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #1269e8 !important;
+  box-shadow: 0 0 0 4px rgba(18, 105, 232, 0.1);
+}
+
+/* The reference is fixed-width desktop: 3 channel columns and a 1.4fr/1fr form split. */
+@media (max-width: 1024px) {
+  .zx-contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+  :host ::ng-deep section {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .zx-channel-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .zx-name-row {
+    grid-template-columns: 1fr !important;
+  }
+  :host ::ng-deep h1 {
+    font-size: 36px !important;
+  }
+}
