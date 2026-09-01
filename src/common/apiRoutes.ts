@@ -8,6 +8,9 @@
 export const apiRoutes = {
   health: 'health',
 
+  // Public counters
+  fleetStats: 'stats/fleet',
+
   // User / auth
   signIn: 'user/sign-in',
   signUp: 'user/sign-up',

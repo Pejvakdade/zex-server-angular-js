@@ -74,18 +74,20 @@
           <div style="color:#fff;font-weight:700;font-size:13px;">Fleet Overview</div>
           <span style="width:7px;height:7px;border-radius:50%;background:#22C55E;"></span>
         </div>
+        <!-- Values come from GET stats/fleet. A metric with no backend source yet renders as
+             an em dash, never as an invented figure. -->
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
           <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:10px;">
             <div style="font-size:10.5px;color:#9498CC;margin-bottom:4px;">Servers</div>
-            <div style="font-size:17px;font-weight:800;color:#fff;">42</div>
+            <div style="font-size:17px;font-weight:800;color:#fff;">{{ stats.stats().servers | metric }}</div>
           </div>
           <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:10px;">
             <div style="font-size:10.5px;color:#9498CC;margin-bottom:4px;">Uptime</div>
-            <div style="font-size:17px;font-weight:800;color:#fff;">99.9%</div>
+            <div style="font-size:17px;font-weight:800;color:#fff;">{{ stats.stats().uptime | metric: '%' }}</div>
           </div>
           <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:10px;">
             <div style="font-size:10.5px;color:#9498CC;margin-bottom:4px;">Tickets</div>
-            <div style="font-size:17px;font-weight:800;color:#fff;">3</div>
+            <div style="font-size:17px;font-weight:800;color:#fff;">{{ stats.stats().tickets | metric }}</div>
           </div>
         </div>
       </div>
@@ -95,7 +97,7 @@
         <div style="color:#B7B9E6;font-size:14px;line-height:1.6;margin-bottom:28px;">Servers, invoices, tickets and hosting plans — all in one place, backed by a team that's always reachable.</div>
 
         <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:28px;">
-          @for (point of highlights; track point) {
+          @for (point of highlights(); track point) {
             <div style="display:flex;align-items:center;gap:11px;color:#fff;font-size:13.5px;"><span style="width:20px;height:20px;border-radius:6px;background:rgba(90,168,255,0.18);color:#5AA8FF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">&#10003;</span>{{ point }}</div>
           }
         </div>
