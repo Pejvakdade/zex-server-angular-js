@@ -1,0 +1,45 @@
+.zx-license-card {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.zx-license-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 34px rgba(18, 105, 232, 0.14);
+  border-color: #1269e8;
+}
+
+/* The reference highlights the row when the install option is ticked. */
+.install-toggle:has(input:checked) {
+  border-color: #1269e8 !important;
+  background: #eef0fe !important;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  :host ::ng-deep section {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  .zx-why-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .zx-why-grid {
+    grid-template-columns: 1fr !important;
+  }
+  :host ::ng-deep h1 {
+    font-size: 34px !important;
+  }
+}

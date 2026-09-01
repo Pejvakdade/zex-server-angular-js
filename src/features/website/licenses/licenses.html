@@ -1,0 +1,129 @@
+<!-- hero -->
+@if (content(); as c) {
+  <section style="background:linear-gradient(180deg,#F6F7FE 0%,#fff 100%);padding:0 0 44px;position:relative;overflow:hidden;font-family:var(--zx-font);">
+    <div style="position:absolute;width:420px;height:420px;background:radial-gradient(circle,rgba(18,105,232,0.12),transparent 70%);top:-160px;right:-80px;border-radius:50%;pointer-events:none;"></div>
+    <div style="position:relative;text-align:left;padding:64px 56px;max-width:760px;">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:#EEF0FE;color:#1269E8;font-weight:700;font-size:12.5px;padding:6px 14px;border-radius:20px;margin-bottom:22px;">&#9679; {{ c.heroBadge }}</div>
+      <h1 style="font-size:52px;line-height:1.12;font-weight:800;margin:0 0 18px;color:#161629;">
+        {{ c.heroHeading1 }}
+        <span style="background:linear-gradient(135deg,#1269E8,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ c.heroHeadingAccent }}</span>
+      </h1>
+      <p style="font-size:17.5px;color:#4A5175;line-height:1.6;max-width:600px;margin:0;">{{ c.heroSubheading }}</p>
+    </div>
+  </section>
+
+  @if (c.featureStrip.length) {
+    <section style="padding:0 64px;margin-top:-6px;">
+      <div style="max-width:1520px;margin:0 auto;background:#fff;border:1px solid #EEF0FA;border-radius:18px;box-shadow:0 10px 32px rgba(30,20,90,0.06);padding:22px 30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px 24px;">
+        @for (item of c.featureStrip; track item.title) {
+          <div style="display:flex;align-items:center;gap:13px;min-width:190px;">
+            <div style="font-size:26px;line-height:1;flex-shrink:0;">{{ item.icon }}</div>
+            <div>
+              <div style="font-weight:700;font-size:14.5px;">{{ item.title }}</div>
+              <div style="font-size:12.5px;color:#8386AC;">{{ item.subtitle }}</div>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+}
+
+<!-- licence catalogue -->
+<section id="licenses" style="padding:56px 64px 10px;font-family:var(--zx-font);">
+  <h2 style="text-align:center;font-size:32px;font-weight:800;color:#161629;margin:0 0 6px;">
+    Software <span style="background:linear-gradient(135deg,#1269E8,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent;">Licenses</span>
+  </h2>
+  <p style="text-align:center;color:#8386AC;font-size:15px;margin:0 0 36px;">Official licences with optional installation and configuration.</p>
+
+  @for (group of store.byCategory(); track group.category) {
+    <div style="max-width:1520px;margin:0 auto 30px;">
+      <div style="font-weight:700;font-size:13px;color:#1269E8;letter-spacing:0.4px;margin-bottom:14px;">{{ group.category | uppercase }}</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+        @for (license of group.items; track license._id) {
+          <div class="zx-license-card" style="border:1px solid #EEF0FA;border-radius:16px;padding:22px;background:#fff;box-shadow:0 6px 20px rgba(18,105,232,0.05);display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1269E8" stroke-width="1.8" style="flex-shrink:0;margin-top:2px;"><circle cx="8" cy="15" r="3.5"/><path d="M10.5 12.5L20 3M16.5 6.5l2.5 2.5M14 9l2.5 2.5"/></svg>
+              <div style="font-weight:800;font-size:15px;color:#0B1F5C;line-height:1.3;">{{ license.name }}</div>
+            </div>
+            <div style="font-size:12.5px;color:#8386AC;line-height:1.55;margin-bottom:14px;">{{ license.description }}</div>
+
+            <div style="display:grid;gap:7px;font-size:12.5px;color:#3A3D5C;margin-bottom:18px;">
+              @for (feature of license.features; track feature) {
+                <div style="display:flex;align-items:center;gap:8px;"><span style="color:#7C3AED;font-weight:800;">&#10003;</span>{{ feature }}</div>
+              }
+            </div>
+
+            <div style="margin-top:auto;display:flex;align-items:baseline;gap:6px;margin-bottom:10px;">
+              <span style="font-size:12px;color:#8386AC;font-weight:600;">From</span>
+              <span style="font-size:26px;font-weight:800;color:#0B1F5C;">${{ total(license) }}</span>
+              <span style="font-size:12px;color:#8386AC;">{{ isInstalling(license) ? 'first month' : '/mo' }}</span>
+            </div>
+
+            @if (license.installFee > 0) {
+              <label class="install-toggle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#F6F7FE;border-radius:10px;margin-bottom:12px;cursor:pointer;border:1.5px solid transparent;">
+                <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:#3A3D5C;font-weight:600;">
+                  <input type="checkbox" [checked]="isInstalling(license)" (change)="toggleInstall(license)" style="flex-shrink:0;accent-color:#1269E8;">Install License
+                </div>
+                <div style="font-size:13px;font-weight:800;color:#161629;">+${{ license.installFeeStr }} <span style="font-size:11px;font-weight:600;color:#8386AC;">one-off</span></div>
+              </label>
+            }
+
+            <a [routerLink]="routes.ContactUs" style="display:block;text-align:center;padding:11px;border-radius:10px;background:linear-gradient(135deg,#1269E8,#7C3AED);color:#fff;font-weight:700;font-size:13px;">Order License</a>
+          </div>
+        }
+      </div>
+    </div>
+  } @empty {
+    <p style="text-align:center;color:#8386AC;font-size:14px;padding:28px 0;">
+      {{ store.loading() ? 'Loading licences…' : 'No licences are published yet.' }}
+    </p>
+  }
+</section>
+
+@if (content(); as c) {
+  @if (c.whyChoose.length) {
+    <section style="padding:56px 64px 10px;font-family:var(--zx-font);">
+      <h2 style="text-align:center;font-size:32px;font-weight:800;color:#161629;margin:0 0 6px;">
+        Why Choose <span style="background:linear-gradient(135deg,#1269E8,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent;">ZexServer</span> Licensing?
+      </h2>
+      <div class="zx-why-grid" style="max-width:1520px;margin:32px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+        @for (item of c.whyChoose; track item.title) {
+          <div class="zx-license-card" style="border:1px solid #EEF0FA;border-radius:18px;padding:26px 22px;text-align:center;background:#fff;box-shadow:0 6px 20px rgba(18,105,232,0.06);">
+            <div style="font-size:34px;line-height:1;margin:6px auto 14px;">{{ item.icon }}</div>
+            <div style="font-weight:800;font-size:14.5px;margin:0 0 4px;color:#0B1F5C;">{{ item.title }}</div>
+            <div style="font-size:12px;color:#8386AC;">{{ item.subtitle }}</div>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  @if (c.faq.length) {
+    <section id="faq" style="padding:56px 64px 10px;font-family:var(--zx-font);">
+      <h2 style="text-align:center;font-size:32px;font-weight:800;color:#161629;margin:0 0 30px;">Frequently Asked Questions</h2>
+      <div style="max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px;">
+        @for (item of c.faq; track item.question) {
+          <details name="faq" style="border:1px solid #EEF0FA;border-radius:12px;padding:16px 18px;">
+            <summary style="font-weight:600;font-size:14.5px;cursor:pointer;display:flex;justify-content:space-between;">{{ item.question }} <span>&#9662;</span></summary>
+            <p style="font-size:13.5px;color:#5B5E80;margin:10px 0 0;">{{ item.answer }}</p>
+          </details>
+        }
+      </div>
+    </section>
+  }
+
+  <section style="padding:56px 64px;font-family:var(--zx-font);">
+    <div style="max-width:1520px;margin:0 auto;background:linear-gradient(120deg,#0B0B2E,#211A5C);border-radius:22px;padding:44px 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden;">
+      <div style="position:absolute;width:280px;height:280px;background:radial-gradient(circle,rgba(124,58,237,0.45),transparent 70%);top:-100px;right:60px;border-radius:50%;filter:blur(10px);"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="color:#fff;font-size:26px;font-weight:800;margin-bottom:8px;">{{ c.ctaHeading }}</div>
+        <div style="color:#B7B9E6;font-size:14.5px;">{{ c.ctaSubheading }}</div>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:1;">
+        <a href="#licenses" style="padding:14px 26px;border-radius:10px;background:linear-gradient(135deg,#1269E8,#7C3AED);color:#fff;font-weight:700;font-size:14.5px;white-space:nowrap">Browse Licenses &rarr;</a>
+        <a [routerLink]="routes.ContactUs" style="padding:14px 26px;border-radius:10px;background:#fff;color:#161629;font-weight:700;font-size:14.5px;white-space:nowrap">Contact Us</a>
+      </div>
+    </div>
+  </section>
+}

@@ -25,6 +25,7 @@ export const apiRoutes = {
   location: 'location',
   locationById: (id: string) => `location/${id}`,
   productContent: 'product-content',
+  license: 'license',
   contactMessage: 'contact-message',
   siteContentByPage: (page: string) => `site-content/${page}`,
   productContentByProduct: (product: string) => `product-content/${encodeURIComponent(product)}`,

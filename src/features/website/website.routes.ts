@@ -38,6 +38,10 @@ export const websiteRoutes: Routes = [
         loadComponent: () => import('./contact/contact').then((m) => m.Contact),
       },
       {
+        path: 'software-licenses',
+        loadComponent: () => import('./licenses/licenses').then((m) => m.Licenses),
+      },
+      {
         path: 'support',
         loadComponent: () => import('./support/support').then((m) => m.Support),
       },
