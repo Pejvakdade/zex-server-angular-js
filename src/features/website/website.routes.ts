@@ -30,6 +30,20 @@ export const websiteRoutes: Routes = [
         loadComponent: () => import('./product/product').then((m) => m.Product),
       })),
       {
+        path: 'locations',
+        loadComponent: () => import('./locations/locations').then((m) => m.Locations),
+      },
+      {
+        path: 'terms-of-service',
+        data: { document: 'terms' },
+        loadComponent: () => import('./legal/legal').then((m) => m.Legal),
+      },
+      {
+        path: 'privacy-policy',
+        data: { document: 'privacy' },
+        loadComponent: () => import('./legal/legal').then((m) => m.Legal),
+      },
+      {
         path: 'login',
         canActivate: [guestGuard],
         loadComponent: () => import('./auth/login/login').then((m) => m.Login),
