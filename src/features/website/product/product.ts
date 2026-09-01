@@ -4,46 +4,65 @@
  *               route's `data.product`, so VPS Hosting and Web Hosting are the same page with
  *               different data rather than six near-identical copies.
  *
- * @note Only the pricing section is built here. The hero, feature strip and "why choose" blocks come
- *       from the productContent feature, which does not exist on the backend yet — rather than
- *       hardcoding the reference's copy and passing it off as content, those sections are simply
- *       absent until there is something real to render.
+ * @note Every section except the pricing grid is driven by the productContent API and renders only
+ *       when that content exists — no copy is hardcoded here. If content is missing the page
+ *       degrades to the pricing grid rather than showing empty headings.
  */
-import { Component, OnInit, computed, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import appRoutes from '@src/common/appRoutes';
 import { PlansStore } from '@src/store/website/plans.store';
+import { ProductContentStore } from '@src/store/website/product-content.store';
 import { PlanGrid } from '@src/shared/components/plan/plan-grid';
 import { PlanProduct } from '@src/shared/components/plan/plan.model';
 
 @Component({
   selector: 'zx-product',
-  imports: [PlanGrid],
-  template: `
-    <!-- pricing -->
-    <section id="plans" style="padding:56px 64px 10px;font-family:var(--zx-font);">
-      <h2 style="text-align:center;font-size:32px;font-weight:800;color:#161629;margin:0 0 6px;">
-        Choose Your
-        <span style="background:linear-gradient(135deg,#1269E8,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ product() }}</span>
-      </h2>
-      <p style="text-align:center;color:#8386AC;font-size:15px;margin:0 0 36px;">Flexible plans for every business and application.</p>
-
-      <zx-plan-grid [plans]="plans()" [loading]="store.loading()" />
-    </section>
-  `,
+  imports: [PlanGrid, RouterLink],
+  templateUrl: './product.html',
+  styleUrl: './product.css',
 })
-export class Product implements OnInit {
+export class Product {
   private readonly route = inject(ActivatedRoute);
 
-  protected readonly store = inject(PlansStore);
+  protected readonly plansStore = inject(PlansStore);
+  protected readonly contentStore = inject(ProductContentStore);
+  protected readonly routes = appRoutes;
 
-  protected readonly product = computed(
-    () => this.route.snapshot.data['product'] as PlanProduct,
+  /**
+   * Tracked reactively rather than read from `snapshot`: the six product routes share this
+   * component, so navigating between them reuses the instance and a snapshot would stay stuck on
+   * whichever product was loaded first.
+   */
+  protected readonly product = signal<PlanProduct>(
+    this.route.snapshot.data['product'] as PlanProduct,
   );
+  protected readonly plans = computed(() => this.plansStore.forProduct()(this.product()));
+  protected readonly content = computed(() => this.contentStore.forProduct()(this.product()));
 
-  protected readonly plans = computed(() => this.store.forProduct()(this.product()));
+  /** The two icon grids are structurally identical, so the template renders them from one loop. */
+  protected readonly grids = computed(() => {
+    const content = this.content();
+    if (!content) return [];
 
-  ngOnInit(): void {
-    void this.store.load(this.product());
+    return [
+      { title: content.gridOneTitle, subtitle: content.gridOneSubtitle, items: content.gridOne },
+      { title: content.gridTwoTitle, subtitle: content.gridTwoSubtitle, items: content.gridTwo },
+    ].filter((grid) => grid.items?.length);
+  });
+
+  constructor() {
+    this.route.data
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => this.product.set(data['product'] as PlanProduct));
+
+    // Fetches on first render and again whenever the route's product changes.
+    effect(() => {
+      const product = this.product();
+      void this.plansStore.load(product);
+      void this.contentStore.load(product);
+    });
   }
 }

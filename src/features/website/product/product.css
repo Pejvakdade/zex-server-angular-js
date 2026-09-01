@@ -1,0 +1,81 @@
+/* The reference expresses these as a `style-hover` attribute its own renderer understands;
+   in Angular they become a real CSS class. Values are the reference's. */
+.zx-hover-card {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.zx-hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 34px rgba(18, 105, 232, 0.16);
+  border-color: #1269e8;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  :host ::ng-deep section {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * Responsive corrections.
+ *
+ * The reference is a fixed desktop design: a 1520px container with 64px gutters and hard column
+ * counts (repeat(3,1fr) for why-choose, repeat(5,1fr) inside each icon grid). Because a `1fr`
+ * track defaults to min-width:auto, its contents refuse to shrink below their intrinsic width and
+ * push the page wider than the viewport — which shows up as a horizontal scrollbar and a stretch
+ * of blank page. These rules keep the desktop layout identical and only intervene below it.
+ * ------------------------------------------------------------------------------------------- */
+
+:host {
+  display: block;
+  overflow-x: hidden;
+}
+
+/* Grid items must be allowed to shrink, or long labels blow the track out. */
+:host ::ng-deep [style*='grid-template-columns'] > * {
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  :host ::ng-deep section {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  /* why-choose: 3 hard columns -> 2 */
+  :host ::ng-deep [style*='repeat(3,1fr)'] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* the two icon panels sit side by side on desktop; stack them */
+  :host ::ng-deep [style*='grid-template-columns:1fr 1fr'] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 720px) {
+  :host ::ng-deep [style*='repeat(3,1fr)'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* the OS / app tiles: 5 hard columns -> as many as fit */
+  :host ::ng-deep [style*='repeat(5,1fr)'] {
+    grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)) !important;
+  }
+
+  :host ::ng-deep h1 {
+    font-size: 36px !important;
+  }
+}
