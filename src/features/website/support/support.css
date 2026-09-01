@@ -1,0 +1,40 @@
+.zx-kb-card {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.zx-kb-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 34px rgba(18, 105, 232, 0.18);
+  border-color: #1269e8;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The reference is a fixed three-column desktop grid. */
+@media (max-width: 1024px) {
+  .zx-kb-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  :host ::ng-deep section {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+@media (max-width: 660px) {
+  .zx-kb-grid {
+    grid-template-columns: 1fr !important;
+  }
+  :host ::ng-deep h1 {
+    font-size: 34px !important;
+  }
+}
