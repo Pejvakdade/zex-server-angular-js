@@ -30,6 +30,10 @@ export const websiteRoutes: Routes = [
         loadComponent: () => import('./product/product').then((m) => m.Product),
       })),
       {
+        path: 'about-us',
+        loadComponent: () => import('./about/about').then((m) => m.About),
+      },
+      {
         path: 'locations',
         loadComponent: () => import('./locations/locations').then((m) => m.Locations),
       },

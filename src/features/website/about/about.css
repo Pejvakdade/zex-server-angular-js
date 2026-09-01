@@ -1,0 +1,35 @@
+.zx-value-card {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.zx-value-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 34px rgba(18, 105, 232, 0.18);
+  border-color: #1269e8;
+}
+
+/* The reference is a fixed desktop layout: 4 hard value columns and a 2-column story split. */
+@media (max-width: 1024px) {
+  .zx-values-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .zx-story-grid {
+    grid-template-columns: 1fr !important;
+  }
+  :host ::ng-deep section {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .zx-values-grid {
+    grid-template-columns: 1fr !important;
+  }
+  :host ::ng-deep h1 {
+    font-size: 36px !important;
+  }
+}
