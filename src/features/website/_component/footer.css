@@ -1,0 +1,21 @@
+.zx-footer-link:hover {
+  color: #fff;
+}
+
+/* The reference footer is a fixed five-column grid that overflows on narrow screens. */
+@media (max-width: 1024px) {
+  .zx-footer-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .zx-footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  :host ::ng-deep footer {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}

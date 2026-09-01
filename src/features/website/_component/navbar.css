@@ -1,0 +1,91 @@
+/* Hover dropdowns, copied from the reference's own .nav-drop rules. */
+.nav-drop {
+  position: relative;
+}
+
+.nav-drop .nav-panel {
+  display: none;
+}
+
+.nav-drop:hover .nav-panel,
+.nav-drop:focus-within .nav-panel {
+  display: block;
+}
+
+.nav-link:hover,
+.nav-panel a:hover {
+  color: #1269e8;
+}
+
+.nav-panel a:hover {
+  background: #eef0fe;
+}
+
+/* Active route gets the brand colour, as the reference does for Home. */
+.nav-link.active {
+  color: #1269e8;
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * The reference navbar is desktop-only: a single flex row that simply overflows on a phone, and
+ * its dropdowns open on hover, which touch devices do not have. Below 1024px the links collapse
+ * into a toggle-driven panel instead.
+ * ------------------------------------------------------------------------------------------- */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1.5px solid #e0e3f5;
+  border-radius: 10px;
+  padding: 7px 10px;
+  cursor: pointer;
+  color: #161629;
+}
+
+@media (max-width: 1024px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none !important;
+  }
+
+  .nav-links.open {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-bottom: 1px solid #eef0fa;
+    box-shadow: 0 14px 32px rgba(30, 20, 90, 0.12);
+    padding: 12px 16px 18px;
+    gap: 2px;
+  }
+
+  /* Hover panels cannot work on touch, so nested links are always visible in the mobile panel. */
+  .nav-links.open .nav-panel {
+    display: block !important;
+    position: static !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 0 0 12px !important;
+    min-width: 0 !important;
+  }
+
+  .nav-cta {
+    display: none !important;
+  }
+
+  .nav-links.open .nav-cta-mobile {
+    display: flex !important;
+    gap: 10px;
+    margin-top: 10px;
+  }
+}
+
+.nav-cta-mobile {
+  display: none;
+}
