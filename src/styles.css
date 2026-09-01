@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+@import './styles/tokens.css';
+
+/* Baseline copied from the reference pages' own <style> block so ported markup lands unchanged. */
+body {
+  margin: 0;
+  font-family: var(--zx-font);
+  background: var(--zx-bg);
+  color: var(--zx-ink-body);
+}
+
+a {
+  color: var(--zx-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--zx-violet-strong);
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}

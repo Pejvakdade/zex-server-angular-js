@@ -1,0 +1,28 @@
+/** ---------------------------------------------------------------------------------------------------------------------
+ * @file apiRoutes.ts
+ * @fileOverview single source of truth for every backend endpoint path. Mirrors the NestJS
+ *               controllers 1:1. Add new endpoints here rather than inlining path strings.
+ *
+ * Paths are relative to the API root (which already carries the backend's `api/v1` prefix).
+ */
+export const apiRoutes = {
+  health: 'health',
+
+  // User / auth
+  signIn: 'user/sign-in',
+  signUp: 'user/sign-up',
+  me: 'user/me',
+  user: 'user',
+  userById: (id: string) => `user/${id}`,
+
+  // Catalogue
+  plan: 'plan',
+  planById: (id: string) => `plan/${id}`,
+  planByProduct: (product: string) => `plan?product=${encodeURIComponent(product)}`,
+  location: 'location',
+  locationById: (id: string) => `location/${id}`,
+  productContent: 'product-content',
+  productContentByProduct: (product: string) => `product-content/${encodeURIComponent(product)}`,
+} as const;
+
+export default apiRoutes;

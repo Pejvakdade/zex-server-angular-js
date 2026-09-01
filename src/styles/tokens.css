@@ -1,0 +1,65 @@
+/** ---------------------------------------------------------------------------------------------------------------------
+ * tokens.css — design tokens extracted verbatim from ../ZexServerAdditionalPages.
+ *
+ * The hex values below are the literal colours the reference pages use inline; they are the source of
+ * truth for the "copy near-exactly" brief. Frequencies noted where a value dominates the reference.
+ * Do NOT invent new brand colours here — add one only after it appears in a reference page.
+ */
+
+:root {
+  /* Brand ---------------------------------------------------------------------------------------- */
+  --zx-primary: #1269E8;          /* the single most-used colour across every reference page */
+  --zx-primary-strong: #0B3FA8;
+  --zx-primary-deep: #0B1F5C;
+  --zx-violet: #7C3AED;           /* second stop of the primary CTA gradient */
+  --zx-violet-strong: #3730A3;    /* link hover in the reference <style> block */
+  --zx-cyan: #5AA8FF;
+  --zx-cyan-soft: #9CE0FF;
+  --zx-gradient: linear-gradient(135deg, #1269E8, #7C3AED);
+
+  /* Ink ------------------------------------------------------------------------------------------ */
+  --zx-ink: #161629;              /* headings */
+  --zx-ink-body: #1A1A2E;         /* body copy (reference sets this on <body>) */
+  --zx-ink-strong: #161654;
+  --zx-ink-deep: #0B0B2E;
+  --zx-text: #3A3D5C;             /* table cells / paragraph text */
+  --zx-text-muted: #5B5E80;
+  --zx-text-subtle: #7376A6;
+  --zx-text-faint: #8386AC;       /* table headers, captions */
+  --zx-text-slate: #4A5175;
+  --zx-text-slate-2: #4B4E7A;
+
+  /* Surfaces & lines ----------------------------------------------------------------------------- */
+  --zx-bg: #ffffff;
+  --zx-bg-tint: #F6F7FE;          /* hero wash */
+  --zx-surface-active: #EEF0FE;   /* active nav item / chip background */
+  --zx-surface-active-2: #EEF1FE;
+  --zx-border: #E0E3F5;
+  --zx-border-soft: #EEF0FA;
+  --zx-border-slate: #D8DFEA;
+  --zx-outline: #C7C9E8;
+  --zx-outline-soft: #B7B9E6;
+
+  /* Status pills (from Admin Dashboard TINTS) ------------------------------------------------------ */
+  --zx-green-bg: #EAF6EC;  --zx-green-fg: #16A34A;
+  --zx-red-bg:   #FEE2E2;  --zx-red-fg:   #DC2626;
+  --zx-amber-bg: #FEF3C7;  --zx-amber-fg: #B45309;
+  --zx-blue-bg:  #EEF0FE;  --zx-blue-fg:  #1269E8;
+  --zx-neutral-bg: #F1F2F8; --zx-neutral-fg: #6B6E96;
+  --zx-red-border: #FBD5D5;
+
+  /* Radii — the six steps the reference actually uses ---------------------------------------------- */
+  --zx-radius-xs: 6px;
+  --zx-radius-sm: 8px;
+  --zx-radius-md: 10px;
+  --zx-radius-lg: 12px;
+  --zx-radius-xl: 16px;
+  --zx-radius-2xl: 20px;
+  --zx-radius-pill: 999px;
+
+  /* Elevation ------------------------------------------------------------------------------------- */
+  --zx-shadow-cta: 0 8px 20px rgba(18, 105, 232, 0.24);
+
+  /* Type ------------------------------------------------------------------------------------------ */
+  --zx-font: 'Inter', system-ui, sans-serif;
+}

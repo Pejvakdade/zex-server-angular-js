@@ -1,0 +1,29 @@
+# ######################################################################################################################
+# ======================================================================================================================
+# ----------------------------------------------------------------------------------------------------------------------
+# @file docker-compose.yaml
+# @fileOverview this file will run the frontend as a production static bundle behind nginx
+# @dependencies .env
+#
+# For day-to-day development run `bun run dev` on the host instead - the container only serves a
+# built bundle and has no hot reload.
+#
+# @Build         :: docker compose build --no-cache
+# @Start         :: docker compose up --build -d
+# @Stop          :: docker compose down
+# @StopAndRemove :: docker compose down -v
+
+services:
+  # ####################################################################################################################
+  # ====================================================================================================================
+  # Application --------------------------------------------------------------------------------------------------------
+  app:
+    container_name: zexserver-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${APPLICATION_EXTERNAL_PORT}:${APPLICATION_INTERNAL_PORT}
+    restart: unless-stopped
+    mem_limit: 256m
+    mem_reservation: 128m
