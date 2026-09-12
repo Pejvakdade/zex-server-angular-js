@@ -71,7 +71,10 @@ export const ProductContentStore = signalStore(
         const content = await firstValueFrom(
           api.get<ProductContent>(apiRoutes.productContentByProduct(product)),
         );
-        patchState(store, { byProduct: { ...store.byProduct(), [product]: content }, loading: false });
+        patchState(store, {
+          byProduct: { ...store.byProduct(), [product]: content },
+          loading: false,
+        });
       } catch {
         // null means "no content published" — the page renders its sections conditionally, so it
         // degrades to the pricing grid rather than showing empty headings.

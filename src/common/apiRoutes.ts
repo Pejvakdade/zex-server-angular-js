@@ -8,8 +8,9 @@
 export const apiRoutes = {
   health: 'health',
 
-  // Public counters
+  // Counters
   fleetStats: 'stats/fleet',
+  adminOverview: 'stats/overview',
 
   // User / auth
   signIn: 'user/sign-in',
@@ -17,18 +18,25 @@ export const apiRoutes = {
   me: 'user/me',
   user: 'user',
   userById: (id: string) => `user/${id}`,
+  staff: 'user/staff',
 
   // Catalogue
   plan: 'plan',
+  planAdminAll: 'plan/admin/all',
   planById: (id: string) => `plan/${id}`,
   planByProduct: (product: string) => `plan?product=${encodeURIComponent(product)}`,
   location: 'location',
+  locationAdminAll: 'location/admin/all',
   locationById: (id: string) => `location/${id}`,
   productContent: 'product-content',
   license: 'license',
+  licenseAdminAll: 'license/admin/all',
+  licenseById: (id: string) => `license/${id}`,
   contactMessage: 'contact-message',
+  contactMessageById: (id: string) => `contact-message/${id}`,
   siteContentByPage: (page: string) => `site-content/${page}`,
   productContentByProduct: (product: string) => `product-content/${encodeURIComponent(product)}`,
+  productContentRaw: (product: string) => `product-content/${encodeURIComponent(product)}/raw`,
 } as const;
 
 export default apiRoutes;

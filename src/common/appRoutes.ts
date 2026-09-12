@@ -24,10 +24,25 @@ export const appRoutes = {
   Login: '/login',
   GetStarted: '/get-started',
 
-  // Admin
+  // Admin — one entry per sidebar item in Admin Dashboard.dc.html (SECTION_GROUPS)
   AdminLogin: '/admin/login',
   AdminDashboard: '/admin/overview',
-  AdminSection: (key: string) => `/admin/${key}`,
+  AdminOverview: '/admin/overview',
+  AdminCustomers: '/admin/customers',
+  AdminBilling: '/admin/billing',
+  AdminTickets: '/admin/tickets',
+  AdminPlans: '/admin/plans',
+  AdminLicenses: '/admin/licenses',
+  AdminLocations: '/admin/locations',
+  AdminSiteHome: '/admin/site/home',
+  AdminSiteAbout: '/admin/site/about',
+  AdminSiteContact: '/admin/site/contact',
+  AdminSiteSupport: '/admin/site/support',
+  AdminSiteFooter: '/admin/site/footer',
+  AdminSiteLegal: '/admin/site/legal',
+  AdminSiteProductPages: '/admin/site/product-pages',
+  AdminStaff: '/admin/staff',
+  AdminSettings: '/admin/settings',
 } as const;
 
 export default appRoutes;

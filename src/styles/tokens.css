@@ -8,45 +8,59 @@
 
 :root {
   /* Brand ---------------------------------------------------------------------------------------- */
-  --zx-primary: #1269E8;          /* the single most-used colour across every reference page */
-  --zx-primary-strong: #0B3FA8;
-  --zx-primary-deep: #0B1F5C;
-  --zx-violet: #7C3AED;           /* second stop of the primary CTA gradient */
-  --zx-violet-strong: #3730A3;    /* link hover in the reference <style> block */
-  --zx-cyan: #5AA8FF;
-  --zx-cyan-soft: #9CE0FF;
-  --zx-gradient: linear-gradient(135deg, #1269E8, #7C3AED);
+  --zx-primary: #1269e8; /* the single most-used colour across every reference page */
+  --zx-primary-strong: #0b3fa8;
+  --zx-primary-deep: #0b1f5c;
+  --zx-violet: #7c3aed; /* second stop of the primary CTA gradient */
+  --zx-violet-strong: #3730a3; /* link hover in the reference <style> block */
+  --zx-cyan: #5aa8ff;
+  --zx-cyan-soft: #9ce0ff;
+  --zx-gradient: linear-gradient(135deg, #1269e8, #7c3aed);
 
   /* Ink ------------------------------------------------------------------------------------------ */
-  --zx-ink: #161629;              /* headings */
-  --zx-ink-body: #1A1A2E;         /* body copy (reference sets this on <body>) */
+  --zx-ink: #161629; /* headings */
+  --zx-ink-body: #1a1a2e; /* body copy (reference sets this on <body>) */
   --zx-ink-strong: #161654;
-  --zx-ink-deep: #0B0B2E;
-  --zx-text: #3A3D5C;             /* table cells / paragraph text */
-  --zx-text-muted: #5B5E80;
-  --zx-text-subtle: #7376A6;
-  --zx-text-faint: #8386AC;       /* table headers, captions */
-  --zx-text-slate: #4A5175;
-  --zx-text-slate-2: #4B4E7A;
+  --zx-ink-deep: #0b0b2e;
+  --zx-text: #3a3d5c; /* table cells / paragraph text */
+  --zx-text-muted: #5b5e80;
+  --zx-text-subtle: #7376a6;
+  --zx-text-faint: #8386ac; /* table headers, captions */
+  --zx-text-slate: #4a5175;
+  --zx-text-slate-2: #4b4e7a;
 
   /* Surfaces & lines ----------------------------------------------------------------------------- */
   --zx-bg: #ffffff;
-  --zx-bg-tint: #F6F7FE;          /* hero wash */
-  --zx-surface-active: #EEF0FE;   /* active nav item / chip background */
-  --zx-surface-active-2: #EEF1FE;
-  --zx-border: #E0E3F5;
-  --zx-border-soft: #EEF0FA;
-  --zx-border-slate: #D8DFEA;
-  --zx-outline: #C7C9E8;
-  --zx-outline-soft: #B7B9E6;
+  --zx-bg-tint: #f6f7fe; /* hero wash */
+  --zx-surface-active: #eef0fe; /* active nav item / chip background */
+  --zx-surface-active-2: #eef1fe;
+  --zx-border: #e0e3f5;
+  --zx-border-soft: #eef0fa;
+  --zx-border-slate: #d8dfea;
+  --zx-outline: #c7c9e8;
+  --zx-outline-soft: #b7b9e6;
 
   /* Status pills (from Admin Dashboard TINTS) ------------------------------------------------------ */
-  --zx-green-bg: #EAF6EC;  --zx-green-fg: #16A34A;
-  --zx-red-bg:   #FEE2E2;  --zx-red-fg:   #DC2626;
-  --zx-amber-bg: #FEF3C7;  --zx-amber-fg: #B45309;
-  --zx-blue-bg:  #EEF0FE;  --zx-blue-fg:  #1269E8;
-  --zx-neutral-bg: #F1F2F8; --zx-neutral-fg: #6B6E96;
-  --zx-red-border: #FBD5D5;
+  --zx-green-bg: #eaf6ec;
+  --zx-green-fg: #16a34a;
+  --zx-red-bg: #fee2e2;
+  --zx-red-fg: #dc2626;
+  --zx-amber-bg: #fef3c7;
+  --zx-amber-fg: #b45309;
+  --zx-blue-bg: #eef0fe;
+  --zx-blue-fg: #1269e8;
+  --zx-neutral-bg: #f1f2f8;
+  --zx-neutral-fg: #6b6e96;
+  --zx-red-border: #fbd5d5;
+  --zx-red-bg: #fee2e2;
+  --zx-red-fg: #dc2626;
+  --zx-red-tint: #fff6f6;
+
+  /* Admin dashboard (Admin Dashboard.dc.html) ----------------------------------------------------- */
+  --zx-admin-bg: #f9fafc;
+  --zx-row-border: #f3f4fc;
+  --zx-nav-label: #adb0d0;
+  --zx-row-hover: #f9faff;
 
   /* Radii — the six steps the reference actually uses ---------------------------------------------- */
   --zx-radius-xs: 6px;

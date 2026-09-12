@@ -1,40 +1,88 @@
 @if (footer(); as f) {
-  <footer style="background:#0B0B2E;color:#B7B9E6;padding:56px 64px 28px;">
-    <div class="zx-footer-grid" style="max-width:1520px;margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;gap:32px;">
-
+  <footer style="background: #0b0b2e; color: #b7b9e6; padding: 56px 64px 28px">
+    <div
+      class="zx-footer-grid"
+      style="
+        max-width: 1520px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+        gap: 32px;
+      "
+    >
       <div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-          <img src="uploads/zx-mark-cropped.png" alt="ZexServer" style="height:28px;width:auto;">
-          <span style="font-weight:800;font-size:18px;letter-spacing:0.3px;color:#fff;">ZEXSERVER</span>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <img
+            src="uploads/zx-mark-cropped.png"
+            alt="ZexServer"
+            style="height: 28px; width: auto"
+          />
+          <span style="font-weight: 800; font-size: 18px; letter-spacing: 0.3px; color: #fff"
+            >ZEXSERVER</span
+          >
         </div>
-        <div style="font-size:13px;line-height:1.6;color:#8386AC;max-width:230px;">{{ f.tagline }}</div>
-        <div style="display:flex;gap:12px;margin-top:18px;">
+        <div style="font-size: 13px; line-height: 1.6; color: #8386ac; max-width: 230px">
+          {{ f.tagline }}
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 18px">
           @for (social of f.social; track social.label) {
-            <a [href]="social.url" [attr.aria-label]="social.label" rel="noopener" style="width:32px;height:32px;border-radius:8px;background:#161654;display:flex;align-items:center;justify-content:center;color:#B7B9E6;font-weight:700;font-size:12px;">{{ social.label }}</a>
+            <a
+              [href]="social.url"
+              [attr.aria-label]="social.label"
+              rel="noopener"
+              style="
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                background: #161654;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #b7b9e6;
+                font-weight: 700;
+                font-size: 12px;
+              "
+              >{{ social.label }}</a
+            >
           }
         </div>
       </div>
 
       @for (column of f.columns; track column.heading) {
         <div>
-          <div style="color:#fff;font-weight:700;font-size:13px;margin-bottom:14px;">{{ column.heading }}</div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+          <div style="color: #fff; font-weight: 700; font-size: 13px; margin-bottom: 14px">
+            {{ column.heading }}
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px">
             @for (link of column.links; track link.label) {
               <!-- The reference left some destinations as '#'; those stay plain anchors rather than
                    routerLinks, which would otherwise navigate to a route that does not exist. -->
               @if (link.url === '#') {
-                <span style="color:#8386AC;cursor:default;">{{ link.label }}</span>
+                <span style="color: #8386ac; cursor: default">{{ link.label }}</span>
               } @else {
-                <a [routerLink]="link.url" style="color:#B7B9E6;">{{ link.label }}</a>
+                <a [routerLink]="link.url" style="color: #b7b9e6">{{ link.label }}</a>
               }
             }
           </div>
         </div>
       }
-
     </div>
 
-    <div style="max-width:1520px;margin:36px auto 0;border-top:1px solid #23235C;padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:12.5px;color:#7376A6;">
+    <div
+      style="
+        max-width: 1520px;
+        margin: 36px auto 0;
+        border-top: 1px solid #23235c;
+        padding-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        font-size: 12.5px;
+        color: #7376a6;
+      "
+    >
       <div>{{ f.copyright }}</div>
       <div>English &#9662;</div>
     </div>

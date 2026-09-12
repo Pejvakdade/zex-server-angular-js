@@ -30,18 +30,30 @@ interface Block {
   template: `
     <section style="padding:64px 24px 80px;font-family:var(--zx-font);">
       <div style="max-width:760px;margin:0 auto;">
-        <div style="display:inline-flex;align-items:center;gap:6px;background:#EEF0FE;color:#1269E8;font-weight:700;font-size:12.5px;padding:6px 14px;border-radius:20px;margin-bottom:20px;">&#9679; LEGAL</div>
-        <h1 style="font-size:38px;font-weight:800;color:#161629;margin:0 0 10px;letter-spacing:-0.3px;">{{ title() }}</h1>
+        <div
+          style="display:inline-flex;align-items:center;gap:6px;background:#EEF0FE;color:#1269E8;font-weight:700;font-size:12.5px;padding:6px 14px;border-radius:20px;margin-bottom:20px;"
+        >
+          &#9679; LEGAL
+        </div>
+        <h1
+          style="font-size:38px;font-weight:800;color:#161629;margin:0 0 10px;letter-spacing:-0.3px;"
+        >
+          {{ title() }}
+        </h1>
 
         @if (lastUpdated()) {
-          <div style="font-size:13.5px;color:#8386AC;margin-bottom:40px;">Last updated: {{ lastUpdated() }}</div>
+          <div style="font-size:13.5px;color:#8386AC;margin-bottom:40px;">
+            Last updated: {{ lastUpdated() }}
+          </div>
         }
 
         <div style="display:flex;flex-direction:column;gap:22px;">
           @for (block of blocks(); track $index) {
             <div>
               @if (block.heading) {
-                <h3 style="font-size:17px;font-weight:700;color:#161629;margin:0 0 8px;">{{ block.heading }}</h3>
+                <h3 style="font-size:17px;font-weight:700;color:#161629;margin:0 0 8px;">
+                  {{ block.heading }}
+                </h3>
               }
               <p style="font-size:15px;color:#3A3D5C;line-height:1.7;margin:0;">{{ block.body }}</p>
             </div>
@@ -50,8 +62,11 @@ interface Block {
           }
         </div>
 
-        <div style="margin-top:48px;padding-top:24px;border-top:1px solid #EEF0FA;font-size:13.5px;color:#8386AC;">
-          Questions about this document? <a [routerLink]="routes.ContactUs" style="font-weight:700;">Contact us</a>.
+        <div
+          style="margin-top:48px;padding-top:24px;border-top:1px solid #EEF0FA;font-size:13.5px;color:#8386AC;"
+        >
+          Questions about this document?
+          <a [routerLink]="routes.ContactUs" style="font-weight:700;">Contact us</a>.
         </div>
       </div>
     </section>

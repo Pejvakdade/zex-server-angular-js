@@ -1,0 +1,81 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="save()"
+  style="
+    max-width: 480px;
+    background: #fff;
+    border: 1px solid #eef0fa;
+    border-radius: 16px;
+    padding: 28px 30px;
+    box-shadow: 0 4px 14px rgba(30, 20, 90, 0.04);
+  "
+>
+  <h2 style="margin: 0 0 20px; font-size: 20px; font-weight: 800; color: #161629">Admin account</h2>
+
+  <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px">
+    <label [style]="ui.label">Name</label>
+    <input type="text" formControlName="fullName" [style]="ui.input" />
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px">
+    <label [style]="ui.label">Email</label>
+    <input type="email" formControlName="email" [style]="ui.input" />
+  </div>
+
+  <div style="border-top: 1px solid #eef0fa; margin: 4px 0 20px"></div>
+  <div
+    style="
+      font-size: 13px;
+      font-weight: 700;
+      color: #8386ac;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    "
+  >
+    Change password
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px">
+    <label [style]="ui.label">Current password</label>
+    <input
+      type="password"
+      formControlName="currentPassword"
+      autocomplete="current-password"
+      [style]="ui.input"
+    />
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px">
+    <label [style]="ui.label">New password (min 8 characters)</label>
+    <input
+      type="password"
+      formControlName="newPassword"
+      autocomplete="new-password"
+      [style]="ui.input"
+    />
+  </div>
+
+  @if (error()) {
+    <div
+      style="
+        font-size: 13px;
+        color: #dc2626;
+        background: #fff6f6;
+        border: 1px solid #fbd5d5;
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 16px;
+      "
+    >
+      {{ error() }}
+    </div>
+  }
+
+  <button
+    type="submit"
+    [disabled]="saving()"
+    [style]="ui.saveBtn"
+    [style.opacity]="saving() ? 0.7 : 1"
+  >
+    {{ saving() ? 'Saving…' : 'Save changes' }}
+  </button>
+</form>

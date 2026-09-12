@@ -103,7 +103,9 @@ export class Contact {
     } catch (caught) {
       const message = (caught as HttpErrorResponse)?.error?.message;
       this.error.set(
-        Array.isArray(message) ? message[0] : message || 'Could not send your message. Please try again.',
+        Array.isArray(message)
+          ? message[0]
+          : message || 'Could not send your message. Please try again.',
       );
     } finally {
       this.sending.set(false);

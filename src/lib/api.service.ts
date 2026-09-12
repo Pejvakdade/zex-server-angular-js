@@ -18,11 +18,15 @@ export class ApiService {
   }
 
   post<TResult>(path: string, body: unknown): Observable<TResult> {
-    return this.http.post<ApiEnvelope<TResult>>(path, body).pipe(map((response) => response.result));
+    return this.http
+      .post<ApiEnvelope<TResult>>(path, body)
+      .pipe(map((response) => response.result));
   }
 
   patch<TResult>(path: string, body: unknown): Observable<TResult> {
-    return this.http.patch<ApiEnvelope<TResult>>(path, body).pipe(map((response) => response.result));
+    return this.http
+      .patch<ApiEnvelope<TResult>>(path, body)
+      .pipe(map((response) => response.result));
   }
 
   delete<TResult>(path: string): Observable<TResult> {

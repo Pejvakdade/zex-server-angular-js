@@ -1,29 +1,116 @@
 @if (content(); as c) {
   <!-- hero -->
-  <section style="background:linear-gradient(120deg,#F4F6FF 0%,#EEF1FE 60%,#E6ECFC 100%);padding:64px;">
-    <div style="max-width:1520px;margin:0 auto;">
-      <div style="display:inline-flex;align-items:center;gap:6px;background:#EEF0FE;color:#1269E8;font-weight:700;font-size:11.5px;padding:5px 12px;border-radius:20px;margin-bottom:18px;">&#9679; {{ c.heroBadge }}</div>
-      <h1 style="font-size:52px;line-height:1.12;font-weight:800;margin:0 0 18px;color:#161629;">
+  <section
+    style="
+      background: linear-gradient(120deg, #f4f6ff 0%, #eef1fe 60%, #e6ecfc 100%);
+      padding: 64px;
+    "
+  >
+    <div style="max-width: 1520px; margin: 0 auto">
+      <div
+        style="
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: #eef0fe;
+          color: #1269e8;
+          font-weight: 700;
+          font-size: 11.5px;
+          padding: 5px 12px;
+          border-radius: 20px;
+          margin-bottom: 18px;
+        "
+      >
+        &#9679; {{ c.heroBadge }}
+      </div>
+      <h1
+        style="
+          font-size: 52px;
+          line-height: 1.12;
+          font-weight: 800;
+          margin: 0 0 18px;
+          color: #161629;
+        "
+      >
         {{ c.heroHeading1 }}
-        <span style="background:linear-gradient(135deg,#1269E8,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ c.heroHeadingAccent }}</span>
+        <span
+          style="
+            background: linear-gradient(135deg, #1269e8, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+          "
+          >{{ c.heroHeadingAccent }}</span
+        >
       </h1>
-      <p style="font-size:16.5px;color:#4A5175;max-width:640px;margin:0 0 26px;line-height:1.6;">{{ c.heroSubheading }}</p>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;">
-        <a href="#plans" style="padding:14px 26px;border-radius:10px;background:linear-gradient(135deg,#1269E8,#7C3AED);color:#fff;font-weight:700;font-size:15px;box-shadow:0 10px 24px rgba(18,105,232,0.28);display:inline-flex;align-items:center;gap:8px;white-space:nowrap">View Plans &rarr;</a>
-        <a [routerLink]="routes.Locations" style="padding:14px 26px;border-radius:10px;border:1.5px solid #C9D2E8;color:#161629;font-weight:600;font-size:15px;white-space:nowrap">Explore Locations</a>
+      <p
+        style="
+          font-size: 16.5px;
+          color: #4a5175;
+          max-width: 640px;
+          margin: 0 0 26px;
+          line-height: 1.6;
+        "
+      >
+        {{ c.heroSubheading }}
+      </p>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap">
+        <a
+          href="#plans"
+          style="
+            padding: 14px 26px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1269e8, #7c3aed);
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 10px 24px rgba(18, 105, 232, 0.28);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+          "
+          >View Plans &rarr;</a
+        >
+        <a
+          [routerLink]="routes.Locations"
+          style="
+            padding: 14px 26px;
+            border-radius: 10px;
+            border: 1.5px solid #c9d2e8;
+            color: #161629;
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+          "
+          >Explore Locations</a
+        >
       </div>
     </div>
   </section>
 
   <!-- feature strip -->
-  <section style="padding:0 64px;margin-top:-6px;">
-    <div style="max-width:1520px;margin:0 auto;background:#fff;border:1px solid #EEF0FA;border-radius:18px;box-shadow:0 10px 32px rgba(30,20,90,0.06);padding:22px 30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px 24px;">
+  <section style="padding: 0 64px; margin-top: -6px">
+    <div
+      style="
+        max-width: 1520px;
+        margin: 0 auto;
+        background: #fff;
+        border: 1px solid #eef0fa;
+        border-radius: 18px;
+        box-shadow: 0 10px 32px rgba(30, 20, 90, 0.06);
+        padding: 22px 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px 24px;
+      "
+    >
       @for (item of c.featureStrip; track item.title) {
-        <div style="display:flex;align-items:center;gap:13px;min-width:190px;">
-          <div style="font-size:26px;line-height:1;flex-shrink:0;">{{ item.icon }}</div>
+        <div style="display: flex; align-items: center; gap: 13px; min-width: 190px">
+          <div style="font-size: 26px; line-height: 1; flex-shrink: 0">{{ item.icon }}</div>
           <div>
-            <div style="font-weight:700;font-size:14.5px;">{{ item.title }}</div>
-            <div style="font-size:12.5px;color:#8386AC;">{{ item.subtitle }}</div>
+            <div style="font-weight: 700; font-size: 14.5px">{{ item.title }}</div>
+            <div style="font-size: 12.5px; color: #8386ac">{{ item.subtitle }}</div>
           </div>
         </div>
       }
@@ -32,12 +119,24 @@
 }
 
 <!-- pricing -->
-<section id="plans" style="padding:56px 64px 10px;">
-  <h2 style="text-align:center;font-size:32px;font-weight:800;color:#161629;margin:0 0 6px;">
+<section id="plans" style="padding: 56px 64px 10px">
+  <h2
+    style="text-align: center; font-size: 32px; font-weight: 800; color: #161629; margin: 0 0 6px"
+  >
     Choose Your
-    <span style="background:linear-gradient(135deg,#1269E8,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent;">{{ product() }}</span>
+    <span
+      style="
+        background: linear-gradient(135deg, #1269e8, #7c3aed);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      "
+      >{{ product() }}</span
+    >
   </h2>
-  <p style="text-align:center;color:#8386AC;font-size:15px;margin:0 0 36px;">Flexible plans for every business and application.</p>
+  <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 36px">
+    Flexible plans for every business and application.
+  </p>
 
   <zx-plan-grid [plans]="plans()" [loading]="plansStore.loading()" />
 </section>
@@ -45,16 +144,58 @@
 @if (content(); as c) {
   <!-- why choose -->
   @if (c.whyChoose.length) {
-    <section style="padding:56px 64px 10px;">
-      <h2 style="text-align:center;font-size:32px;font-weight:800;color:#161629;margin:0 0 6px;">
-        Why Choose <span style="background:linear-gradient(135deg,#1269E8,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent;">ZexServer</span> {{ product() }}?
+    <section style="padding: 56px 64px 10px">
+      <h2
+        style="
+          text-align: center;
+          font-size: 32px;
+          font-weight: 800;
+          color: #161629;
+          margin: 0 0 6px;
+        "
+      >
+        Why Choose
+        <span
+          style="
+            background: linear-gradient(135deg, #1269e8, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+          "
+          >ZexServer</span
+        >
+        {{ product() }}?
       </h2>
-      <div style="max-width:1520px;margin:32px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+      <div
+        style="
+          max-width: 1520px;
+          margin: 32px auto 0;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 18px;
+        "
+      >
         @for (item of c.whyChoose; track item.title) {
-          <div class="zx-hover-card" style="border:1px solid #EEF0FA;border-radius:18px;padding:26px 22px;text-align:center;position:relative;overflow:hidden;background:#fff;box-shadow:0 6px 20px rgba(18,105,232,0.06);">
-            <div style="font-size:34px;line-height:1;margin:6px auto 14px;">{{ item.icon }}</div>
-            <div style="font-weight:800;font-size:14.5px;margin:0 0 4px;color:#0B1F5C;">{{ item.title }}</div>
-            <div style="font-size:12px;color:#8386AC;">{{ item.subtitle }}</div>
+          <div
+            class="zx-hover-card"
+            style="
+              border: 1px solid #eef0fa;
+              border-radius: 18px;
+              padding: 26px 22px;
+              text-align: center;
+              position: relative;
+              overflow: hidden;
+              background: #fff;
+              box-shadow: 0 6px 20px rgba(18, 105, 232, 0.06);
+            "
+          >
+            <div style="font-size: 34px; line-height: 1; margin: 6px auto 14px">
+              {{ item.icon }}
+            </div>
+            <div style="font-weight: 800; font-size: 14.5px; margin: 0 0 4px; color: #0b1f5c">
+              {{ item.title }}
+            </div>
+            <div style="font-size: 12px; color: #8386ac">{{ item.subtitle }}</div>
           </div>
         }
       </div>
@@ -62,16 +203,40 @@
   }
 
   <!-- os + apps -->
-  <section style="padding:56px 64px 10px;">
-    <div style="max-width:1520px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+  <section style="padding: 56px 64px 10px">
+    <div
+      style="
+        max-width: 1520px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      "
+    >
       @for (grid of grids(); track grid.title) {
-        <div style="border:1px solid #EEF0FA;border-radius:18px;padding:26px;">
-          <div style="font-weight:700;font-size:17px;margin-bottom:4px;">{{ grid.title }}</div>
-          <div style="font-size:13px;color:#8386AC;margin-bottom:18px;">{{ grid.subtitle }}</div>
-          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;">
+        <div style="border: 1px solid #eef0fa; border-radius: 18px; padding: 26px">
+          <div style="font-weight: 700; font-size: 17px; margin-bottom: 4px">{{ grid.title }}</div>
+          <div style="font-size: 13px; color: #8386ac; margin-bottom: 18px">
+            {{ grid.subtitle }}
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px">
             @for (item of grid.items; track item.label) {
-              <div style="border:1px solid #EEF0FA;border-radius:12px;padding:16px 8px;text-align:center;font-size:12px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:8px;">
-                <span style="font-size:30px;line-height:1;">{{ item.icon }}</span>{{ item.label }}
+              <div
+                style="
+                  border: 1px solid #eef0fa;
+                  border-radius: 12px;
+                  padding: 16px 8px;
+                  text-align: center;
+                  font-size: 12px;
+                  font-weight: 600;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 8px;
+                "
+              >
+                <span style="font-size: 30px; line-height: 1">{{ item.icon }}</span
+                >{{ item.label }}
               </div>
             }
           </div>
@@ -82,23 +247,60 @@
 
   <!-- locations -->
   @if (c.locations.length) {
-    <section style="padding:56px 64px 10px;">
-      <h2 style="text-align:center;font-size:30px;font-weight:800;color:#161629;margin:0 0 6px;">Global Locations. Local Performance.</h2>
-      <p style="text-align:center;color:#8386AC;font-size:15px;margin:0 0 30px;">Deploy in one of our premium datacenters.</p>
-      <div style="max-width:1520px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;">
+    <section style="padding: 56px 64px 10px">
+      <h2
+        style="
+          text-align: center;
+          font-size: 30px;
+          font-weight: 800;
+          color: #161629;
+          margin: 0 0 6px;
+        "
+      >
+        Global Locations. Local Performance.
+      </h2>
+      <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 30px">
+        Deploy in one of our premium datacenters.
+      </p>
+      <div
+        style="
+          max-width: 1520px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+          gap: 16px;
+        "
+      >
         @for (location of c.locations; track location.city) {
-          <div class="zx-hover-card" style="border:1px solid #EEF0FA;border-radius:16px;padding:20px 22px;background:#fff;box-shadow:0 6px 20px rgba(18,105,232,0.06);">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-              <span style="font-size:22px;">{{ location.flag }}</span>
+          <div
+            class="zx-hover-card"
+            style="
+              border: 1px solid #eef0fa;
+              border-radius: 16px;
+              padding: 20px 22px;
+              background: #fff;
+              box-shadow: 0 6px 20px rgba(18, 105, 232, 0.06);
+            "
+          >
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px">
+              <span style="font-size: 22px">{{ location.flag }}</span>
               <div>
-                <div style="font-weight:800;font-size:16px;color:#0B1F5C;">{{ location.city }}</div>
-                <div style="font-size:12.5px;color:#8386AC;">{{ location.country }}</div>
+                <div style="font-weight: 800; font-size: 16px; color: #0b1f5c">
+                  {{ location.city }}
+                </div>
+                <div style="font-size: 12.5px; color: #8386ac">{{ location.country }}</div>
               </div>
             </div>
-            <div style="display:grid;gap:7px;font-size:13px;color:#4A5175;">
-              <div style="display:flex;align-items:center;gap:8px;"><span style="color:#1269E8;font-weight:800;">&#10003;</span>Low Latency</div>
-              <div style="display:flex;align-items:center;gap:8px;"><span style="color:#1269E8;font-weight:800;">&#10003;</span>NVMe Storage</div>
-              <div style="display:flex;align-items:center;gap:8px;"><span style="color:#1269E8;font-weight:800;">&#10003;</span>10Gbps Network</div>
+            <div style="display: grid; gap: 7px; font-size: 13px; color: #4a5175">
+              <div style="display: flex; align-items: center; gap: 8px">
+                <span style="color: #1269e8; font-weight: 800">&#10003;</span>Low Latency
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px">
+                <span style="color: #1269e8; font-weight: 800">&#10003;</span>NVMe Storage
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px">
+                <span style="color: #1269e8; font-weight: 800">&#10003;</span>10Gbps Network
+              </div>
             </div>
           </div>
         }
@@ -108,13 +310,38 @@
 
   <!-- faq -->
   @if (c.faq.length) {
-    <section id="faq" style="padding:56px 64px 10px;">
-      <h2 style="text-align:center;font-size:32px;font-weight:800;color:#161629;margin:0 0 30px;">Frequently Asked Questions</h2>
-      <div style="max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px;">
+    <section id="faq" style="padding: 56px 64px 10px">
+      <h2
+        style="
+          text-align: center;
+          font-size: 32px;
+          font-weight: 800;
+          color: #161629;
+          margin: 0 0 30px;
+        "
+      >
+        Frequently Asked Questions
+      </h2>
+      <div
+        style="max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px"
+      >
         @for (item of c.faq; track item.question) {
-          <details name="faq" style="border:1px solid #EEF0FA;border-radius:12px;padding:16px 18px;">
-            <summary style="font-weight:600;font-size:14.5px;cursor:pointer;display:flex;justify-content:space-between;">{{ item.question }} <span>&#9662;</span></summary>
-            <p style="font-size:13.5px;color:#5B5E80;margin:10px 0 0;">{{ item.answer }}</p>
+          <details
+            name="faq"
+            style="border: 1px solid #eef0fa; border-radius: 12px; padding: 16px 18px"
+          >
+            <summary
+              style="
+                font-weight: 600;
+                font-size: 14.5px;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+              "
+            >
+              {{ item.question }} <span>&#9662;</span>
+            </summary>
+            <p style="font-size: 13.5px; color: #5b5e80; margin: 10px 0 0">{{ item.answer }}</p>
           </details>
         }
       </div>
@@ -122,16 +349,68 @@
   }
 
   <!-- CTA -->
-  <section style="padding:56px 64px;">
-    <div style="max-width:1520px;margin:0 auto;background:linear-gradient(120deg,#0B0B2E,#211A5C);border-radius:22px;padding:44px 48px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden;">
-      <div style="position:absolute;width:280px;height:280px;background:radial-gradient(circle,rgba(124,58,237,0.45),transparent 70%);top:-100px;right:60px;border-radius:50%;filter:blur(10px);"></div>
-      <div style="position:relative;z-index:1;">
-        <div style="color:#fff;font-size:26px;font-weight:800;margin-bottom:8px;">{{ c.ctaHeading }}</div>
-        <div style="color:#B7B9E6;font-size:14.5px;">{{ c.ctaSubheading }}</div>
+  <section style="padding: 56px 64px">
+    <div
+      style="
+        max-width: 1520px;
+        margin: 0 auto;
+        background: linear-gradient(120deg, #0b0b2e, #211a5c);
+        border-radius: 22px;
+        padding: 44px 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+        position: relative;
+        overflow: hidden;
+      "
+    >
+      <div
+        style="
+          position: absolute;
+          width: 280px;
+          height: 280px;
+          background: radial-gradient(circle, rgba(124, 58, 237, 0.45), transparent 70%);
+          top: -100px;
+          right: 60px;
+          border-radius: 50%;
+          filter: blur(10px);
+        "
+      ></div>
+      <div style="position: relative; z-index: 1">
+        <div style="color: #fff; font-size: 26px; font-weight: 800; margin-bottom: 8px">
+          {{ c.ctaHeading }}
+        </div>
+        <div style="color: #b7b9e6; font-size: 14.5px">{{ c.ctaSubheading }}</div>
       </div>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:1;">
-        <a href="#plans" style="padding:14px 26px;border-radius:10px;background:linear-gradient(135deg,#1269E8,#7C3AED);color:#fff;font-weight:700;font-size:14.5px;white-space:nowrap">Deploy Now &rarr;</a>
-        <a [routerLink]="routes.ContactUs" style="padding:14px 26px;border-radius:10px;background:#fff;color:#161629;font-weight:700;font-size:14.5px;white-space:nowrap">Contact Us</a>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1">
+        <a
+          href="#plans"
+          style="
+            padding: 14px 26px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1269e8, #7c3aed);
+            color: #fff;
+            font-weight: 700;
+            font-size: 14.5px;
+            white-space: nowrap;
+          "
+          >Deploy Now &rarr;</a
+        >
+        <a
+          [routerLink]="routes.ContactUs"
+          style="
+            padding: 14px 26px;
+            border-radius: 10px;
+            background: #fff;
+            color: #161629;
+            font-weight: 700;
+            font-size: 14.5px;
+            white-space: nowrap;
+          "
+          >Contact Us</a
+        >
       </div>
     </div>
   </section>

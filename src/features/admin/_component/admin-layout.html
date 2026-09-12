@@ -1,0 +1,182 @@
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #f9fafc">
+  <nav
+    style="
+      border-bottom: 1px solid #eef0fa;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      flex-shrink: 0;
+    "
+  >
+    <div
+      style="
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      "
+    >
+      <div style="display: flex; align-items: center; gap: 14px">
+        <a [routerLink]="routes.AdminOverview" style="display: flex; align-items: center; gap: 8px">
+          <img
+            src="uploads/zx-mark-cropped.png"
+            alt="ZexServer"
+            style="height: 26px; width: auto"
+          />
+          <span
+            style="
+              font-weight: 800;
+              font-size: 18px;
+              letter-spacing: 0.3px;
+              background: linear-gradient(
+                100deg,
+                #0b3fa8 0%,
+                #1269e8 26%,
+                #5aa8ff 48%,
+                #6e7b92 70%,
+                #d8dfea 86%,
+                #94a2b8 100%
+              );
+              -webkit-background-clip: text;
+              background-clip: text;
+              -webkit-text-fill-color: transparent;
+              color: #1269e8;
+            "
+            >ZEXSERVER</span
+          >
+        </a>
+        <span
+          style="
+            font-size: 12px;
+            font-weight: 700;
+            color: #8386ac;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: #f6f7fe;
+            letter-spacing: 0.2px;
+          "
+          >Admin Console</span
+        >
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; position: relative">
+        <span style="font-size: 13px; font-weight: 600; color: #3a3d5c">{{
+          auth.user()?.fullName
+        }}</span>
+        <a
+          [routerLink]="routes.AdminSettings"
+          aria-label="Admin settings"
+          class="topbar-btn"
+          style="
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1.5px solid #e0e3f5;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3a3d5c;
+            cursor: pointer;
+          "
+        >
+          <zx-nav-icon name="gear" [size]="17" />
+        </a>
+        <button
+          type="button"
+          (click)="signOut()"
+          class="topbar-btn"
+          title="Sign out"
+          style="
+            height: 38px;
+            padding: 0 14px;
+            border-radius: 10px;
+            border: 1.5px solid #e0e3f5;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #3a3d5c;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+          "
+        >
+          <span
+            style="
+              width: 24px;
+              height: 24px;
+              border-radius: 50%;
+              background: #eef0fe;
+              color: #1269e8;
+              font-size: 11px;
+              font-weight: 800;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+            >{{ initials() }}</span
+          >
+          Sign out
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div style="display: flex; flex: 1; min-height: 0">
+    <aside class="aside" [class.collapsed]="collapsed()">
+      <div style="flex: 1; padding: 16px 12px; overflow-y: auto">
+        @for (group of groups; track group.label) {
+          <div style="margin-bottom: 20px">
+            @if (!collapsed()) {
+              <div
+                style="
+                  font-size: 11px;
+                  font-weight: 700;
+                  color: #adb0d0;
+                  letter-spacing: 0.5px;
+                  text-transform: uppercase;
+                  padding: 0 10px;
+                  margin-bottom: 8px;
+                "
+              >
+                {{ group.label }}
+              </div>
+            }
+            @for (item of group.items; track item.path) {
+              <a
+                class="nav-item"
+                [routerLink]="item.path"
+                routerLinkActive="active"
+                [title]="item.label"
+              >
+                <zx-nav-icon [name]="item.icon" />
+                @if (!collapsed()) {
+                  <span>{{ item.label }}</span>
+                }
+              </a>
+            }
+          </div>
+        }
+      </div>
+      <button type="button" class="nav-item collapse-btn" (click)="toggleSidebar()">
+        <zx-nav-icon [name]="collapsed() ? 'chevronRight' : 'chevronLeft'" [size]="16" />
+        @if (!collapsed()) {
+          <span>Collapse</span>
+        }
+      </button>
+    </aside>
+
+    <main style="flex: 1; min-width: 0; overflow-y: auto; padding: 36px 40px 80px">
+      <h1 style="margin: 0 0 6px; font-size: 26px; font-weight: 800; color: #161629">
+        {{ section().title }}
+      </h1>
+      <p style="margin: 0 0 26px; font-size: 14.5px; color: #8386ac">{{ section().subtitle }}</p>
+      <router-outlet />
+    </main>
+  </div>
+
+  <zx-toast />
+</div>

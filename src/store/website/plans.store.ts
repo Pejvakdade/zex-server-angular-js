@@ -30,7 +30,10 @@ export const PlansStore = signalStore(
       patchState(store, { loading: true });
       try {
         const plans = await firstValueFrom(api.get<Array<Plan>>(apiRoutes.planByProduct(product)));
-        patchState(store, { byProduct: { ...store.byProduct(), [product]: plans }, loading: false });
+        patchState(store, {
+          byProduct: { ...store.byProduct(), [product]: plans },
+          loading: false,
+        });
       } catch {
         // An empty list renders the grid's "no plans published" state rather than a broken page.
         patchState(store, { byProduct: { ...store.byProduct(), [product]: [] }, loading: false });

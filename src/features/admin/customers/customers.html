@@ -1,0 +1,119 @@
+<div>
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    "
+  >
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap">
+        <button
+          type="button"
+          (click)="setStatus(null)"
+          [style]="store.status() === null ? ui.chipActive : ui.chip"
+        >
+          All
+        </button>
+        @for (s of statuses; track s) {
+          <button
+            type="button"
+            (click)="setStatus(s)"
+            [style]="store.status() === s ? ui.chipActive : ui.chip"
+          >
+            {{ s }}
+          </button>
+        }
+      </div>
+      <input
+        type="text"
+        [value]="store.search()"
+        (change)="onSearch($event)"
+        placeholder="Search name, email or company..."
+        [style]="ui.search"
+      />
+    </div>
+    <span style="font-size: 13px; color: #8386ac">{{ store.page().totalDocs }} customers</span>
+  </div>
+
+  @if (store.error() && !modalOpen()) {
+    <div
+      style="
+        font-size: 13px;
+        color: #dc2626;
+        background: #fff6f6;
+        border: 1px solid #fbd5d5;
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 14px;
+      "
+    >
+      {{ store.error() }}
+    </div>
+  }
+
+  <zx-data-table
+    [columns]="columns"
+    [rows]="rows()"
+    [loading]="store.loading()"
+    emptyText="No customers match."
+    (edit)="openEdit($event)"
+    (remove)="deleting.set($any($event))"
+  />
+
+  @if (store.page().totalPages > 1) {
+    <div
+      style="
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+        font-size: 13px;
+        color: #5b5e80;
+      "
+    >
+      <button
+        type="button"
+        [disabled]="store.page().page <= 1"
+        (click)="goTo(store.page().page - 1)"
+        [style]="ui.viewBtn"
+      >
+        Previous
+      </button>
+      <span>Page {{ store.page().page }} of {{ store.page().totalPages }}</span>
+      <button
+        type="button"
+        [disabled]="store.page().page >= store.page().totalPages"
+        (click)="goTo(store.page().page + 1)"
+        [style]="ui.viewBtn"
+      >
+        Next
+      </button>
+    </div>
+  }
+
+  @if (modalOpen()) {
+    <zx-entity-modal
+      title="Edit customer"
+      [fields]="fields"
+      [initial]="draft()"
+      [saving]="store.saving()"
+      [error]="store.error()"
+      (save)="save($event)"
+      (cancel)="modalOpen.set(false)"
+    />
+  }
+
+  @if (deleting(); as row) {
+    <zx-confirm-dialog
+      [label]="row.label"
+      [busy]="store.saving()"
+      (confirm)="confirmDelete()"
+      (cancel)="deleting.set(null)"
+    />
+  }
+</div>

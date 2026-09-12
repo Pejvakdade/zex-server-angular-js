@@ -12,7 +12,9 @@ import { PlanCard } from './plan-card';
   selector: 'zx-plan-grid',
   imports: [PlanCard],
   template: `
-    <div style="max-width:1520px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;">
+    <div
+      style="max-width:1520px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;"
+    >
       @for (plan of plans(); track plan._id) {
         <zx-plan-card [plan]="plan" />
       } @empty {

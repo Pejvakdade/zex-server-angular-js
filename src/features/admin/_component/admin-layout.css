@@ -1,0 +1,66 @@
+/* asideStyle / NAV_BASE / NAV_ACTIVE from the reference, as classes so the collapsed state can toggle. */
+.aside {
+  width: 232px;
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 1px solid #eef0fa;
+  position: sticky;
+  top: 65px;
+  height: calc(100vh - 65px);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.18s ease;
+}
+
+.aside.collapsed {
+  width: 68px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: #5b5e80;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 2px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  background: #f6f7fe;
+  color: #5b5e80;
+}
+
+.nav-item.active {
+  background: #eef0fe;
+  color: #1269e8;
+}
+
+.aside.collapsed .nav-item {
+  justify-content: center;
+  padding: 10px;
+}
+
+.collapse-btn {
+  margin: 0 12px 14px;
+  width: auto;
+  font-family: inherit;
+}
+
+.collapse-btn:hover {
+  color: #1269e8;
+}
+
+.topbar-btn:hover {
+  border-color: #1269e8;
+  color: #1269e8;
+}

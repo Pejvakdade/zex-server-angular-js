@@ -4,6 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
+**Progress tracker:** `../PROGRESS.md` lists what is built and what is left, per phase — tick items there as work lands.
+
 Angular 22 (standalone components, no NgModules) frontend for **ZexServer**, a hosting provider platform. Covers the public marketing site, the admin dashboard, and the customer panel. Tailwind v4 for styling, `@ngrx/signals` SignalStore for client state. Talks to the sibling `ZexServer-nest-js` backend over REST — see [../ZexServer-nest-js/CLAUDE.md](../ZexServer-nest-js/CLAUDE.md).
 
 The design reference is `../ZexServerAdditionalPages/` — a Claude Design export of the whole product (17 `.dc.html` pages plus `site-data.js` / `support.js`). Pages are ported **near-verbatim**: match the reference's layout, spacing and colour choices rather than reinterpreting them.

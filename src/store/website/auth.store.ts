@@ -4,12 +4,12 @@
  *               interceptor can read it on every request; this store mirrors it plus the user record.
  */
 import { computed, inject } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { firstValueFrom } from 'rxjs';
 
 import apiRoutes from '@src/common/apiRoutes';
 import { ApiService } from '@src/lib/api.service';
+import { readError } from '@src/lib/readError';
 import { TOKEN_COOKIE, clearCookie, getCookie, setCookie } from '@src/lib/cookie';
 
 export type UserType = 'admin' | 'staff' | 'client';
@@ -44,12 +44,6 @@ const initialState: AuthState = {
 };
 
 /** The API returns `message` as a string for our own errors and as a string[] for ValidationPipe ones. */
-const readError = (error: unknown): string => {
-  const message = (error as HttpErrorResponse)?.error?.message;
-  if (Array.isArray(message)) return message[0];
-  if (typeof message === 'string') return message;
-  return 'Something went wrong. Please try again.';
-};
 
 export const AuthStore = signalStore(
   { providedIn: 'root' },
@@ -104,6 +98,11 @@ export const AuthStore = signalStore(
           // A rejected token is already cleared by the interceptor's 401 branch.
           patchState(store, { token: null, user: null });
         }
+      },
+
+      /** Settings saved a new name/email — swap the cached record without another `/me` round trip. */
+      setUser(user: PublicUser): void {
+        patchState(store, { user });
       },
 
       signOut(): void {
