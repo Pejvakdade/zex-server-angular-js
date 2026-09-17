@@ -63,9 +63,9 @@ export class Login implements OnInit {
 
     if (!signedIn) return;
 
-    // Staff land in the dashboard; customers land on the site. The customer panel arrives in phase 6.
+    // Staff land in the dashboard; customers land in their panel.
     await this.router.navigateByUrl(
-      this.store.isStaff() ? appRoutes.AdminDashboard : appRoutes.Home,
+      this.store.isStaff() ? appRoutes.AdminDashboard : appRoutes.Account,
     );
   }
 }

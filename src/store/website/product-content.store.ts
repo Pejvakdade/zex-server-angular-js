@@ -81,5 +81,11 @@ export const ProductContentStore = signalStore(
         patchState(store, { byProduct: { ...store.byProduct(), [product]: null }, loading: false });
       }
     },
+
+    /** Drops a cached product so the next visit re-fetches — called after an admin save. */
+    invalidate(product: string): void {
+      const { [product]: _dropped, ...rest } = store.byProduct();
+      patchState(store, { byProduct: rest });
+    },
   })),
 );

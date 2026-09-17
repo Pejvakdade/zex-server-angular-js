@@ -1,8 +1,7 @@
 /** ---------------------------------------------------------------------------------------------------------------------
  * @file admin.routes.ts
  * @fileOverview one child route per sidebar item. `data.section` carries the heading the layout
- *               renders (the reference's TITLES); `data.note` is the placeholder text for sections
- *               that are not built yet.
+ *               renders (the reference's TITLES).
  */
 import { Routes } from '@angular/router';
 
@@ -10,11 +9,7 @@ import { guestGuard, staffGuard } from '@src/lib/auth.guard';
 import { AdminLayout } from './_component/admin-layout';
 import { TITLES } from './_component/admin-nav';
 
-const PHASE_6 = 'Arrives with phase 6, once the service, invoice and ticket tables exist.';
-const SLICE_B = 'The Site Content editors arrive in the next slice of phase 5.';
-
-const placeholder = () =>
-  import('./_component/section-placeholder').then((m) => m.SectionPlaceholder);
+const sitePage = () => import('./site/site-page').then((m) => m.SitePage);
 
 export const adminRoutes: Routes = [
   /** The admin login sits outside AdminLayout — it must not render the dashboard shell. */
@@ -42,14 +37,19 @@ export const adminRoutes: Routes = [
         loadComponent: () => import('./customers/customers').then((m) => m.Customers),
       },
       {
+        path: 'services',
+        data: { section: TITLES.services },
+        loadComponent: () => import('./services/services').then((m) => m.Services),
+      },
+      {
         path: 'billing',
-        data: { section: TITLES.billing, note: PHASE_6 },
-        loadComponent: placeholder,
+        data: { section: TITLES.billing },
+        loadComponent: () => import('./billing/billing').then((m) => m.Billing),
       },
       {
         path: 'tickets',
-        data: { section: TITLES.tickets, note: PHASE_6 },
-        loadComponent: placeholder,
+        data: { section: TITLES.tickets },
+        loadComponent: () => import('./tickets/tickets').then((m) => m.Tickets),
       },
 
       // Catalog
@@ -69,41 +69,37 @@ export const adminRoutes: Routes = [
         loadComponent: () => import('./locations/locations').then((m) => m.Locations),
       },
 
-      // Site content — next slice
-      {
-        path: 'site/home',
-        data: { section: TITLES.home, note: SLICE_B },
-        loadComponent: placeholder,
-      },
+      // Site content — one editor component, the page picked by `data.page`
+      { path: 'site/home', data: { section: TITLES.home, page: 'home' }, loadComponent: sitePage },
       {
         path: 'site/about',
-        data: { section: TITLES.about, note: SLICE_B },
-        loadComponent: placeholder,
+        data: { section: TITLES.about, page: 'about' },
+        loadComponent: sitePage,
       },
       {
         path: 'site/contact',
-        data: { section: TITLES.contact, note: SLICE_B },
-        loadComponent: placeholder,
+        data: { section: TITLES.contact },
+        loadComponent: () => import('./site/site-contact').then((m) => m.SiteContact),
       },
       {
         path: 'site/support',
-        data: { section: TITLES.support, note: SLICE_B },
-        loadComponent: placeholder,
+        data: { section: TITLES.support, page: 'support' },
+        loadComponent: sitePage,
       },
       {
         path: 'site/footer',
-        data: { section: TITLES.footer, note: SLICE_B },
-        loadComponent: placeholder,
+        data: { section: TITLES.footer, page: 'footer' },
+        loadComponent: sitePage,
       },
       {
         path: 'site/legal',
-        data: { section: TITLES.legal, note: SLICE_B },
-        loadComponent: placeholder,
+        data: { section: TITLES.legal, page: 'legal' },
+        loadComponent: sitePage,
       },
       {
         path: 'site/product-pages',
-        data: { section: TITLES.productContent, note: SLICE_B },
-        loadComponent: placeholder,
+        data: { section: TITLES.productContent },
+        loadComponent: () => import('./site/product-pages').then((m) => m.ProductPages),
       },
 
       // Admin

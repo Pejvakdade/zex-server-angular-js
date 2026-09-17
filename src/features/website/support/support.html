@@ -228,11 +228,13 @@
         <div style="color: #fff; font-size: 26px; font-weight: 800; margin-bottom: 8px">
           Still Need Help?
         </div>
-        <div style="color: #b7b9e6; font-size: 14.5px">Message our team directly.</div>
+        <div style="color: #b7b9e6; font-size: 14.5px">
+          Open a ticket or message our team directly.
+        </div>
       </div>
       <div style="display: flex; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1">
         <a
-          [routerLink]="routes.ContactUs"
+          [routerLink]="routes.AccountTickets"
           style="
             padding: 14px 26px;
             border-radius: 10px;
@@ -242,7 +244,20 @@
             font-size: 14.5px;
             white-space: nowrap;
           "
-          >Contact Support &rarr;</a
+          >Open a Ticket &rarr;</a
+        >
+        <a
+          [routerLink]="routes.ContactUs"
+          style="
+            padding: 14px 26px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            color: #fff;
+            font-weight: 700;
+            font-size: 14.5px;
+            white-space: nowrap;
+          "
+          >Contact Support</a
         >
       </div>
     </div>

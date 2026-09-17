@@ -49,13 +49,67 @@ export const UI = {
   label: 'font-size:13px;font-weight:600;color:#3A3D5C;',
 } as const;
 
-/** One input in the add/edit modal. `options` for select; `multi` selects store an array. */
+/** The line icons an editor may pick for a content item — the reference's KB_ICON_OPTIONS. */
+export const KB_ICON_OPTIONS = [
+  'info',
+  'card',
+  'server',
+  'shield',
+  'license',
+  'bars',
+  'book',
+  'globe',
+  'headset',
+  'ticket',
+  'gear',
+  'key',
+] as const;
+
+/** A select option: a bare string (value = label) or a value/label pair (a uuid shown by name). */
+export type SelectOption = string | { value: string; label: string };
+
+export const optionValue = (opt: SelectOption): string =>
+  typeof opt === 'string' ? opt : opt.value;
+export const optionLabel = (opt: SelectOption): string =>
+  typeof opt === 'string' ? opt : opt.label;
+
+/**
+ * One input in the add/edit modal. `options` for select / multiselect (multiselect stores an
+ * array); `icon` is a chip picker over KB_ICON_OPTIONS; `date` stores an ISO yyyy-mm-dd string.
+ */
 export interface FieldDef {
   key: string;
   label: string;
-  type: 'text' | 'number' | 'textarea' | 'select' | 'checkbox' | 'multiselect';
-  options?: ReadonlyArray<string>;
+  type: 'text' | 'number' | 'textarea' | 'select' | 'checkbox' | 'multiselect' | 'icon' | 'date';
+  options?: ReadonlyArray<SelectOption>;
   required?: boolean;
+}
+
+/** A repeated-item section of a page editor (feature strip, FAQ, footer columns …). */
+export interface ItemGroupConfig {
+  /** Key of the array inside the page's content object. */
+  key: string;
+  heading: string;
+  /** "+ Add {singular}". */
+  singular: string;
+  fields: Array<FieldDef>;
+  /** How an item is summarised on its tile / row. */
+  display: (item: Record<string, any>) => { title: string; subtitle: string; icon?: string };
+  /** `grid` = the reference's 220px tiles (default); `table` = a data table with `columns`. */
+  layout?: 'grid' | 'table';
+  columns?: Array<string>;
+  /** Item ⇄ modal draft conversion, when the stored shape is not flat (footer column links). */
+  toDraft?: (item: Record<string, any>) => Record<string, any>;
+  fromDraft?: (
+    draft: Record<string, any>,
+    previous: Record<string, any> | null,
+  ) => Record<string, any>;
+}
+
+export interface PageEditorConfig {
+  /** Scalar fields, saved by the card's "Save changes" button. */
+  fields: Array<FieldDef>;
+  groups: Array<ItemGroupConfig>;
 }
 
 /** A cell in the generic table: text plus an optional status-pill tint. */
@@ -71,4 +125,6 @@ export interface Row<T = unknown> {
   data: T;
   /** Hide the delete button (e.g. the signed-in admin's own row). */
   noDelete?: boolean;
+  /** Hide the table's optional action button on this row (an already-paid invoice). */
+  noAction?: boolean;
 }

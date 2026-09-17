@@ -31,6 +31,11 @@ import { Row, UI, pill } from './admin-ui';
               <td
                 style="padding:14px;border-bottom:1px solid #F3F4FC;text-align:right;white-space:nowrap;"
               >
+                @if (actionLabel() && !row.noAction) {
+                  <button type="button" (click)="action.emit(row)" [style]="ui.editBtn">
+                    {{ actionLabel() }}
+                  </button>
+                }
                 <button type="button" (click)="edit.emit(row)" [style]="ui.editBtn">
                   {{ editLabel() }}
                 </button>
@@ -68,7 +73,10 @@ export class DataTable {
   readonly loading = input(false);
   readonly emptyText = input('Nothing here yet.');
   readonly editLabel = input('Edit');
+  /** An optional extra per-row button before Edit (Billing's "Mark paid"); hidden when empty. */
+  readonly actionLabel = input('');
 
+  readonly action = output<Row>();
   readonly edit = output<Row>();
   readonly remove = output<Row>();
 

@@ -32,6 +32,19 @@ export const staffGuard: CanActivateFn = async () => {
   return store.isStaff() ? true : router.createUrlTree([appRoutes.Home]);
 };
 
+/**
+ * The customer panel. Any signed-in account is let in — staff included, so an admin can see what a
+ * customer sees — which makes this `authGuard` with the panel's own login redirect.
+ */
+export const clientGuard: CanActivateFn = async () => {
+  const store = inject(AuthStore);
+  const router = inject(Router);
+
+  await store.restore();
+
+  return store.isAuthenticated() ? true : router.createUrlTree([appRoutes.Login]);
+};
+
 /** Keeps an already-signed-in user off the login and sign-up pages. */
 export const guestGuard: CanActivateFn = async () => {
   const store = inject(AuthStore);
@@ -41,5 +54,5 @@ export const guestGuard: CanActivateFn = async () => {
 
   if (!store.isAuthenticated()) return true;
 
-  return router.createUrlTree([store.isStaff() ? appRoutes.AdminDashboard : appRoutes.Home]);
+  return router.createUrlTree([store.isStaff() ? appRoutes.AdminDashboard : appRoutes.Account]);
 };

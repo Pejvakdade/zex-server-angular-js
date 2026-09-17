@@ -3,8 +3,8 @@
  * @fileOverview the reference's OVERVIEW block: four KPI cards and a recent-activity table.
  *
  * @note The reference's cards read mock services/invoices/tickets and its activity rows were
- *       hard-coded. Here a metric with no table yet shows "—" (the store's null rule), and the
- *       table lists the newest contact-form messages — the one activity stream that is real today.
+ *       hard-coded. Here the cards read the real tables (a metric with no source shows "—", the
+ *       store's null rule), and the table lists the newest contact-form messages.
  */
 import { Component, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';

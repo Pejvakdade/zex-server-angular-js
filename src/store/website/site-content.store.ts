@@ -53,5 +53,11 @@ export const SiteContentStore = signalStore(
         patchState(store, { byPage: { ...store.byPage(), [page]: null }, loading: false });
       }
     },
+
+    /** Drops a cached page so the next visit re-fetches — called after an admin save. */
+    invalidate(page: SitePage): void {
+      const { [page]: _dropped, ...rest } = store.byPage();
+      patchState(store, { byPage: rest });
+    },
   })),
 );

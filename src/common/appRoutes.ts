@@ -29,6 +29,7 @@ export const appRoutes = {
   AdminDashboard: '/admin/overview',
   AdminOverview: '/admin/overview',
   AdminCustomers: '/admin/customers',
+  AdminServices: '/admin/services',
   AdminBilling: '/admin/billing',
   AdminTickets: '/admin/tickets',
   AdminPlans: '/admin/plans',
@@ -43,6 +44,14 @@ export const appRoutes = {
   AdminSiteProductPages: '/admin/site/product-pages',
   AdminStaff: '/admin/staff',
   AdminSettings: '/admin/settings',
+
+  // Customer panel — no reference page; an admin-style shell for a signed-in CLIENT
+  Account: '/account',
+  AccountServices: '/account/services',
+  AccountInvoices: '/account/invoices',
+  AccountTickets: '/account/tickets',
+  AccountTicket: (id: string) => `/account/tickets/${id}`,
+  AccountProfile: '/account/profile',
 } as const;
 
 export default appRoutes;

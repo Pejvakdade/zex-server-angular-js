@@ -1,0 +1,186 @@
+<div>
+  @if (config().fields.length) {
+    <form (ngSubmit)="saveScalars()" [style]="ui.card" style="margin-bottom: 32px">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        @for (f of scalarFields(); track f.key) {
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label [style]="ui.label">{{ f.label }}</label>
+            @switch (f.type) {
+              @case ('textarea') {
+                <textarea
+                  [name]="f.key"
+                  [(ngModel)]="draft[f.key]"
+                  [rows]="f.key.endsWith('Body') ? 12 : 3"
+                  [style]="ui.textarea"
+                ></textarea>
+              }
+              @case ('multiselect') {
+                <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                  @for (opt of f.options; track optionValue(opt)) {
+                    <button
+                      type="button"
+                      (click)="toggleMulti(f.key, optionValue(opt))"
+                      [style]="hasMulti(f.key, optionValue(opt)) ? ui.chipActive : ui.chip"
+                    >
+                      {{ optionLabel(opt) }}
+                    </button>
+                  }
+                </div>
+              }
+              @default {
+                <input type="text" [name]="f.key" [(ngModel)]="draft[f.key]" [style]="ui.input" />
+              }
+            }
+          </div>
+        }
+      </div>
+      @if (error()) {
+        <div
+          style="
+            font-size: 13px;
+            color: #dc2626;
+            background: #fff6f6;
+            border: 1px solid #fbd5d5;
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-top: 16px;
+          "
+        >
+          {{ error() }}
+        </div>
+      }
+      <button
+        type="submit"
+        [disabled]="saving() || !content()"
+        [style]="ui.saveBtn"
+        style="margin-top: 20px"
+        [style.opacity]="saving() ? 0.7 : 1"
+      >
+        {{ saving() ? 'Saving…' : 'Save changes' }}
+      </button>
+    </form>
+  }
+
+  @for (group of config().groups; track group.key) {
+    <div style="margin-bottom: 28px">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 14px;
+        "
+      >
+        <h2 style="font-size: 18px; font-weight: 800; margin: 0; color: #161629">
+          {{ group.heading }}
+        </h2>
+        <button type="button" (click)="openAdd(group)" [style]="ui.addBtn">
+          + Add {{ group.singular }}
+        </button>
+      </div>
+
+      @if (group.layout === 'table') {
+        <zx-data-table
+          [columns]="group.columns ?? []"
+          [rows]="rows(group)"
+          [loading]="!content()"
+          emptyText="Nothing here yet."
+          (edit)="openEdit(group, +$event.id)"
+          (remove)="askDelete(group, +$event.id)"
+        />
+      } @else {
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+          "
+        >
+          @for (item of items(group); track $index) {
+            @let shown = group.display(item);
+            <div
+              style="
+                background: #fff;
+                border: 1px solid #eef0fa;
+                border-radius: 14px;
+                padding: 16px 18px;
+              "
+            >
+              @if (shown.icon) {
+                <div
+                  style="
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 9px;
+                    background: #eef0fe;
+                    color: #1269e8;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                  "
+                >
+                  @if (isIcon(shown.icon)) {
+                    <zx-nav-icon [name]="shown.icon" />
+                  } @else {
+                    {{ shown.icon }}
+                  }
+                </div>
+              }
+              <div style="font-weight: 700; font-size: 14px; color: #161629; margin-bottom: 4px">
+                {{ shown.title }}
+              </div>
+              <div
+                style="
+                  font-size: 12.5px;
+                  color: #8386ac;
+                  margin-bottom: 12px;
+                  white-space: pre-line;
+                "
+              >
+                {{ shown.subtitle }}
+              </div>
+              <button
+                type="button"
+                (click)="openEdit(group, $index)"
+                [style]="ui.editBtn"
+                style="margin-left: 0"
+              >
+                Edit
+              </button>
+              <button type="button" (click)="askDelete(group, $index)" [style]="ui.deleteBtn">
+                Delete
+              </button>
+            </div>
+          } @empty {
+            <div style="font-size: 13px; color: #8386ac; padding: 8px 2px">
+              {{ content() ? 'Nothing here yet.' : 'Loading…' }}
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (group(); as g) {
+    <zx-entity-modal
+      [title]="(editIndex() === null ? 'Add ' : 'Edit ') + g.singular.toLowerCase()"
+      [fields]="modalFields()"
+      [initial]="itemDraft()"
+      [saving]="saving()"
+      [error]="error()"
+      (save)="saveItem($event)"
+      (cancel)="group.set(null)"
+    />
+  }
+
+  @if (deleting(); as pending) {
+    <zx-confirm-dialog
+      [label]="pending.label"
+      [busy]="saving()"
+      (confirm)="confirmDelete()"
+      (cancel)="deleting.set(null)"
+    />
+  }
+</div>

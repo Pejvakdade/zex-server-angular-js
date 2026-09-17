@@ -21,15 +21,20 @@ bun install
 bun run dev        # ng serve --port 4200
 bun run build      # ng build (production configuration by default)
 bun run watch      # ng build --watch --configuration development
-bun test           # ng test (vitest)
+bun test           # ng test (vitest, watch mode)
+bun run test:ci    # ng test --watch=false - one-shot run
 bun run format     # prettier over src
 ```
+
+### Tests
+
+Vitest through `@angular/build:unit-test` (jsdom), globals on (`tsconfig.spec.json`). Specs sit next to the code as `*.spec.ts` and cover the plumbing every page relies on rather than the pages themselves: `src/lib/` (cookie, `readError`, `ApiService` envelope unwrap, `authInterceptor` via `HttpTestingController`, the four route guards with a mocked `AuthStore`), `shared/components/ticket/ticket.model` (`timeAgo` under fake timers) and `store/admin/_paged.feature` (query-string building, error and write flows with a mocked `ApiService`).
 
 There is deliberately **no `ng` script** in `package.json`: a script by that name shadows the `ng` binary and makes `bun run ng` recurse into itself forever. Invoke the CLI directly (`./node_modules/.bin/ng generate ...`).
 
 ### Local environment
 
-`src/environments/environment.ts` holds `baseUrl` (the backend API root, **including** its `api/v1` prefix) and `resourceUrl`. `environment.production.ts` is the production counterpart.
+`src/environments/environment.ts` holds `baseUrl` (the backend API root, **including** its `api/v1` prefix) and `resourceUrl`. `environment.production.ts` is the production counterpart; `angular.json` swaps it in through `fileReplacements` on the `production` build configuration (the default for `ng build`, and what the Dockerfile runs), so the shipped bundle points at `api.zexserver.com`.
 
 Docker serves only a built production bundle behind nginx — there is no hot reload in the container, so develop with `bun run dev` on the host:
 
@@ -45,11 +50,12 @@ docker compose up --build -d
 
 ### Route groups (`src/features`)
 
-`app.routes.ts` splits the app in two, each half lazily loaded with its own layout — the equivalent of Miveh's `(website)` / `admin` route groups:
+`app.routes.ts` splits the app in three, each lazily loaded with its own layout — the equivalent of Miveh's `(website)` / `admin` route groups:
 
-- `features/website/` — public storefront. `website.routes.ts` + `_component/website-layout.ts` (navbar/footer land here in phase 4) + one folder per page.
-- `features/admin/` — admin dashboard, structurally separate. `admin.routes.ts` + `_component/admin-layout.ts` (the 17-item sidebar from `Admin Dashboard.dc.html` lands here in phase 5).
-- `shared/components/` — cross-cutting UI used by both halves.
+- `features/website/` — public storefront. `website.routes.ts` + `_component/website-layout.ts` (navbar/footer) + one folder per page.
+- `features/admin/` — admin dashboard, structurally separate. `admin.routes.ts` + `_component/admin-layout.ts` (the sidebar from `Admin Dashboard.dc.html`).
+- `features/client/` — the customer panel at `/account` (My Services / Invoices / Tickets / Profile), behind `clientGuard`. There is no reference page for it, so `_component/client-layout.*` borrows the admin shell (it shares `admin-layout.css`) and the pages reuse the admin's `data-table` / `entity-modal` / `pill` primitives.
+- `shared/components/` — cross-cutting UI used by more than one group (`plan/`, `ticket/`).
 
 ### Data layer
 

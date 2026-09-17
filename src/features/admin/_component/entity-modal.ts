@@ -9,11 +9,13 @@
 import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { FieldDef, UI } from './admin-ui';
+import { FieldDef, KB_ICON_OPTIONS, UI, optionLabel, optionValue } from './admin-ui';
+import { IconName } from './admin-nav';
+import { NavIcon } from './nav-icon';
 
 @Component({
   selector: 'zx-entity-modal',
-  imports: [FormsModule],
+  imports: [FormsModule, NavIcon],
   template: `
     <div
       (click)="cancel.emit()"
@@ -56,6 +58,15 @@ import { FieldDef, UI } from './admin-ui';
                     [style]="ui.input"
                   />
                 }
+                @case ('date') {
+                  <input
+                    type="date"
+                    [name]="f.key"
+                    [(ngModel)]="draft[f.key]"
+                    [required]="!!f.required"
+                    [style]="ui.input"
+                  />
+                }
                 @case ('textarea') {
                   <textarea
                     rows="3"
@@ -71,8 +82,8 @@ import { FieldDef, UI } from './admin-ui';
                     (ngModelChange)="fieldChange.emit({ key: f.key, value: $event })"
                     [style]="ui.input"
                   >
-                    @for (opt of f.options; track opt) {
-                      <option [value]="opt">{{ opt }}</option>
+                    @for (opt of f.options; track optionValue(opt)) {
+                      <option [value]="optionValue(opt)">{{ optionLabel(opt) }}</option>
                     }
                   </select>
                 }
@@ -84,15 +95,29 @@ import { FieldDef, UI } from './admin-ui';
                     {{ f.label }}
                   </label>
                 }
-                @case ('multiselect') {
+                @case ('icon') {
                   <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                    @for (opt of f.options; track opt) {
+                    @for (opt of icons; track opt) {
                       <button
                         type="button"
-                        (click)="toggleMulti(f.key, opt)"
-                        [style]="hasMulti(f.key, opt) ? ui.chipActive : ui.chip"
+                        (click)="draft[f.key] = opt"
+                        [title]="opt"
+                        [style]="draft[f.key] === opt ? iconTileActive : iconTile"
                       >
-                        {{ opt }}
+                        <zx-nav-icon [name]="opt" [size]="18" />
+                      </button>
+                    }
+                  </div>
+                }
+                @case ('multiselect') {
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                    @for (opt of f.options; track optionValue(opt)) {
+                      <button
+                        type="button"
+                        (click)="toggleMulti(f.key, optionValue(opt))"
+                        [style]="hasMulti(f.key, optionValue(opt)) ? ui.chipActive : ui.chip"
+                      >
+                        {{ optionLabel(opt) }}
                       </button>
                     }
                   </div>
@@ -123,7 +148,7 @@ import { FieldDef, UI } from './admin-ui';
               [style]="ui.saveBtn"
               [style.opacity]="saving() ? 0.7 : 1"
             >
-              {{ saving() ? 'Saving…' : 'Save' }}
+              {{ saving() ? 'Saving…' : saveLabel() }}
             </button>
           </div>
         </form>
@@ -137,6 +162,8 @@ export class EntityModal {
   readonly initial = input<Record<string, unknown>>({});
   readonly saving = input(false);
   readonly error = input<string | null>(null);
+  /** "Save" for edits; the customer panel's ticket form says "Submit ticket". */
+  readonly saveLabel = input('Save');
 
   readonly save = output<Record<string, unknown>>();
   readonly cancel = output<void>();
@@ -144,6 +171,14 @@ export class EntityModal {
   readonly fieldChange = output<{ key: string; value: string }>();
 
   protected readonly ui = UI;
+  protected readonly optionValue = optionValue;
+  protected readonly optionLabel = optionLabel;
+  protected readonly icons: ReadonlyArray<IconName> = KB_ICON_OPTIONS;
+  /** The reference's icon tiles: a 40px square, blue-tinted when selected. */
+  protected readonly iconTile =
+    'width:40px;height:40px;border-radius:9px;border:1.5px solid #E0E3F5;background:#fff;color:#3A3D5C;display:flex;align-items:center;justify-content:center;cursor:pointer;';
+  protected readonly iconTileActive =
+    'width:40px;height:40px;border-radius:9px;border:1.5px solid #1269E8;background:#EEF0FE;color:#1269E8;display:flex;align-items:center;justify-content:center;cursor:pointer;';
   /** Mutable copy for ngModel; re-seeded whenever the parent hands over a new `initial`. */
   protected draft: Record<string, any> = {};
 

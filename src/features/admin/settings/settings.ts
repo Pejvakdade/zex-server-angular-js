@@ -4,7 +4,7 @@
  *               saved through PATCH /user/me. The auth store's cached user is refreshed on success
  *               so the topbar name updates without a reload.
  */
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 
@@ -26,6 +26,9 @@ export class Settings {
   private readonly auth = inject(AuthStore);
   private readonly toast = inject(AdminToastStore);
   private readonly formBuilder = inject(FormBuilder);
+
+  /** "Admin account" on the dashboard; the customer panel's Profile page reuses this with its own. */
+  readonly heading = input('Admin account');
 
   protected readonly ui = UI;
   protected readonly saving = signal(false);

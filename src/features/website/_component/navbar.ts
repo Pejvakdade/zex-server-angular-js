@@ -85,9 +85,9 @@ export class Navbar {
     },
   ];
 
-  /** Staff go to the dashboard; customers get the site until their panel exists (phase 6). */
+  /** Staff go to the dashboard; customers go to their panel. */
   protected readonly dashboardLink = computed(() =>
-    this.auth.isStaff() ? appRoutes.AdminDashboard : appRoutes.Home,
+    this.auth.isStaff() ? appRoutes.AdminDashboard : appRoutes.Account,
   );
 
   protected toggleMenu(): void {

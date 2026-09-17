@@ -1,0 +1,61 @@
+<div style="max-width: 760px">
+  <a
+    [routerLink]="routes.AccountTickets"
+    style="
+      font-size: 13px;
+      color: #1269e8;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 16px;
+    "
+    >&larr; All tickets</a
+  >
+
+  @if (store.error() && !store.selected()) {
+    <div
+      style="
+        font-size: 13px;
+        color: #dc2626;
+        background: #fff6f6;
+        border: 1px solid #fbd5d5;
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 14px;
+      "
+    >
+      {{ store.error() }}
+    </div>
+  }
+
+  @if (store.selected(); as t) {
+    <div [style]="ui.card" style="display: flex; flex-direction: column">
+      <div style="font-size: 19px; font-weight: 800; color: #161629; margin-bottom: 6px">
+        #{{ t.number }} &middot; {{ t.subject }}
+      </div>
+      <p
+        style="
+          margin: 0 0 18px;
+          font-size: 13.5px;
+          color: #5b5e80;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+        "
+      >
+        <span [style]="pill(statusTint(t.status))">{{ t.status }}</span>
+        <span [style]="pill(priorityTint(t.priority))">{{ t.priority }}</span>
+        <span>Last activity {{ ago(t.lastActivityAt) }}</span>
+      </p>
+
+      <zx-ticket-thread
+        [ticket]="t"
+        [saving]="store.saving()"
+        [error]="store.error()"
+        (reply)="reply($event)"
+      />
+    </div>
+  } @else if (store.loading()) {
+    <div style="font-size: 13px; color: #8386ac">Loading…</div>
+  }
+</div>

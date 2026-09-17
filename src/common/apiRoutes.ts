@@ -37,6 +37,19 @@ export const apiRoutes = {
   siteContentByPage: (page: string) => `site-content/${page}`,
   productContentByProduct: (product: string) => `product-content/${encodeURIComponent(product)}`,
   productContentRaw: (product: string) => `product-content/${encodeURIComponent(product)}/raw`,
+
+  // Phase 6 — services, billing, support desk
+  service: 'service',
+  serviceMe: 'service/me',
+  serviceById: (id: string) => `service/${id}`,
+  invoice: 'invoice',
+  invoiceMe: 'invoice/me',
+  invoiceById: (id: string) => `invoice/${id}`,
+  invoicePay: (id: string) => `invoice/${id}/pay`,
+  ticket: 'ticket',
+  ticketMe: 'ticket/me',
+  ticketById: (id: string) => `ticket/${id}`,
+  ticketReply: (id: string) => `ticket/${id}/reply`,
 } as const;
 
 export default apiRoutes;

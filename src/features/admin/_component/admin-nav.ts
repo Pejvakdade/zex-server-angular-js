@@ -124,6 +124,7 @@ export const NAV_GROUPS: Array<NavGroup> = [
     items: [
       { label: 'Overview', icon: 'grid', path: appRoutes.AdminOverview },
       { label: 'Customers', icon: 'users', path: appRoutes.AdminCustomers },
+      { label: 'Services', icon: 'server', path: appRoutes.AdminServices },
       { label: 'Billing', icon: 'card', path: appRoutes.AdminBilling },
       { label: 'Tickets', icon: 'ticket', path: appRoutes.AdminTickets },
     ],
@@ -171,6 +172,10 @@ export const TITLES = {
   customers: {
     title: 'Customers',
     subtitle: 'The accounts behind every service, invoice and ticket.',
+  },
+  services: {
+    title: 'Services',
+    subtitle: 'Every provisioned server, hosting plan and licence, per customer.',
   },
   billing: { title: 'Billing', subtitle: 'Invoices and revenue across the customer base.' },
   tickets: { title: 'Tickets', subtitle: 'Support requests from customers.' },

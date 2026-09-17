@@ -1,6 +1,6 @@
 /** ---------------------------------------------------------------------------------------------------------------------
  * @file admin-overview.store.ts
- * @fileOverview the Overview cards' counters. A `null` metric has no data source yet (phase 6) and is
+ * @fileOverview the Overview cards' counters. A `null` metric has no data source yet and is
  *               rendered as a placeholder, never as a number — same rule as fleet-stats.store.
  */
 import { inject } from '@angular/core';
@@ -10,6 +10,8 @@ import { firstValueFrom } from 'rxjs';
 import apiRoutes from '@src/common/apiRoutes';
 import { ApiService } from '@src/lib/api.service';
 import { readError } from '@src/lib/readError';
+
+import { ContactMessage } from './admin-contact-messages.store';
 
 export interface AdminOverview {
   customers: number | null;
@@ -21,16 +23,6 @@ export interface AdminOverview {
   activeServices: number | null;
   openTickets: number | null;
   revenue: number | null;
-}
-
-export interface ContactMessage {
-  _id: string;
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  status: 'New' | 'Read' | 'Archived';
-  createdAt: string;
 }
 
 type OverviewState = {

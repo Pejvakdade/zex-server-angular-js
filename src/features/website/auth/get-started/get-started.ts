@@ -60,7 +60,7 @@ export class GetStarted implements OnInit {
     const { fullName, email, password } = this.form.getRawValue();
 
     if (await this.store.signUp(fullName, email, password)) {
-      await this.router.navigateByUrl(appRoutes.Home);
+      await this.router.navigateByUrl(appRoutes.Account);
     }
   }
 }
