@@ -32,8 +32,6 @@ export const apiRoutes = {
   license: 'license',
   licenseAdminAll: 'license/admin/all',
   licenseById: (id: string) => `license/${id}`,
-  contactMessage: 'contact-message',
-  contactMessageById: (id: string) => `contact-message/${id}`,
   siteContentByPage: (page: string) => `site-content/${page}`,
   productContentByProduct: (product: string) => `product-content/${encodeURIComponent(product)}`,
   productContentRaw: (product: string) => `product-content/${encodeURIComponent(product)}/raw`,

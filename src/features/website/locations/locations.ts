@@ -3,19 +3,18 @@
  * @fileOverview the Locations page, ported from the reference. Every card is a real location row.
  *
  * @note The reference embeds a D3 world map in an <iframe> that fetches country topology from a
- *       CDN. That is not ported: only five of the eight locations have coordinates in the
- *       reference, so the map would silently omit three real datacenters. The cards below show all
- *       eight. See the note in location.data.ts.
+ *       CDN. Here <zx-locations-map> draws it inline from the same rows as the cards.
  */
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
+import { LocationsMap } from '@src/shared/components/locations-map/locations-map';
 import { LocationsStore } from '@src/store/website/locations.store';
 
 @Component({
   selector: 'zx-locations',
-  imports: [RouterLink],
+  imports: [RouterLink, LocationsMap],
   template: `
     <section style="padding:56px 64px 10px;font-family:var(--zx-font);">
       <h2 style="text-align:center;font-size:32px;font-weight:800;color:#161629;margin:0 0 6px;">
@@ -24,6 +23,10 @@ import { LocationsStore } from '@src/store/website/locations.store';
       <p style="text-align:center;color:#8386AC;font-size:15px;margin:0 0 36px;">
         Pick a location and deploy in minutes.
       </p>
+
+      <div style="max-width:1520px;margin:0 auto 24px;">
+        <zx-locations-map [locations]="store.locations()" />
+      </div>
 
       <div
         class="zx-location-grid"

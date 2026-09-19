@@ -15,5 +15,18 @@ import { Navbar } from './navbar';
     </main>
     <zx-footer />
   `,
+  // Footer sits at the viewport bottom even while a page is still loading or is short.
+  styles: [
+    `
+      :host {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        flex: 1;
+      }
+    `,
+  ],
 })
 export class WebsiteLayout {}

@@ -18,7 +18,7 @@ const PRODUCT_PAGES: Array<{ path: string; product: PlanProduct }> = [
   { path: 'wordpress-hosting', product: 'WordPress Hosting' },
 ];
 
-export const websiteRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: WebsiteLayout,
@@ -72,3 +72,15 @@ export const websiteRoutes: Routes = [
     ],
   },
 ];
+
+/**
+ * Every public page is preloaded (see app/preload.strategy.ts), so a visitor who lands on the home
+ * page already has the product / licenses chunks by the time they click a nav link.
+ */
+export const websiteRoutes: Routes = routes.map((route) => ({
+  ...route,
+  children: route.children?.map((child) => ({
+    ...child,
+    data: { ...child.data, preload: true },
+  })),
+}));

@@ -17,6 +17,7 @@ export const routes: Routes = [
   },
   {
     path: '',
+    data: { preload: true },
     loadChildren: () => import('@src/features/website/website.routes').then((m) => m.websiteRoutes),
   },
 ];

@@ -13,6 +13,7 @@ import { RouterLink } from '@angular/router';
 import { UpperCasePipe } from '@angular/common';
 
 import appRoutes from '@src/common/appRoutes';
+import { LineIcon } from '@src/shared/components/line-icon/line-icon';
 import { License, LicensesStore } from '@src/store/website/licenses.store';
 import { ProductContentStore } from '@src/store/website/product-content.store';
 
@@ -20,7 +21,7 @@ const PRODUCT = 'Software Licenses';
 
 @Component({
   selector: 'zx-licenses',
-  imports: [RouterLink, UpperCasePipe],
+  imports: [RouterLink, UpperCasePipe, LineIcon],
   templateUrl: './licenses.html',
   styleUrl: './licenses.css',
 })

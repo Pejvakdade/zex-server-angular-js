@@ -78,8 +78,8 @@ export const adminRoutes: Routes = [
       },
       {
         path: 'site/contact',
-        data: { section: TITLES.contact },
-        loadComponent: () => import('./site/site-contact').then((m) => m.SiteContact),
+        data: { section: TITLES.contact, page: 'contact' },
+        loadComponent: sitePage,
       },
       {
         path: 'site/support',

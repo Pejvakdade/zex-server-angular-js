@@ -7,8 +7,7 @@
  *         `reviewCount` are seeded empty, so the line renders only once real figures are published.
  *       - The locations teaser lists five cities in the reference. It reads the location API here
  *         instead, so it can never disagree with the Locations page. The reference's D3 <iframe>
- *         map is dropped for the same reason locations.ts drops it: only five of the eight real
- *         locations carry coordinates, so the map would silently omit three.
+ *         map is rendered by <zx-locations-map> from the same rows — no iframe, no CDN.
  *       - The hero background and both product-card <image-slot>s are omitted — there is no media
  *         library yet, and About already sets the precedent of omitting a slot rather than
  *         rendering an empty grey box. The hero keeps its gradient wash and glow blobs.
@@ -17,6 +16,7 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
+import { LocationsMap } from '@src/shared/components/locations-map/locations-map';
 import { LocationsStore } from '@src/store/website/locations.store';
 import { SiteContentStore } from '@src/store/website/site-content.store';
 
@@ -86,7 +86,7 @@ const FALLBACK_ICON = ICONS['globe'];
 
 @Component({
   selector: 'zx-home',
-  imports: [RouterLink],
+  imports: [RouterLink, LocationsMap],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

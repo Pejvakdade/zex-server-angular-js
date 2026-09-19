@@ -11,7 +11,6 @@ import apiRoutes from '@src/common/apiRoutes';
 import { ApiService } from '@src/lib/api.service';
 import { readError } from '@src/lib/readError';
 
-import { ContactMessage } from './admin-contact-messages.store';
 
 export interface AdminOverview {
   customers: number | null;
@@ -19,7 +18,6 @@ export interface AdminOverview {
   plans: number | null;
   licenses: number | null;
   locations: number | null;
-  newMessages: number | null;
   activeServices: number | null;
   openTickets: number | null;
   revenue: number | null;
@@ -27,25 +25,19 @@ export interface AdminOverview {
 
 type OverviewState = {
   stats: AdminOverview | null;
-  recentMessages: Array<ContactMessage>;
   loading: boolean;
   error: string | null;
 };
 
 export const AdminOverviewStore = signalStore(
   { providedIn: 'root' },
-  withState<OverviewState>({ stats: null, recentMessages: [], loading: false, error: null }),
+  withState<OverviewState>({ stats: null, loading: false, error: null }),
   withMethods((store, api = inject(ApiService)) => ({
     async load(): Promise<void> {
       patchState(store, { loading: true, error: null });
       try {
-        const [stats, inbox] = await Promise.all([
-          firstValueFrom(api.get<AdminOverview>(apiRoutes.adminOverview)),
-          firstValueFrom(
-            api.get<{ docs: Array<ContactMessage> }>(`${apiRoutes.contactMessage}?page=1&limit=5`),
-          ),
-        ]);
-        patchState(store, { stats, recentMessages: inbox.docs, loading: false });
+        const stats = await firstValueFrom(api.get<AdminOverview>(apiRoutes.adminOverview));
+        patchState(store, { stats, loading: false });
       } catch (error) {
         patchState(store, { loading: false, error: readError(error) });
       }

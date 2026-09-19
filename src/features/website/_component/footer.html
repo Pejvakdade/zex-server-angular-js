@@ -42,8 +42,13 @@
                 font-weight: 700;
                 font-size: 12px;
               "
-              >{{ social.label }}</a
             >
+              @if (social.icon) {
+                <zx-line-icon [icon]="social.icon" [size]="16" color="#b7b9e6" />
+              } @else {
+                {{ social.label }}
+              }
+            </a>
           }
         </div>
       </div>

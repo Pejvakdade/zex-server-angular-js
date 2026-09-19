@@ -1,0 +1,58 @@
+<div class="zx-map-card">
+  <svg
+    [attr.viewBox]="'0 0 ' + width + ' ' + height"
+    preserveAspectRatio="xMidYMid meet"
+    role="img"
+    aria-label="Global datacenter locations"
+  >
+    <defs>
+      <radialGradient id="zx-map-glow">
+        <stop offset="0%" stop-color="#1269E8" stop-opacity="0.35" />
+        <stop offset="100%" stop-color="#1269E8" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+
+    <path [attr.d]="landPath" fill="#E3E9F8" stroke="#fff" stroke-width="1.2" />
+    <path [attr.d]="bordersPath" fill="none" stroke="#CBD6EF" stroke-width="0.8" />
+
+    @for (arc of arcs(); track $index) {
+      <path
+        [attr.d]="arc"
+        fill="none"
+        stroke="#1269E8"
+        stroke-opacity="0.28"
+        stroke-width="1.4"
+        stroke-dasharray="6 7"
+      />
+    }
+
+    @for (m of markers(); track m.city) {
+      <g [attr.transform]="'translate(' + m.x + ',' + m.y + ')'">
+        <circle r="24" fill="url(#zx-map-glow)" />
+        <circle r="5" fill="#1269E8" opacity="0.3">
+          <animate
+            attributeName="r"
+            values="5;16;5"
+            dur="3s"
+            [attr.begin]="m.delay"
+            repeatCount="indefinite"
+          />
+        </circle>
+        @if (m.anchor !== 'middle') {
+          <line
+            x1="0"
+            y1="-8"
+            [attr.x2]="leaderX(m)"
+            [attr.y2]="m.dy - 6"
+            stroke="#A9BEE9"
+            stroke-width="1.4"
+          />
+        }
+        <circle r="6" fill="#fff" stroke="#1269E8" stroke-width="3" />
+        <text class="zx-map-label" [attr.x]="m.dx" [attr.y]="m.dy" [attr.text-anchor]="m.anchor">
+          {{ m.city }}
+        </text>
+      </g>
+    }
+  </svg>
+</div>

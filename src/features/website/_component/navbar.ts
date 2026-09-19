@@ -94,8 +94,28 @@ export class Navbar {
     this.menuOpen.update((open) => !open);
   }
 
+  /** Called from every nav link: collapses the mobile menu and drops focus so no dropdown lingers. */
   protected closeMenu(): void {
     this.menuOpen.set(false);
+    this.keyboardOpen.set(null);
+    (document.activeElement as HTMLElement | null)?.blur();
+  }
+
+  /**
+   * Which dropdown is held open by keyboard focus. Hover is pure CSS; this only exists so Tab can
+   * travel from a trigger into its panel — with a CSS-only rule the panel disappears the instant
+   * the trigger blurs, before the next link receives focus.
+   */
+  protected readonly keyboardOpen = signal<string | null>(null);
+
+  protected onFocusIn(label: string, event: FocusEvent): void {
+    // Only keyboard focus opens a panel; a mouse click also focuses, and must not hold it open.
+    if ((event.target as Element).matches(':focus-visible')) this.keyboardOpen.set(label);
+  }
+
+  protected onFocusOut(event: FocusEvent): void {
+    const drop = event.currentTarget as HTMLElement;
+    if (!drop.contains(event.relatedTarget as Node | null)) this.keyboardOpen.set(null);
   }
 
   protected async signOut(): Promise<void> {

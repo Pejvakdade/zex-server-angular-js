@@ -428,12 +428,13 @@
         Deploy closer to your users, wherever they are.
       </p>
       <div style="max-width: 1520px; margin: 0 auto">
+        <zx-locations-map [locations]="locationsStore.locations()" />
         <div
           style="
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
             gap: 16px;
-            margin: 0 0 16px;
+            margin: 24px 0 16px;
           "
         >
           @for (location of locationsStore.locations(); track location._id) {

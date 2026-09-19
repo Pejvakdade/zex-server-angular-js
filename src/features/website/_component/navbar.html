@@ -66,8 +66,16 @@
         >
 
         @for (group of menus; track group.label) {
-          <div class="nav-drop" style="padding: 8px 10px">
+          <div
+            class="nav-drop"
+            [class.kb-open]="keyboardOpen() === group.label"
+            (focusin)="onFocusIn(group.label, $event)"
+            (focusout)="onFocusOut($event)"
+            style="padding: 8px 10px"
+          >
             <span
+              tabindex="0"
+              aria-haspopup="true"
               style="color: #3a3d5c; cursor: default; display: flex; align-items: center; gap: 4px"
               >{{ group.label }} <span style="font-size: 10px">&#9662;</span></span
             >

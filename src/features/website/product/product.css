@@ -79,3 +79,26 @@ details > summary::-webkit-details-marker {
     font-size: 36px !important;
   }
 }
+
+/* loading placeholders for the hero and feature strip */
+.zx-skeleton {
+  background: #e3e8fa;
+  border-radius: 8px;
+  animation: zx-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes zx-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zx-skeleton {
+    animation: none;
+  }
+}

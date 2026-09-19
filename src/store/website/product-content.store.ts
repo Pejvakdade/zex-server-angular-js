@@ -48,6 +48,8 @@ export interface ProductContent {
   gridTwoTitle: string;
   gridTwoSubtitle: string;
   gridTwo: Array<IconLabel>;
+  /** extras listed on the selected plan's card after its own specs */
+  includedFeatures: Array<{ label: string }>;
   locations: Array<ProductLocation>;
 }
 

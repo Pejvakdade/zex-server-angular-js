@@ -8,11 +8,12 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { LineIcon } from '@src/shared/components/line-icon/line-icon';
 import { FooterContent, SiteContentStore } from '@src/store/website/site-content.store';
 
 @Component({
   selector: 'zx-footer',
-  imports: [RouterLink],
+  imports: [RouterLink, LineIcon],
   templateUrl: './footer.html',
   styleUrl: './footer.css',
 })

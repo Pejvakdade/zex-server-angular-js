@@ -1,25 +1,25 @@
 /** ---------------------------------------------------------------------------------------------------------------------
  * @file contact.ts
- * @fileOverview the Contact Us page, ported from the reference. Copy and channels come from
- *               site-content; the form posts to the contact-message endpoint.
+ * @fileOverview the Contact Us page, ported from the reference. Copy, channels and business details
+ *               come from site-content; the ticket card opens a real support ticket.
  *
- * @note The reference's form is inert — a static mockup with nowhere to submit. Here it really
- *       stores a message, because a form that looks like it sends and does not is worse than no
- *       form at all.
+ * @note The reference's generic "Send us a message" form is deliberately absent — the three contact
+ *       paths are Support Ticket, WhatsApp and Email. Its "Open a Support Ticket" panel is what sits
+ *       in the form's place, wired to the ticket API through MyTicketsStore so a ticket opened here is
+ *       the same ticket the customer sees in their panel.
  *
- *       The reference also has a second "Open a Ticket" form (subject / priority / message). That
- *       is not ported: tickets need the ticket feature, which arrives in phase 6. The Support
- *       Ticket channel links to the Support page meanwhile.
+ *       Tickets belong to an account (the API requires a signed-in user), so a visitor who isn't
+ *       signed in sees the card with Log in / Create account instead of a form that would fail.
  */
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 
-import apiRoutes from '@src/common/apiRoutes';
 import appRoutes from '@src/common/appRoutes';
-import { ApiService } from '@src/lib/api.service';
+import { LineIcon } from '@src/shared/components/line-icon/line-icon';
+import { TICKET_PRIORITIES, Ticket, TicketPriority } from '@src/shared/components/ticket/ticket.model';
+import { AuthStore } from '@src/store/website/auth.store';
+import { MyTicketsStore } from '@src/store/website/my-tickets.store';
 import { SiteContentStore } from '@src/store/website/site-content.store';
 
 interface Channel {
@@ -42,32 +42,36 @@ interface ContactContent {
   channels: Array<Channel>;
 }
 
+/** The stored icon is a name from the reference; the line-icon library is keyed by emoji. */
+const CHANNEL_EMOJI: Record<string, string> = { mail: '✉️', headset: '🎧', ticket: '🎫' };
+
 @Component({
   selector: 'zx-contact',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, LineIcon],
   templateUrl: './contact.html',
   styleUrl: './contact.css',
 })
 export class Contact {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly api = inject(ApiService);
   private readonly store = inject(SiteContentStore);
+  protected readonly auth = inject(AuthStore);
+  protected readonly tickets = inject(MyTicketsStore);
 
   protected readonly routes = appRoutes;
+  protected readonly priorities = TICKET_PRIORITIES;
   protected readonly content = computed(() => this.store.forPage()<ContactContent>('contact'));
 
-  protected readonly sending = signal(false);
-  protected readonly sent = signal(false);
-  protected readonly error = signal<string | null>(null);
+  /** the ticket just opened from this page, driving the success state */
+  protected readonly opened = signal<Ticket | null>(null);
+  protected readonly validation = signal<string | null>(null);
 
   protected readonly inputStyle =
-    'padding:12px 14px;border-radius:10px;border:1.5px solid #E0E3F5;font-size:14px;width:100%;box-sizing:border-box;font-family:inherit;color:#161629;outline:none;resize:vertical;';
+    'padding:12px 14px;border-radius:10px;border:1.5px solid #E0E3F5;font-size:14px;width:100%;box-sizing:border-box;font-family:inherit;color:#161629;outline:none;resize:vertical;background:#fff;';
 
-  /** Mirrors the backend DTO so the same rules apply on both sides. */
+  /** Mirrors CreateTicketDto so the same rules apply on both sides. */
   protected readonly form = this.formBuilder.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
     subject: ['', [Validators.required, Validators.minLength(2)]],
+    priority: ['Medium' as TicketPriority, Validators.required],
     message: ['', [Validators.required, Validators.minLength(10)]],
   });
 
@@ -75,40 +79,32 @@ export class Contact {
     void this.store.load('contact');
   }
 
-  /** The reference draws these as emoji; the stored icon names map onto the same glyphs. */
-  protected channelGlyph(icon: string): string {
-    return { mail: '✉', headset: '📱', ticket: '🎫' }[icon] ?? '✉';
+  protected channelEmoji(icon: string): string {
+    return CHANNEL_EMOJI[icon] ?? '✉️';
   }
 
-  /** Email and phone channels get real mailto:/tel: links; anything else routes to Support. */
+  /**
+   * Email opens a mail client, the phone channel opens a WhatsApp chat (wa.me wants digits only);
+   * the ticket card jumps to the ticket form further down the page.
+   */
   protected channelHref(channel: Channel): string | null {
     if (channel.icon === 'mail') return `mailto:${channel.value}`;
-    if (channel.icon === 'headset') return `tel:${channel.value.replace(/[^\d+]/g, '')}`;
+    if (channel.icon === 'headset') return `https://wa.me/${channel.value.replace(/\D/g, '')}`;
     return null;
   }
 
   protected async submit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      this.error.set('Please fill in every field — the message needs at least 10 characters.');
+      this.validation.set('Please add a subject and describe the issue in at least 10 characters.');
       return;
     }
+    this.validation.set(null);
 
-    this.sending.set(true);
-    this.error.set(null);
-
-    try {
-      await firstValueFrom(this.api.post(apiRoutes.contactMessage, this.form.getRawValue()));
-      this.sent.set(true);
-    } catch (caught) {
-      const message = (caught as HttpErrorResponse)?.error?.message;
-      this.error.set(
-        Array.isArray(message)
-          ? message[0]
-          : message || 'Could not send your message. Please try again.',
-      );
-    } finally {
-      this.sending.set(false);
+    const ticket = await this.tickets.open(this.form.getRawValue());
+    if (ticket) {
+      this.opened.set(ticket);
+      this.form.reset({ subject: '', priority: 'Medium', message: '' });
     }
   }
 }

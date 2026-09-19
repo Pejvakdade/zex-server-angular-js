@@ -1,4 +1,7 @@
-/* Hover dropdowns, copied from the reference's own .nav-drop rules. */
+/* Hover dropdowns, copied from the reference's own .nav-drop rules.
+ * Keyboard users get `.kb-open`, set from focusin/focusout in navbar.ts. Plain :focus-within was the
+ * old rule: a mouse click leaves focus on the clicked link, so one panel stayed open while hovering
+ * opened another. */
 .nav-drop {
   position: relative;
 }
@@ -8,7 +11,7 @@
 }
 
 .nav-drop:hover .nav-panel,
-.nav-drop:focus-within .nav-panel {
+.nav-drop.kb-open .nav-panel {
   display: block;
 }
 

@@ -1,69 +1,45 @@
 @if (content(); as c) {
-  <!-- hero -->
+  <!-- hero: the product-page hero pattern, so About sits visually beside the product pages -->
   <section
     style="
-      background: linear-gradient(180deg, #f6f7fe 0%, #fff 100%);
-      padding: 0 0 44px;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(120deg, #f4f6ff 0%, #eef1fe 60%, #e6ecfc 100%);
+      padding: 64px;
       font-family: var(--zx-font);
     "
   >
-    <div
-      style="
-        position: absolute;
-        width: 420px;
-        height: 420px;
-        background: radial-gradient(circle, rgba(18, 105, 232, 0.12), transparent 70%);
-        top: -160px;
-        right: -80px;
-        border-radius: 50%;
-        pointer-events: none;
-      "
-    ></div>
-    <div
-      style="
-        position: absolute;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(124, 58, 237, 0.08), transparent 70%);
-        bottom: -120px;
-        left: 5%;
-        border-radius: 50%;
-        pointer-events: none;
-      "
-    ></div>
-    <div style="position: relative; text-align: left; padding: 64px 56px; max-width: 760px">
-      <div
-        style="
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: #eef0fe;
-          color: #1269e8;
-          font-weight: 700;
-          font-size: 12.5px;
-          padding: 6px 14px;
-          border-radius: 20px;
-          margin-bottom: 22px;
-        "
-      >
-        &#9679; ABOUT US
+    <div style="max-width: 1520px; margin: 0 auto">
+      <div style="max-width: 760px">
+        <div
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef0fe;
+            color: #1269e8;
+            font-weight: 700;
+            font-size: 12.5px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 22px;
+          "
+        >
+          &#9679; ABOUT US
+        </div>
+        <h1
+          style="
+            font-size: 52px;
+            line-height: 1.12;
+            font-weight: 800;
+            margin: 0 0 18px;
+            color: #161629;
+          "
+        >
+          {{ c.heroHeading }}
+        </h1>
+        <p style="font-size: 17.5px; color: #4a5175; line-height: 1.6; max-width: 600px; margin: 0">
+          {{ c.heroSubheading }}
+        </p>
       </div>
-      <h1
-        style="
-          font-size: 52px;
-          line-height: 1.12;
-          font-weight: 800;
-          margin: 0 0 18px;
-          color: #161629;
-        "
-      >
-        {{ c.heroHeading }}
-      </h1>
-      <p style="font-size: 17.5px; color: #4a5175; line-height: 1.6; max-width: 600px; margin: 0">
-        {{ c.heroSubheading }}
-      </p>
     </div>
   </section>
 

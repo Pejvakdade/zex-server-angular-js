@@ -1,0 +1,185 @@
+/* Values are the reference's inline styles, lifted into classes so the active/idle tab swap is a toggle. */
+.zx-plans {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.zx-plan-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.zx-plan-tab-wrap {
+  position: relative;
+}
+
+.zx-plan-popular {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #1269e8, #7c3aed);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.zx-plan-tab {
+  width: 100%;
+  padding: 13px 10px;
+  border-radius: 12px;
+  border: 1.5px solid #eef0fa;
+  background: #fff;
+  color: #161629;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14.5px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
+}
+
+.zx-plan-tab--active {
+  border: 2px solid #1269e8;
+  background: linear-gradient(135deg, #1269e8, #7c3aed);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgba(18, 105, 232, 0.28);
+}
+
+.zx-plan-card {
+  border: 1px solid #eef0fa;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 10px 32px rgba(30, 20, 90, 0.06);
+  padding: 32px;
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(0, 1.4fr);
+  gap: 36px;
+  align-items: start;
+}
+
+.zx-plan-summary {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.zx-plan-icon {
+  width: 104px;
+  height: 104px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zx-plan-size {
+  font-size: 30px;
+  font-weight: 800;
+  color: #0b1f5c;
+  line-height: 1.1;
+}
+
+.zx-plan-product {
+  font-weight: 700;
+  font-size: 15px;
+  color: #161629;
+  margin: 2px 0 8px;
+}
+
+.zx-plan-blurb {
+  font-size: 13px;
+  color: #8386ac;
+  line-height: 1.5;
+  max-width: 210px;
+}
+
+.zx-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 18px 0;
+}
+
+.zx-plan-price-value {
+  font-size: 34px;
+  font-weight: 800;
+  color: #1269e8;
+}
+
+.zx-plan-price-unit {
+  font-size: 13px;
+  color: #8386ac;
+}
+
+.zx-plan-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1269e8, #7c3aed);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 10px 24px rgba(18, 105, 232, 0.28);
+  white-space: nowrap;
+}
+
+.zx-plan-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px 32px;
+}
+
+.zx-plan-column {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.zx-plan-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #3a3d5c;
+}
+
+.zx-plan-check {
+  color: #7c3aed;
+  font-weight: 800;
+}
+
+.zx-plan-empty {
+  text-align: center;
+  color: #8386ac;
+  font-size: 14px;
+  padding: 28px 0;
+}
+
+@media (max-width: 900px) {
+  .zx-plan-card {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .zx-plan-summary {
+    flex-direction: column;
+  }
+  .zx-plan-features {
+    grid-template-columns: 1fr;
+  }
+}

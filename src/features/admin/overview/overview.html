@@ -1,5 +1,5 @@
 <div>
-  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px">
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px">
     <div
       style="
         background: #fff;
@@ -87,37 +87,6 @@
         Waiting on a reply &rarr;
       </a>
     </div>
-    <div
-      style="
-        background: #fff;
-        border: 1px solid #eef0fa;
-        border-radius: 16px;
-        padding: 22px 24px;
-        box-shadow: 0 4px 14px rgba(30, 20, 90, 0.04);
-      "
-    >
-      <div
-        style="
-          font-size: 12px;
-          color: #8386ac;
-          font-weight: 700;
-          letter-spacing: 0.3px;
-          text-transform: uppercase;
-          margin-bottom: 8px;
-        "
-      >
-        New messages
-      </div>
-      <div
-        style="font-size: 28px; font-weight: 800"
-        [style.color]="(store.stats()?.newMessages ?? 0) > 0 ? '#DC2626' : '#161629'"
-      >
-        {{ metric(store.stats()?.newMessages) }}
-      </div>
-      <div style="font-size: 13px; color: #5b5e80; margin-top: 6px">
-        Unread contact-form submissions
-      </div>
-    </div>
   </div>
 
   <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px">
@@ -180,43 +149,4 @@
     </a>
   </div>
 
-  <div style="border-top: 1px solid #eef0fa; margin-bottom: 26px"></div>
-  <h2 style="font-size: 20px; font-weight: 800; color: #161629; margin: 0 0 16px">
-    Recent messages
-  </h2>
-  <table style="border-collapse: collapse; width: 100%">
-    <thead>
-      <tr>
-        <th [style]="ui.thead">From</th>
-        <th [style]="ui.thead">Subject</th>
-        <th [style]="ui.thead">Status</th>
-        <th [style]="ui.thead">When</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (m of store.recentMessages(); track m._id) {
-        <tr>
-          <td [style]="ui.td">
-            {{ m.name }} <span style="color: #8386ac">&middot; {{ m.email }}</span>
-          </td>
-          <td [style]="ui.td">{{ m.subject }}</td>
-          <td [style]="ui.td">
-            <span
-              [style]="
-                pill(m.status === 'New' ? 'blue' : m.status === 'Read' ? 'green' : 'neutral')
-              "
-              >{{ m.status }}</span
-            >
-          </td>
-          <td [style]="ui.tdMuted">{{ m.createdAt | date: 'MMM d, HH:mm' }}</td>
-        </tr>
-      } @empty {
-        <tr>
-          <td colspan="4" [style]="ui.tdMuted" style="text-align: center; padding: 28px">
-            {{ store.loading() ? 'Loading…' : 'No contact messages yet.' }}
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
 </div>

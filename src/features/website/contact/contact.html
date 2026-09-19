@@ -79,7 +79,7 @@
                 margin: 0 auto 12px;
               "
             >
-              {{ channelGlyph(channel.icon) }}
+              <zx-line-icon [icon]="channelEmoji(channel.icon)" [size]="24" />
             </div>
             <div style="font-weight: 700; font-size: 15px; margin-bottom: 4px">
               {{ channel.label }}
@@ -88,11 +88,15 @@
               {{ channel.description }}
             </div>
             @if (channelHref(channel); as href) {
-              <a [href]="href" style="font-weight: 700; font-size: 13.5px">{{ channel.value }}</a>
+              <a
+                [href]="href"
+                target="_blank"
+                rel="noopener"
+                style="font-weight: 700; font-size: 13.5px"
+                >{{ channel.value }}</a
+              >
             } @else {
-              <a [routerLink]="routes.Support" style="font-weight: 700; font-size: 13.5px">{{
-                channel.value
-              }}</a>
+              <a href="#ticket" style="font-weight: 700; font-size: 13.5px">{{ channel.value }}</a>
             }
           </div>
         }
@@ -100,8 +104,9 @@
     </section>
   }
 
-  <!-- form + business details -->
-  <section style="padding: 46px 64px 10px">
+  <!-- ticket form + business details (the reference's generic message form is intentionally
+       absent — see contact.ts) -->
+  <section id="ticket" style="padding: 46px 64px 10px">
     <div
       class="zx-contact-grid"
       style="
@@ -115,13 +120,45 @@
     >
       <div style="border: 1px solid #eef0fa; border-radius: 18px; padding: 30px">
         <h2 style="font-size: 22px; font-weight: 800; color: #161629; margin: 0 0 6px">
-          Send us a message
+          Open a Support Ticket
         </h2>
         <p style="font-size: 13.5px; color: #8386ac; margin: 0 0 22px">
-          We usually reply within a few hours during business hours.
+          We'll track this and follow up by email.
         </p>
 
-        @if (sent()) {
+        @if (!auth.isAuthenticated()) {
+          <p style="font-size: 14px; color: #3a3d5c; line-height: 1.6; margin: 0 0 18px">
+            Tickets are tied to your account so we can follow up on your services. Log in to open
+            one, or create an account in a minute.
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap">
+            <a
+              [routerLink]="routes.Login"
+              style="
+                padding: 13px 24px;
+                border-radius: 10px;
+                background: linear-gradient(135deg, #1269e8, #7c3aed);
+                color: #fff;
+                font-weight: 700;
+                font-size: 14px;
+                box-shadow: 0 10px 24px rgba(18, 105, 232, 0.28);
+              "
+              >Log in &rarr;</a
+            >
+            <a
+              [routerLink]="routes.GetStarted"
+              style="
+                padding: 13px 24px;
+                border-radius: 10px;
+                border: 1.5px solid #e0e3f5;
+                color: #161629;
+                font-weight: 700;
+                font-size: 14px;
+              "
+              >Create an account</a
+            >
+          </div>
+        } @else if (opened(); as ticket) {
           <p
             style="
               background: #eaf6ec;
@@ -130,138 +167,96 @@
               font-weight: 600;
               padding: 14px 16px;
               border-radius: 12px;
-              margin: 0;
+              margin: 0 0 14px;
             "
             role="status"
           >
-            Thanks — your message is with us. We'll reply to the address you gave.
+            Ticket #{{ ticket.number }} opened — we'll follow up by email.
           </p>
+          <div style="display: flex; gap: 16px; align-items: center">
+            <a
+              [routerLink]="routes.AccountTicket(ticket._id)"
+              style="font-weight: 700; font-size: 13.5px"
+              >View ticket &rarr;</a
+            >
+            <button
+              type="button"
+              (click)="opened.set(null)"
+              style="
+                background: none;
+                border: 0;
+                padding: 0;
+                color: #8386ac;
+                font: inherit;
+                font-size: 13.5px;
+                cursor: pointer;
+              "
+            >
+              Open another
+            </button>
+          </div>
         } @else {
           <form
             [formGroup]="form"
             (ngSubmit)="submit()"
+            novalidate
             style="display: flex; flex-direction: column; gap: 14px"
           >
-            <div
-              style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px"
-              class="zx-name-row"
-            >
-              <div>
-                <label
-                  for="name"
-                  style="
-                    font-size: 13px;
-                    font-weight: 600;
-                    color: #3a3d5c;
-                    display: block;
-                    margin-bottom: 7px;
-                  "
-                  >Name</label
-                >
-                <input
-                  id="name"
-                  formControlName="name"
-                  placeholder="Your full name"
-                  autocomplete="name"
-                  [style]="inputStyle"
-                />
-              </div>
-              <div>
-                <label
-                  for="email"
-                  style="
-                    font-size: 13px;
-                    font-weight: 600;
-                    color: #3a3d5c;
-                    display: block;
-                    margin-bottom: 7px;
-                  "
-                  >Email</label
-                >
-                <input
-                  id="email"
-                  type="email"
-                  formControlName="email"
-                  placeholder="you@company.com"
-                  autocomplete="email"
-                  [style]="inputStyle"
-                />
-              </div>
-            </div>
-            <div>
-              <label
-                for="subject"
-                style="
-                  font-size: 13px;
-                  font-weight: 600;
-                  color: #3a3d5c;
-                  display: block;
-                  margin-bottom: 7px;
-                "
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="ticket-subject" style="font-size: 13px; font-weight: 600; color: #3a3d5c"
                 >Subject</label
               >
               <input
-                id="subject"
+                id="ticket-subject"
+                type="text"
                 formControlName="subject"
-                placeholder="What's this about?"
+                placeholder="Briefly describe the issue"
                 [style]="inputStyle"
               />
             </div>
-            <div>
-              <label
-                for="message"
-                style="
-                  font-size: 13px;
-                  font-weight: 600;
-                  color: #3a3d5c;
-                  display: block;
-                  margin-bottom: 7px;
-                "
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="ticket-priority" style="font-size: 13px; font-weight: 600; color: #3a3d5c"
+                >Priority</label
+              >
+              <select id="ticket-priority" formControlName="priority" [style]="inputStyle">
+                @for (priority of priorities; track priority) {
+                  <option [value]="priority">{{ priority }}</option>
+                }
+              </select>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="ticket-message" style="font-size: 13px; font-weight: 600; color: #3a3d5c"
                 >Message</label
               >
               <textarea
-                id="message"
+                id="ticket-message"
+                rows="4"
                 formControlName="message"
-                rows="6"
-                placeholder="Tell us how we can help"
+                placeholder="Describe what's happening"
                 [style]="inputStyle"
               ></textarea>
             </div>
-
-            @if (error()) {
-              <p
-                style="
-                  background: #fee2e2;
-                  color: #dc2626;
-                  font-size: 13px;
-                  font-weight: 600;
-                  padding: 11px 14px;
-                  border-radius: 12px;
-                  margin: 0;
-                "
-                role="alert"
-              >
-                {{ error() }}
-              </p>
+            @if (validation() || tickets.error(); as error) {
+              <p style="color: #dc2626; font-size: 13px; margin: 0" role="alert">{{ error }}</p>
             }
-
             <button
               type="submit"
-              [disabled]="sending()"
+              [disabled]="tickets.saving()"
               style="
-                padding: 14px;
-                border: none;
-                border-radius: 12px;
+                text-align: center;
+                padding: 13px;
+                border-radius: 10px;
+                border: 0;
                 background: linear-gradient(135deg, #1269e8, #7c3aed);
                 color: #fff;
                 font-weight: 700;
-                font-size: 14.5px;
+                font-size: 14px;
                 font-family: inherit;
                 cursor: pointer;
-                box-shadow: 0 12px 26px rgba(18, 105, 232, 0.32);
+                box-shadow: 0 10px 24px rgba(18, 105, 232, 0.28);
               "
             >
-              {{ sending() ? 'Sending…' : 'Send Message' }}
+              {{ tickets.saving() ? 'Opening…' : 'Open Ticket →' }}
             </button>
           </form>
         }
@@ -281,63 +276,19 @@
           "
         >
           <div>
-            <div
-              style="
-                font-size: 11.5px;
-                font-weight: 700;
-                color: #8386ac;
-                text-transform: uppercase;
-                letter-spacing: 0.4px;
-                margin-bottom: 4px;
-              "
-            >
-              Company
-            </div>
+            <div class="zx-detail-label">Company</div>
             {{ c.businessName }}
           </div>
           <div>
-            <div
-              style="
-                font-size: 11.5px;
-                font-weight: 700;
-                color: #8386ac;
-                text-transform: uppercase;
-                letter-spacing: 0.4px;
-                margin-bottom: 4px;
-              "
-            >
-              Website
-            </div>
+            <div class="zx-detail-label">Website</div>
             {{ c.businessWebsite }}
           </div>
           <div>
-            <div
-              style="
-                font-size: 11.5px;
-                font-weight: 700;
-                color: #8386ac;
-                text-transform: uppercase;
-                letter-spacing: 0.4px;
-                margin-bottom: 4px;
-              "
-            >
-              Address
-            </div>
+            <div class="zx-detail-label">Address</div>
             <span style="white-space: pre-line">{{ c.businessAddress }}</span>
           </div>
           <div>
-            <div
-              style="
-                font-size: 11.5px;
-                font-weight: 700;
-                color: #8386ac;
-                text-transform: uppercase;
-                letter-spacing: 0.4px;
-                margin-bottom: 4px;
-              "
-            >
-              Sales hours
-            </div>
+            <div class="zx-detail-label">Sales hours</div>
             {{ c.salesHours }}
           </div>
         </div>
@@ -361,8 +312,13 @@
                   font-weight: 700;
                   font-size: 12px;
                 "
-                >{{ social.label }}</a
               >
+                @if (social.icon) {
+                  <zx-line-icon [icon]="social.icon" [size]="16" />
+                } @else {
+                  {{ social.label }}
+                }
+              </a>
             }
           </div>
         }

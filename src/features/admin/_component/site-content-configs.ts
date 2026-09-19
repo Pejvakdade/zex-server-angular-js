@@ -327,5 +327,12 @@ export const PRODUCT_CONFIG: PageEditorConfig = {
       fields: emojiLabel,
       display: (i) => ({ title: i['label'], subtitle: '', icon: i['icon'] }),
     },
+    {
+      key: 'includedFeatures',
+      heading: 'Plan card — included features (listed after each plan\'s own specs)',
+      singular: 'Feature',
+      fields: [{ key: 'label', label: 'Label', type: 'text', required: true }],
+      display: (i) => ({ title: i['label'], subtitle: '', icon: '' }),
+    },
   ],
 };

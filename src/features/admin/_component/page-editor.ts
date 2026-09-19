@@ -25,6 +25,7 @@ import {
   optionLabel,
   optionValue,
 } from './admin-ui';
+import { LineIcon } from '@src/shared/components/line-icon/line-icon';
 import { NavIcon } from './nav-icon';
 import { IconName } from './admin-nav';
 
@@ -32,7 +33,7 @@ type Item = Record<string, any>;
 
 @Component({
   selector: 'zx-page-editor',
-  imports: [FormsModule, DataTable, EntityModal, ConfirmDialog, NavIcon],
+  imports: [FormsModule, DataTable, EntityModal, ConfirmDialog, NavIcon, LineIcon],
   templateUrl: './page-editor.html',
 })
 export class PageEditor {

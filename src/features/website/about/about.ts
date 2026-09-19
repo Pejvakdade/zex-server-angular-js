@@ -4,9 +4,12 @@
  *
  * @note The stats strip is the interesting part. The reference hardcodes four figures — Founded
  *       2015, 5 Global Datacenters, 12,000+ Servers Deployed, 99.9% Network Uptime — and its own
- *       "5" contradicts the eight locations it lists elsewhere. Those fields are seeded empty, so
- *       each tile renders only once someone enters a real value. The datacenter count is the
- *       exception: it is a countable fact, so it comes from the stats API.
+ *       "5" contradicts the eight locations it lists elsewhere. Founded / servers / uptime are
+ *       site-content fields (seeded with the reference's figures, editable in admin; a blank one
+ *       hides its tile). The datacenter count is a countable fact, so it comes from the stats API.
+ *
+ *       The hero uses the product-page hero pattern rather than the reference's About-specific
+ *       fade-to-white one, so the two page families look like one site.
  */
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';

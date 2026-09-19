@@ -23,5 +23,7 @@ export interface Plan {
   priceStr: string;
   popular: boolean;
   location: string;
+  /** raw spec values keyed by field — the selector reads `storage` for hosting tab labels */
+  specs: Record<string, string>;
   featureList: Array<string>;
 }

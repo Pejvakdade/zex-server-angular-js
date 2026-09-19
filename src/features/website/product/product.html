@@ -107,10 +107,62 @@
     >
       @for (item of c.featureStrip; track item.title) {
         <div style="display: flex; align-items: center; gap: 13px; min-width: 190px">
-          <div style="font-size: 26px; line-height: 1; flex-shrink: 0">{{ item.icon }}</div>
+          <zx-line-icon [icon]="item.icon" [size]="30" />
           <div>
             <div style="font-weight: 700; font-size: 14.5px">{{ item.title }}</div>
             <div style="font-size: 12.5px; color: #8386ac">{{ item.subtitle }}</div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+} @else if (contentStore.loading()) {
+  <!-- skeleton hero + strip, sized to the real ones (440 / 147 px) so content landing doesn't jump -->
+  <section
+    aria-busy="true"
+    style="
+      background: linear-gradient(120deg, #f4f6ff 0%, #eef1fe 60%, #e6ecfc 100%);
+      padding: 64px;
+      min-height: 440px;
+      box-sizing: border-box;
+    "
+  >
+    <div style="max-width: 1520px; margin: 0 auto">
+      <div class="zx-skeleton" style="width: 150px; height: 27px; border-radius: 20px; margin-bottom: 16px"></div>
+      <div class="zx-skeleton" style="width: min(720px, 80%); height: 52px; margin-bottom: 14px"></div>
+      <div class="zx-skeleton" style="width: min(520px, 60%); height: 52px; margin-bottom: 28px"></div>
+      <div class="zx-skeleton" style="width: min(560px, 70%); height: 18px; margin-bottom: 10px"></div>
+      <div class="zx-skeleton" style="width: min(380px, 50%); height: 18px; margin-bottom: 27px"></div>
+      <div style="display: flex; gap: 14px">
+        <div class="zx-skeleton" style="width: 150px; height: 50px; border-radius: 10px"></div>
+        <div class="zx-skeleton" style="width: 170px; height: 50px; border-radius: 10px"></div>
+      </div>
+    </div>
+  </section>
+  <section style="padding: 0 64px; margin-top: -6px">
+    <div
+      style="
+        max-width: 1520px;
+        margin: 0 auto;
+        min-height: 147px;
+        box-sizing: border-box;
+        background: #fff;
+        border: 1px solid #eef0fa;
+        border-radius: 18px;
+        box-shadow: 0 10px 32px rgba(30, 20, 90, 0.06);
+        padding: 22px 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px 24px;
+        align-items: center;
+      "
+    >
+      @for (i of [0, 1, 2, 3, 4]; track i) {
+        <div style="display: flex; align-items: center; gap: 13px">
+          <div class="zx-skeleton" style="width: 30px; height: 30px; border-radius: 8px"></div>
+          <div style="flex: 1">
+            <div class="zx-skeleton" style="width: 70%; height: 14px; margin-bottom: 8px"></div>
+            <div class="zx-skeleton" style="width: 50%; height: 12px"></div>
           </div>
         </div>
       }
@@ -138,7 +190,12 @@
     Flexible plans for every business and application.
   </p>
 
-  <zx-plan-grid [plans]="plans()" [loading]="plansStore.loading()" />
+  <zx-plan-selector
+    [plans]="plans()"
+    [product]="product()"
+    [includedFeatures]="includedFeatures()"
+    [loading]="plansStore.loading()"
+  />
 </section>
 
 @if (content(); as c) {
@@ -175,7 +232,7 @@
           gap: 18px;
         "
       >
-        @for (item of c.whyChoose; track item.title) {
+        @for (item of c.whyChoose; track item.title; let i = $index) {
           <div
             class="zx-hover-card"
             style="
@@ -189,8 +246,8 @@
               box-shadow: 0 6px 20px rgba(18, 105, 232, 0.06);
             "
           >
-            <div style="font-size: 34px; line-height: 1; margin: 6px auto 14px">
-              {{ item.icon }}
+            <div style="display: flex; justify-content: center; margin: 6px auto 14px">
+              <zx-line-icon [icon]="item.icon" [size]="30" [color]="i % 2 ? '#7C3AED' : '#1269E8'" />
             </div>
             <div style="font-weight: 800; font-size: 14.5px; margin: 0 0 4px; color: #0b1f5c">
               {{ item.title }}
@@ -235,8 +292,8 @@
                   gap: 8px;
                 "
               >
-                <span style="font-size: 30px; line-height: 1">{{ item.icon }}</span
-                >{{ item.label }}
+                <zx-line-icon [icon]="item.icon" [size]="26" />
+                {{ item.label }}
               </div>
             }
           </div>
@@ -262,6 +319,9 @@
       <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 30px">
         Deploy in one of our premium datacenters.
       </p>
+      <div style="max-width: 1520px; margin: 0 auto 24px">
+        <zx-locations-map [locations]="locationsStore.locations()" />
+      </div>
       <div
         style="
           max-width: 1520px;

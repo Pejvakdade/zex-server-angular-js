@@ -82,7 +82,7 @@
       >
         @for (item of c.featureStrip; track item.title) {
           <div style="display: flex; align-items: center; gap: 13px; min-width: 190px">
-            <div style="font-size: 26px; line-height: 1; flex-shrink: 0">{{ item.icon }}</div>
+            <zx-line-icon [icon]="item.icon" [size]="30" />
             <div>
               <div style="font-weight: 700; font-size: 14.5px">{{ item.title }}</div>
               <div style="font-size: 12.5px; color: #8386ac">{{ item.subtitle }}</div>
@@ -301,7 +301,7 @@
           gap: 18px;
         "
       >
-        @for (item of c.whyChoose; track item.title) {
+        @for (item of c.whyChoose; track item.title; let i = $index) {
           <div
             class="zx-license-card"
             style="
@@ -313,8 +313,8 @@
               box-shadow: 0 6px 20px rgba(18, 105, 232, 0.06);
             "
           >
-            <div style="font-size: 34px; line-height: 1; margin: 6px auto 14px">
-              {{ item.icon }}
+            <div style="display: flex; justify-content: center; margin: 6px auto 14px">
+              <zx-line-icon [icon]="item.icon" [size]="30" [color]="i % 2 ? '#7C3AED' : '#1269E8'" />
             </div>
             <div style="font-weight: 800; font-size: 14.5px; margin: 0 0 4px; color: #0b1f5c">
               {{ item.title }}

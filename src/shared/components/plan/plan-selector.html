@@ -1,0 +1,86 @@
+<div class="zx-plans">
+  @if (plans().length) {
+    <div class="zx-plan-tabs" role="tablist">
+      @for (plan of plans(); track plan._id; let i = $index) {
+        <div class="zx-plan-tab-wrap">
+          @if (plan.popular) {
+            <div class="zx-plan-popular">MOST POPULAR</div>
+          }
+          <button
+            type="button"
+            role="tab"
+            class="zx-plan-tab"
+            [class.zx-plan-tab--active]="i === selected()"
+            [attr.aria-selected]="i === selected()"
+            (click)="select(i)"
+          >
+            {{ label(plan) }}
+          </button>
+        </div>
+      }
+    </div>
+
+    @if (current(); as plan) {
+      <div class="zx-plan-card">
+        <div class="zx-plan-summary">
+          <div class="zx-plan-icon">
+            <!-- three stacked isometric slabs, from the reference -->
+            <svg width="96" height="96" viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="zx-plan-top" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#8FB6FF" />
+                  <stop offset="1" stop-color="#5A8DF0" />
+                </linearGradient>
+                <linearGradient id="zx-plan-left" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#2E5FD0" />
+                  <stop offset="1" stop-color="#1B3C96" />
+                </linearGradient>
+                <linearGradient id="zx-plan-right" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#6D4BE0" />
+                  <stop offset="1" stop-color="#4326A8" />
+                </linearGradient>
+              </defs>
+              <g transform="translate(0,-36)">
+                @for (dy of [54, 30, 6]; track dy) {
+                  <g [attr.transform]="'translate(0,' + dy + ')'">
+                    <path d="M60 34 L104 58 L60 82 L16 58 Z" fill="url(#zx-plan-top)" />
+                    <path d="M16 58 L60 82 L60 96 L16 72 Z" fill="url(#zx-plan-left)" />
+                    <path d="M104 58 L104 72 L60 96 L60 82 Z" fill="url(#zx-plan-right)" />
+                    <circle cx="34" cy="72" r="2.6" fill="#9CE0FF" opacity="0.9" />
+                    <circle cx="42" cy="76.5" r="2.6" fill="#9CE0FF" opacity="0.9" />
+                  </g>
+                }
+              </g>
+            </svg>
+          </div>
+          <div>
+            <div class="zx-plan-size">{{ label(plan) }}</div>
+            <div class="zx-plan-product">{{ product() }}</div>
+            <div class="zx-plan-blurb">{{ plan.tagline }}</div>
+            <div class="zx-plan-price">
+              <span class="zx-plan-price-value">${{ plan.priceStr }}</span>
+              <span class="zx-plan-price-unit">/month</span>
+            </div>
+            <a [routerLink]="routes.GetStarted" class="zx-plan-cta">Choose This Plan &rarr;</a>
+          </div>
+        </div>
+
+        <div class="zx-plan-features">
+          @for (column of columns(); track $index) {
+            <div class="zx-plan-column">
+              @for (feature of column; track feature) {
+                <div class="zx-plan-feature"><span class="zx-plan-check">&#10003;</span>{{ feature }}</div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  } @else {
+    <!-- The reference always had plans baked in, so it has no empty state. Say what is actually true
+         rather than rendering an empty block that looks like a broken page. -->
+    <p class="zx-plan-empty">
+      {{ loading() ? 'Loading plans…' : 'No plans are published for this product yet.' }}
+    </p>
+  }
+</div>

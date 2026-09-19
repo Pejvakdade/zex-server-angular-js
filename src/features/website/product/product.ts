@@ -13,14 +13,17 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import appRoutes from '@src/common/appRoutes';
+import { LocationsStore } from '@src/store/website/locations.store';
 import { PlansStore } from '@src/store/website/plans.store';
 import { ProductContentStore } from '@src/store/website/product-content.store';
-import { PlanGrid } from '@src/shared/components/plan/plan-grid';
+import { LineIcon } from '@src/shared/components/line-icon/line-icon';
+import { LocationsMap } from '@src/shared/components/locations-map/locations-map';
+import { PlanSelector } from '@src/shared/components/plan/plan-selector';
 import { PlanProduct } from '@src/shared/components/plan/plan.model';
 
 @Component({
   selector: 'zx-product',
-  imports: [PlanGrid, RouterLink],
+  imports: [PlanSelector, RouterLink, LocationsMap, LineIcon],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })
@@ -29,6 +32,8 @@ export class Product {
 
   protected readonly plansStore = inject(PlansStore);
   protected readonly contentStore = inject(ProductContentStore);
+  /** the full fleet for the map — productContent.locations carries copy per product but no coordinates */
+  protected readonly locationsStore = inject(LocationsStore);
   protected readonly routes = appRoutes;
 
   /**
@@ -41,6 +46,10 @@ export class Product {
   );
   protected readonly plans = computed(() => this.plansStore.forProduct()(this.product()));
   protected readonly content = computed(() => this.contentStore.forProduct()(this.product()));
+  /** the plan card's extra bullets, as plain strings */
+  protected readonly includedFeatures = computed(
+    () => this.content()?.includedFeatures?.map((item) => item.label) ?? [],
+  );
 
   /** The two icon grids are structurally identical, so the template renders them from one loop. */
   protected readonly grids = computed(() => {
@@ -54,6 +63,7 @@ export class Product {
   });
 
   constructor() {
+    void this.locationsStore.load();
     this.route.data
       .pipe(takeUntilDestroyed())
       .subscribe((data) => this.product.set(data['product'] as PlanProduct));

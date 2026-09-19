@@ -1,0 +1,32 @@
+/* Matches the reference's iframe frame: white card, soft border, rounded, drop shadow. */
+.zx-map-card {
+  border: 1px solid #eef0fa;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 32px rgba(30, 20, 90, 0.06);
+}
+
+.zx-map-card svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Sized in viewBox units, so labels shrink with the map but stay above the dots on phones. */
+.zx-map-label {
+  font-family: var(--zx-font, Inter, system-ui, sans-serif);
+  font-weight: 700;
+  font-size: 15px;
+  fill: #0b1f5c;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 660px) {
+  .zx-map-label {
+    font-size: 22px;
+  }
+}
