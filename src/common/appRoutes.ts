@@ -52,6 +52,7 @@ export const appRoutes = {
   AccountTickets: '/account/tickets',
   AccountTicket: (id: string) => `/account/tickets/${id}`,
   AccountProfile: '/account/profile',
+  AccountOrder: (planId: string) => `/account/order/${planId}`,
 } as const;
 
 export default appRoutes;

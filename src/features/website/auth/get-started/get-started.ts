@@ -4,9 +4,10 @@
  */
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
+import { readReturnUrl } from '@src/lib/returnUrl';
 import { AuthStore } from '@src/store/website/auth.store';
 import { FleetStatsStore, PLACEHOLDER } from '@src/store/website/fleet-stats.store';
 
@@ -19,11 +20,15 @@ import { FleetStatsStore, PLACEHOLDER } from '@src/store/website/fleet-stats.sto
 export class GetStarted implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly store = inject(AuthStore);
   protected readonly stats = inject(FleetStatsStore);
   protected readonly routes = appRoutes;
   protected readonly showPw = signal(false);
+
+  /** Where the new customer lands after signing up — e.g. the order page they came from. */
+  protected readonly returnUrl = readReturnUrl(this.route);
 
   /** No figures in these three - they are product claims, so they stay as copy. */
   protected readonly highlights = computed(() => [
@@ -60,7 +65,7 @@ export class GetStarted implements OnInit {
     const { fullName, email, password } = this.form.getRawValue();
 
     if (await this.store.signUp(fullName, email, password)) {
-      await this.router.navigateByUrl(appRoutes.Account);
+      await this.router.navigateByUrl(this.returnUrl ?? appRoutes.Account);
     }
   }
 }

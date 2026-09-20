@@ -13,6 +13,7 @@ import { RouterLink } from '@angular/router';
 import { UpperCasePipe } from '@angular/common';
 
 import appRoutes from '@src/common/appRoutes';
+import { LicenseCard } from '@src/shared/components/license/license-card';
 import { LineIcon } from '@src/shared/components/line-icon/line-icon';
 import { License, LicensesStore } from '@src/store/website/licenses.store';
 import { ProductContentStore } from '@src/store/website/product-content.store';
@@ -21,7 +22,7 @@ const PRODUCT = 'Software Licenses';
 
 @Component({
   selector: 'zx-licenses',
-  imports: [RouterLink, UpperCasePipe, LineIcon],
+  imports: [RouterLink, UpperCasePipe, LineIcon, LicenseCard],
   templateUrl: './licenses.html',
   styleUrl: './licenses.css',
 })
@@ -50,11 +51,5 @@ export class Licenses {
       next.has(license._id) ? next.delete(license._id) : next.add(license._id);
       return next;
     });
-  }
-
-  /** First month including the one-off install fee, when the visitor has opted in. */
-  protected total(license: License): string {
-    const total = this.isInstalling(license) ? license.price + license.installFee : license.price;
-    return total.toFixed(2);
   }
 }

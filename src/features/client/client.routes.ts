@@ -37,6 +37,11 @@ export const clientRoutes: Routes = [
         loadComponent: () => import('./tickets/ticket-detail').then((m) => m.TicketDetail),
       },
       {
+        path: 'order/:planId',
+        data: { section: CLIENT_TITLES.order },
+        loadComponent: () => import('./order/order-confirm').then((m) => m.OrderConfirm),
+      },
+      {
         path: 'profile',
         data: { section: CLIENT_TITLES.profile },
         loadComponent: () => import('./profile/profile').then((m) => m.Profile),

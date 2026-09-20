@@ -61,7 +61,11 @@
               <span class="zx-plan-price-value">${{ plan.priceStr }}</span>
               <span class="zx-plan-price-unit">/month</span>
             </div>
-            <a [routerLink]="routes.GetStarted" class="zx-plan-cta">Choose This Plan &rarr;</a>
+            @if (store.isStaff()) {
+              <span class="zx-plan-cta" style="opacity: 0.55; cursor: not-allowed" title="Staff provision services from the admin dashboard">Choose This Plan &rarr;</span>
+            } @else {
+              <a [routerLink]="orderLink(plan)" [queryParams]="orderParams(plan)" class="zx-plan-cta">Choose This Plan &rarr;</a>
+            }
           </div>
         </div>
 

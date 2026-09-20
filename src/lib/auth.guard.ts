@@ -6,6 +6,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
+import { safeReturnUrl } from '@src/lib/returnUrl';
+
 import appRoutes from '@src/common/appRoutes';
 import { AuthStore } from '@src/store/website/auth.store';
 
@@ -46,13 +48,17 @@ export const clientGuard: CanActivateFn = async () => {
 };
 
 /** Keeps an already-signed-in user off the login and sign-up pages. */
-export const guestGuard: CanActivateFn = async () => {
+export const guestGuard: CanActivateFn = async (route) => {
   const store = inject(AuthStore);
   const router = inject(Router);
 
   await store.restore();
 
   if (!store.isAuthenticated()) return true;
+
+  // An already-signed-in customer following "Choose This Plan" should still reach the order page.
+  const returnUrl = safeReturnUrl(route.queryParamMap.get('returnUrl'));
+  if (returnUrl && !store.isStaff()) return router.parseUrl(returnUrl);
 
   return router.createUrlTree([store.isStaff() ? appRoutes.AdminDashboard : appRoutes.Account]);
 };

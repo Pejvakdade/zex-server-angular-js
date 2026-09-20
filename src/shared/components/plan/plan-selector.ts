@@ -8,10 +8,11 @@
  *       by the product's `includedFeatures` from productContent — the extras the reference hardcoded
  *       per page ("Free SSL Certificate", "LiteSpeed Web Server", …), now admin-editable.
  */
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
+import { AuthStore } from '@src/store/website/auth.store';
 import { Plan, PlanProduct } from './plan.model';
 
 /** Hosting plans are picked by size, so their tab shows the storage figure rather than "1 GB Hosting". */
@@ -29,8 +30,12 @@ export class PlanSelector {
   readonly product = input.required<PlanProduct>();
   readonly includedFeatures = input<Array<string>>([]);
   readonly loading = input(false);
+  /** An add-on licence picked elsewhere on the page (Dedicated Servers' control-panel picker). */
+  readonly licenseId = input<string | null>(null);
+  readonly installLicense = input(false);
 
   protected readonly routes = appRoutes;
+  protected readonly store = inject(AuthStore);
 
   /** index into plans(); starts on the popular plan, else the first */
   protected readonly selected = signal(0);
@@ -57,6 +62,29 @@ export class PlanSelector {
     const half = Math.ceil(all.length / 2);
     return [all.slice(0, half), all.slice(half)];
   });
+
+  /**
+   * A signed-in customer goes straight to the confirmation page; a guest signs in first and is
+   * sent there afterwards via `returnUrl`. Staff never order for themselves (the CTA is inert).
+   */
+  protected orderLink(plan: Plan): string {
+    return this.store.isAuthenticated() ? appRoutes.AccountOrder(plan._id) : appRoutes.Login;
+  }
+
+  protected orderParams(plan: Plan): Record<string, string> | null {
+    const addOn = this.addOnParams();
+    if (this.store.isAuthenticated()) return addOn;
+
+    // Guests carry the whole order URL — add-on included — through the login page.
+    const query = new URLSearchParams(addOn ?? {}).toString();
+    return { returnUrl: appRoutes.AccountOrder(plan._id) + (query ? `?${query}` : '') };
+  }
+
+  private addOnParams(): Record<string, string> | null {
+    const licenseId = this.licenseId();
+    if (!licenseId) return null;
+    return this.installLicense() ? { license: licenseId, install: '1' } : { license: licenseId };
+  }
 
   protected select(index: number): void {
     this.selected.set(index);

@@ -5,10 +5,11 @@
  */
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
 import { MetricPipe } from '@src/lib/metric.pipe';
+import { readReturnUrl } from '@src/lib/returnUrl';
 import { AuthStore } from '@src/store/website/auth.store';
 import { FleetStatsStore, PLACEHOLDER } from '@src/store/website/fleet-stats.store';
 
@@ -21,11 +22,15 @@ import { FleetStatsStore, PLACEHOLDER } from '@src/store/website/fleet-stats.sto
 export class Login implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly store = inject(AuthStore);
   protected readonly stats = inject(FleetStatsStore);
   protected readonly routes = appRoutes;
   protected readonly showPw = signal(false);
+
+  /** Where a customer lands after signing in — e.g. the order page they came from. */
+  protected readonly returnUrl = readReturnUrl(this.route);
 
   /**
    * The first two are contractual marketing claims, not measurements, so they stay as copy.
@@ -63,9 +68,9 @@ export class Login implements OnInit {
 
     if (!signedIn) return;
 
-    // Staff land in the dashboard; customers land in their panel.
+    // Staff land in the dashboard; customers land in their panel — or wherever they were headed.
     await this.router.navigateByUrl(
-      this.store.isStaff() ? appRoutes.AdminDashboard : appRoutes.Account,
+      this.store.isStaff() ? appRoutes.AdminDashboard : (this.returnUrl ?? appRoutes.Account),
     );
   }
 }

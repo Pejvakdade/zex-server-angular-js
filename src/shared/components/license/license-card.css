@@ -1,0 +1,37 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eef0fa;
+  border-radius: 16px;
+  padding: 22px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(18, 105, 232, 0.05);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+:host:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 34px rgba(18, 105, 232, 0.14);
+  border-color: #1269e8;
+}
+
+:host(.selectable) {
+  cursor: pointer;
+}
+
+/* The picked panel — the blue outline from the reference screenshot. */
+:host(.selected) {
+  border-color: #1269e8;
+  box-shadow:
+    0 0 0 1px #1269e8,
+    0 16px 34px rgba(18, 105, 232, 0.14);
+}
+
+/* The reference highlights the row when the install option is ticked. */
+.install-toggle:has(input:checked) {
+  border-color: #1269e8 !important;
+  background: #eef0fe !important;
+}

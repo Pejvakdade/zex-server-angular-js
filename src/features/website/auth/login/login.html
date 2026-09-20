@@ -250,7 +250,7 @@
 
         <div style="text-align: center; font-size: 13px; color: #5b5e80; margin-top: 24px">
           New to ZexServer?
-          <a [routerLink]="routes.GetStarted" style="font-weight: 700">Create an account</a>
+          <a [routerLink]="routes.GetStarted" [queryParams]="returnUrl ? { returnUrl } : null" style="font-weight: 700">Create an account</a>
         </div>
       </div>
 

@@ -44,6 +44,8 @@ export const apiRoutes = {
   invoiceMe: 'invoice/me',
   invoiceById: (id: string) => `invoice/${id}`,
   invoicePay: (id: string) => `invoice/${id}/pay`,
+  /** Customer self-service: order a plan (service + first invoice). */
+  order: 'order',
   ticket: 'ticket',
   ticketMe: 'ticket/me',
   ticketById: (id: string) => `ticket/${id}`,

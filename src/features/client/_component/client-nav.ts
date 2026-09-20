@@ -19,4 +19,5 @@ export const CLIENT_TITLES = {
   tickets: { title: 'Tickets', subtitle: 'Your conversations with our support team.' },
   ticket: { title: 'Ticket', subtitle: '' },
   profile: { title: 'Profile', subtitle: 'Your account details and password.' },
+  order: { title: 'Confirm Order', subtitle: 'Review the plan and place your order.' },
 } as const satisfies Record<string, SectionTitle>;
