@@ -102,6 +102,128 @@ export const ICON_PATHS = {
     ['path', { d: 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20' }],
     ['path', { d: 'M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z' }],
   ],
+  // ---- extra content-item icons (site-page editors), feather-style like the ones above --------------------------
+  database: [
+    ['path', { d: 'M12 3c5 0 8 1.3 8 3s-3 3-8 3-8-1.3-8-3 3-3 8-3z' }],
+    ['path', { d: 'M4 6v6c0 1.7 3 3 8 3s8-1.3 8-3V6' }],
+    ['path', { d: 'M4 12v6c0 1.7 3 3 8 3s8-1.3 8-3v-6' }],
+  ],
+  cloud: [['path', { d: 'M18 18H7a4 4 0 0 1-.6-7.95A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9z' }]],
+  cpu: [
+    ['rect', { x: 5, y: 5, width: 14, height: 14, rx: 2 }],
+    ['rect', { x: 9, y: 9, width: 6, height: 6, rx: 1 }],
+    ['path', { d: 'M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3' }],
+  ],
+  harddrive: [
+    ['rect', { x: 2, y: 8, width: 20, height: 10, rx: 2 }],
+    ['path', { d: 'M4.5 8 7 3.5h10L19.5 8' }],
+    ['line', { x1: 6, y1: 13, x2: 6.01, y2: 13 }],
+    ['line', { x1: 10, y1: 13, x2: 10.01, y2: 13 }],
+  ],
+  wifi: [
+    ['path', { d: 'M2.5 9.5a14 14 0 0 1 19 0' }],
+    ['path', { d: 'M6 13a9 9 0 0 1 12 0' }],
+    ['path', { d: 'M9.5 16.5a4 4 0 0 1 5 0' }],
+    ['line', { x1: 12, y1: 20, x2: 12.01, y2: 20 }],
+  ],
+  lock: [
+    ['rect', { x: 4, y: 11, width: 16, height: 10, rx: 2 }],
+    ['path', { d: 'M8 11V7a4 4 0 0 1 8 0v4' }],
+    ['line', { x1: 12, y1: 15, x2: 12, y2: 17 }],
+  ],
+  unlock: [
+    ['rect', { x: 4, y: 11, width: 16, height: 10, rx: 2 }],
+    ['path', { d: 'M8 11V7a4 4 0 0 1 7.7-1.5' }],
+    ['line', { x1: 12, y1: 15, x2: 12, y2: 17 }],
+  ],
+  terminal: [
+    ['rect', { x: 2, y: 4, width: 20, height: 16, rx: 2 }],
+    ['path', { d: 'M6 9l3 3-3 3' }],
+    ['line', { x1: 12, y1: 15, x2: 17, y2: 15 }],
+  ],
+  code: [
+    ['path', { d: 'M8 8l-4 4 4 4' }],
+    ['path', { d: 'M16 8l4 4-4 4' }],
+    ['line', { x1: 14, y1: 4, x2: 10, y2: 20 }],
+  ],
+  rocket: [
+    [
+      'path',
+      { d: 'M12 15c-2.5-.5-4-2-4.5-4.5C9 6 12 3.5 17.5 3c.5 0 1 .5 1 1-.5 5.5-3 8.5-7.5 10z' },
+    ],
+    ['path', { d: 'M8 11l-3.5 1.5 2 2M13 15.5l-1.5 3.5-2-2' }],
+    ['path', { d: 'M5.5 18.5 4 20' }],
+    ['circle', { cx: 14.5, cy: 8.5, r: 1.3 }],
+  ],
+  zap: [['path', { d: 'M13 2 4 14h7l-1 8 9-12h-7l1-8z' }]],
+  clock: [
+    ['circle', { cx: 12, cy: 12, r: 9 }],
+    ['path', { d: 'M12 7v5l3.5 2' }],
+  ],
+  refresh: [
+    ['path', { d: 'M20.5 11A8.5 8.5 0 0 0 5.6 6.4L3.5 8.5' }],
+    ['path', { d: 'M3.5 3.5v5h5' }],
+    ['path', { d: 'M3.5 13a8.5 8.5 0 0 0 14.9 4.6l2.1-2.1' }],
+    ['path', { d: 'M20.5 20.5v-5h-5' }],
+  ],
+  alert: [
+    [
+      'path',
+      { d: 'M10.3 4.5 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 4.5a2 2 0 0 0-3.4 0z' },
+    ],
+    ['line', { x1: 12, y1: 9, x2: 12, y2: 13 }],
+    ['line', { x1: 12, y1: 17, x2: 12.01, y2: 17 }],
+  ],
+  checkCircle: [
+    ['circle', { cx: 12, cy: 12, r: 9 }],
+    ['path', { d: 'M8.5 12.2l2.3 2.3 4.7-4.7' }],
+  ],
+  chat: [
+    ['path', { d: 'M21 12a8 8 0 0 1-8 8H8l-5 3 1.2-4.2A8 8 0 1 1 21 12z' }],
+    ['line', { x1: 8.5, y1: 10, x2: 15.5, y2: 10 }],
+    ['line', { x1: 8.5, y1: 13.5, x2: 13, y2: 13.5 }],
+  ],
+  fileText: [
+    ['path', { d: 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z' }],
+    ['path', { d: 'M14 3v5h5' }],
+    ['path', { d: 'M9 13h6M9 17h4' }],
+  ],
+  folder: [
+    ['path', { d: 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' }],
+  ],
+  dollar: [
+    ['line', { x1: 12, y1: 2.5, x2: 12, y2: 21.5 }],
+    [
+      'path',
+      {
+        d: 'M16.5 7.5A3.5 3.5 0 0 0 13 5h-2.5a3 3 0 0 0 0 6h3a3 3 0 0 1 0 6H11a3.5 3.5 0 0 1-3.5-2.5',
+      },
+    ],
+  ],
+  wrench: [
+    [
+      'path',
+      {
+        d: 'M14.5 3a5.5 5.5 0 0 0-4.9 8L3 17.6V21h3.4l6.6-6.6A5.5 5.5 0 0 0 20.5 6.5l-3 3-2.5-2.5 3-3A5.5 5.5 0 0 0 14.5 3z',
+      },
+    ],
+  ],
+  download: [
+    ['path', { d: 'M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3' }],
+    ['path', { d: 'M7.5 10.5 12 15l4.5-4.5' }],
+    ['line', { x1: 12, y1: 3, x2: 12, y2: 15 }],
+  ],
+  upload: [
+    ['path', { d: 'M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3' }],
+    ['path', { d: 'M7.5 7.5 12 3l4.5 4.5' }],
+    ['line', { x1: 12, y1: 3, x2: 12, y2: 15 }],
+  ],
+  activity: [['path', { d: 'M2.5 12h4l3-7 5 14 3-7h4' }]],
+  monitor: [
+    ['rect', { x: 2, y: 4, width: 20, height: 13, rx: 2 }],
+    ['line', { x1: 8, y1: 21, x2: 16, y2: 21 }],
+    ['line', { x1: 12, y1: 17, x2: 12, y2: 21 }],
+  ],
 } as const satisfies Record<
   string,
   ReadonlyArray<readonly [string, Record<string, string | number>]>
@@ -147,6 +269,7 @@ export const NAV_GROUPS: Array<NavGroup> = [
       { label: 'Footer', icon: 'grid', path: appRoutes.AdminSiteFooter },
       { label: 'Legal', icon: 'book', path: appRoutes.AdminSiteLegal },
       { label: 'Product Pages', icon: 'server', path: appRoutes.AdminSiteProductPages },
+      { label: 'Blog', icon: 'fileText', path: appRoutes.AdminBlog },
     ],
   },
   {
@@ -202,6 +325,8 @@ export const TITLES = {
       'Hero, feature strip, why-choose cards, FAQ, grids and locations for each product page.',
   },
   legal: { title: 'Legal', subtitle: 'Terms of Service and Privacy Policy shown across the site.' },
+  blog: { title: 'Blog', subtitle: 'Articles shown on the Blog page and the homepage slider.' },
+  blogEditor: { title: 'Write post', subtitle: 'Markdown body with a live preview; save as a draft or publish.' },
   staff: { title: 'Staff & Users', subtitle: 'Admin console accounts.' },
   settings: { title: 'Settings', subtitle: 'Your admin account.' },
 } as const satisfies Record<string, SectionTitle>;

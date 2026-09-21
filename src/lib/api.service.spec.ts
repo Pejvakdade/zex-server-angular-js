@@ -10,7 +10,9 @@ describe('ApiService', () => {
   let http: HttpTestingController;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
     api = TestBed.inject(ApiService);
     http = TestBed.inject(HttpTestingController);
   });
@@ -20,7 +22,9 @@ describe('ApiService', () => {
   it('unwraps the backend envelope and hands back only `result`', async () => {
     const pending = firstValueFrom(api.get<{ postgres: string }>('health'));
 
-    http.expectOne('health').flush({ result: { postgres: 'ok' }, message: 'OK', httpCode: 200, statusCode: 2000 });
+    http
+      .expectOne('health')
+      .flush({ result: { postgres: 'ok' }, message: 'OK', httpCode: 200, statusCode: 2000 });
 
     await expect(pending).resolves.toEqual({ postgres: 'ok' });
   });

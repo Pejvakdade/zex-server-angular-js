@@ -12,6 +12,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
 import { AuthStore } from '@src/store/website/auth.store';
+import { ThemeToggle } from '@src/shared/components/theme-toggle/theme-toggle';
 
 interface NavLink {
   label: string;
@@ -30,7 +31,7 @@ interface NavMenu {
 
 @Component({
   selector: 'zx-navbar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, ThemeToggle],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })

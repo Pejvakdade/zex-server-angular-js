@@ -1,13 +1,12 @@
 @if (content(); as c) {
   <!-- hero -->
   <section
+    class="zx-hero"
+    [class.zx-hero--image]="!!c.heroImage"
+    [style.background-image]="heroBackground()"
     style="
-      background: linear-gradient(180deg, #f6f7fe 0%, #fff 100%);
-      padding: 0 0 44px;
+      background: linear-gradient(180deg, var(--zx-bg-tint) 0%, var(--zx-bg) 100%);
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      font-family: var(--zx-font);
     "
   >
     <div
@@ -34,53 +33,47 @@
         pointer-events: none;
       "
     ></div>
-    <div
-      style="
-        position: relative;
-        text-align: center;
-        padding: 64px 56px;
-        max-width: 700px;
-        margin: 0 auto;
-      "
-    >
-      <div
-        style="
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: #eef0fe;
-          color: #1269e8;
-          font-weight: 700;
-          font-size: 12.5px;
-          padding: 6px 14px;
-          border-radius: 20px;
-          margin-bottom: 22px;
-        "
-      >
-        &#9679; SUPPORT
+    <div class="zx-hero__inner">
+      <div style="max-width: 700px; margin: 0 auto">
+        <div
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--zx-surface-active);
+            color: var(--zx-primary);
+            font-weight: 700;
+            font-size: 12.5px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 22px;
+          "
+        >
+          &#9679; SUPPORT
+        </div>
+        <h1
+          style="
+            font-size: 46px;
+            line-height: 1.15;
+            font-weight: 800;
+            margin: 0 0 18px;
+            color: var(--zx-ink);
+          "
+        >
+          {{ c.heroHeading }}
+        </h1>
+        <p
+          style="
+            font-size: 16.5px;
+            color: var(--zx-text-slate);
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 520px;
+          "
+        >
+          {{ c.heroSubheading }}
+        </p>
       </div>
-      <h1
-        style="
-          font-size: 46px;
-          line-height: 1.15;
-          font-weight: 800;
-          margin: 0 0 18px;
-          color: #161629;
-        "
-      >
-        {{ c.heroHeading }}
-      </h1>
-      <p
-        style="
-          font-size: 16.5px;
-          color: #4a5175;
-          line-height: 1.6;
-          margin: 0 auto;
-          max-width: 520px;
-        "
-      >
-        {{ c.heroSubheading }}
-      </p>
     </div>
   </section>
 
@@ -92,13 +85,13 @@
           text-align: center;
           font-size: 32px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 6px;
         "
       >
         Knowledge Base
       </h2>
-      <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 36px">
+      <p style="text-align: center; color: var(--zx-text-faint); font-size: 15px; margin: 0 0 36px">
         Find answers by category.
       </p>
       <div
@@ -114,14 +107,19 @@
         @for (category of c.kbCategories; track category.title) {
           <div
             class="zx-kb-card"
-            style="border: 1px solid #eef0fa; border-radius: 16px; padding: 26px; color: #161629"
+            style="
+              border: 1px solid var(--zx-border-soft);
+              border-radius: 16px;
+              padding: 26px;
+              color: var(--zx-ink);
+            "
           >
             <div
               style="
                 width: 44px;
                 height: 44px;
                 border-radius: 12px;
-                background: #eef0fe;
+                background: var(--zx-surface-active);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -145,7 +143,7 @@
             <div style="font-weight: 700; font-size: 16px; margin-bottom: 6px">
               {{ category.title }}
             </div>
-            <div style="font-size: 13.5px; color: #5b5e80; line-height: 1.6">
+            <div style="font-size: 13.5px; color: var(--zx-text-muted); line-height: 1.6">
               {{ category.description }}
             </div>
           </div>
@@ -162,7 +160,7 @@
           text-align: center;
           font-size: 32px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 30px;
         "
       >
@@ -174,7 +172,7 @@
         @for (faq of c.faqs; track faq.question) {
           <details
             name="faq"
-            style="border: 1px solid #eef0fa; border-radius: 12px; padding: 16px 18px"
+            style="border: 1px solid var(--zx-border-soft); border-radius: 12px; padding: 16px 18px"
           >
             <summary
               style="
@@ -187,7 +185,9 @@
             >
               {{ faq.question }} <span>&#9662;</span>
             </summary>
-            <p style="font-size: 13.5px; color: #5b5e80; margin: 10px 0 0">{{ faq.answer }}</p>
+            <p style="font-size: 13.5px; color: var(--zx-text-muted); margin: 10px 0 0">
+              {{ faq.answer }}
+            </p>
           </details>
         }
       </div>
@@ -225,10 +225,12 @@
         "
       ></div>
       <div style="position: relative; z-index: 1">
-        <div style="color: #fff; font-size: 26px; font-weight: 800; margin-bottom: 8px">
+        <div
+          style="color: var(--zx-on-accent); font-size: 26px; font-weight: 800; margin-bottom: 8px"
+        >
           Still Need Help?
         </div>
-        <div style="color: #b7b9e6; font-size: 14.5px">
+        <div style="color: var(--zx-outline-soft); font-size: 14.5px">
           Open a ticket or message our team directly.
         </div>
       </div>
@@ -238,8 +240,8 @@
           style="
             padding: 14px 26px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
-            color: #fff;
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+            color: var(--zx-on-accent);
             font-weight: 700;
             font-size: 14.5px;
             white-space: nowrap;
@@ -252,7 +254,7 @@
             padding: 14px 26px;
             border-radius: 10px;
             border: 1.5px solid rgba(255, 255, 255, 0.35);
-            color: #fff;
+            color: var(--zx-on-accent);
             font-weight: 700;
             font-size: 14.5px;
             white-space: nowrap;
@@ -262,4 +264,7 @@
       </div>
     </div>
   </section>
+} @else if (loading()) {
+  <zx-skeleton kind="hero" />
+  <zx-skeleton kind="cards" [count]="4" />
 }

@@ -51,7 +51,9 @@ describe('authInterceptor', () => {
 
   it('attaches the cookie token as a Bearer header, and nothing when signed out', () => {
     http.get('a').subscribe();
-    expect(backend.expectOne(`${environment.baseUrl}/a`).request.headers.has('Authorization')).toBe(false);
+    expect(backend.expectOne(`${environment.baseUrl}/a`).request.headers.has('Authorization')).toBe(
+      false,
+    );
 
     setCookie(TOKEN_COOKIE, 'jwt-123');
     http.get('b').subscribe();
@@ -65,7 +67,9 @@ describe('authInterceptor', () => {
     router.url = '/account/services';
 
     const pending = firstValueFrom(http.get('user/me'));
-    backend.expectOne(`${environment.baseUrl}/user/me`).flush({}, { status: 401, statusText: 'Unauthorized' });
+    backend
+      .expectOne(`${environment.baseUrl}/user/me`)
+      .flush({}, { status: 401, statusText: 'Unauthorized' });
 
     await expect(pending).rejects.toMatchObject({ status: 401 });
     expect(getCookie(TOKEN_COOKIE)).toBeNull();
@@ -76,7 +80,9 @@ describe('authInterceptor', () => {
     router.url = '/admin/customers';
 
     const pending = firstValueFrom(http.get('user'));
-    backend.expectOne(`${environment.baseUrl}/user`).flush({}, { status: 401, statusText: 'Unauthorized' });
+    backend
+      .expectOne(`${environment.baseUrl}/user`)
+      .flush({}, { status: 401, statusText: 'Unauthorized' });
 
     await expect(pending).rejects.toMatchObject({ status: 401 });
     expect(router.navigateByUrl).toHaveBeenCalledWith(appRoutes.AdminLogin);
@@ -84,7 +90,9 @@ describe('authInterceptor', () => {
 
   it('lets other errors through untouched', async () => {
     const pending = firstValueFrom(http.get('plan'));
-    backend.expectOne(`${environment.baseUrl}/plan`).flush({}, { status: 500, statusText: 'Server Error' });
+    backend
+      .expectOne(`${environment.baseUrl}/plan`)
+      .flush({}, { status: 500, statusText: 'Server Error' });
 
     await expect(pending).rejects.toMatchObject({ status: 500 });
     expect(router.navigateByUrl).not.toHaveBeenCalled();

@@ -1,19 +1,26 @@
 @if (content(); as c) {
   <!-- hero -->
   <section
+    class="zx-hero"
+    [class.zx-hero--image]="!!c.heroImage"
+    [style.background-image]="heroBackground()"
     style="
-      background: linear-gradient(120deg, #f4f6ff 0%, #eef1fe 60%, #e6ecfc 100%);
-      padding: 64px;
+      background: linear-gradient(
+        120deg,
+        var(--zx-hero-wash-1) 0%,
+        var(--zx-surface-active-2) 60%,
+        var(--zx-hero-wash-2) 100%
+      );
     "
   >
-    <div style="max-width: 1520px; margin: 0 auto">
+    <div class="zx-hero__inner">
       <div
         style="
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          background: #eef0fe;
-          color: #1269e8;
+          background: var(--zx-surface-active);
+          color: var(--zx-primary);
           font-weight: 700;
           font-size: 11.5px;
           padding: 5px 12px;
@@ -29,13 +36,13 @@
           line-height: 1.12;
           font-weight: 800;
           margin: 0 0 18px;
-          color: #161629;
+          color: var(--zx-ink);
         "
       >
         {{ c.heroHeading1 }}
         <span
           style="
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -46,7 +53,7 @@
       <p
         style="
           font-size: 16.5px;
-          color: #4a5175;
+          color: var(--zx-text-slate);
           max-width: 640px;
           margin: 0 0 26px;
           line-height: 1.6;
@@ -60,8 +67,8 @@
           style="
             padding: 14px 26px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
-            color: #fff;
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+            color: var(--zx-on-accent);
             font-weight: 700;
             font-size: 15px;
             box-shadow: 0 10px 24px rgba(18, 105, 232, 0.28);
@@ -78,7 +85,7 @@
             padding: 14px 26px;
             border-radius: 10px;
             border: 1.5px solid #c9d2e8;
-            color: #161629;
+            color: var(--zx-ink);
             font-weight: 600;
             font-size: 15px;
             white-space: nowrap;
@@ -95,8 +102,8 @@
       style="
         max-width: 1520px;
         margin: 0 auto;
-        background: #fff;
-        border: 1px solid #eef0fa;
+        background: var(--zx-bg);
+        border: 1px solid var(--zx-border-soft);
         border-radius: 18px;
         box-shadow: 0 10px 32px rgba(30, 20, 90, 0.06);
         padding: 22px 30px;
@@ -110,75 +117,32 @@
           <zx-line-icon [icon]="item.icon" [size]="30" />
           <div>
             <div style="font-weight: 700; font-size: 14.5px">{{ item.title }}</div>
-            <div style="font-size: 12.5px; color: #8386ac">{{ item.subtitle }}</div>
+            <div style="font-size: 12.5px; color: var(--zx-text-faint)">{{ item.subtitle }}</div>
           </div>
         </div>
       }
     </div>
   </section>
 } @else if (contentStore.loading()) {
-  <!-- skeleton hero + strip, sized to the real ones (440 / 147 px) so content landing doesn't jump -->
-  <section
-    aria-busy="true"
-    style="
-      background: linear-gradient(120deg, #f4f6ff 0%, #eef1fe 60%, #e6ecfc 100%);
-      padding: 64px;
-      min-height: 440px;
-      box-sizing: border-box;
-    "
-  >
-    <div style="max-width: 1520px; margin: 0 auto">
-      <div class="zx-skeleton" style="width: 150px; height: 27px; border-radius: 20px; margin-bottom: 16px"></div>
-      <div class="zx-skeleton" style="width: min(720px, 80%); height: 52px; margin-bottom: 14px"></div>
-      <div class="zx-skeleton" style="width: min(520px, 60%); height: 52px; margin-bottom: 28px"></div>
-      <div class="zx-skeleton" style="width: min(560px, 70%); height: 18px; margin-bottom: 10px"></div>
-      <div class="zx-skeleton" style="width: min(380px, 50%); height: 18px; margin-bottom: 27px"></div>
-      <div style="display: flex; gap: 14px">
-        <div class="zx-skeleton" style="width: 150px; height: 50px; border-radius: 10px"></div>
-        <div class="zx-skeleton" style="width: 170px; height: 50px; border-radius: 10px"></div>
-      </div>
-    </div>
-  </section>
-  <section style="padding: 0 64px; margin-top: -6px">
-    <div
-      style="
-        max-width: 1520px;
-        margin: 0 auto;
-        min-height: 147px;
-        box-sizing: border-box;
-        background: #fff;
-        border: 1px solid #eef0fa;
-        border-radius: 18px;
-        box-shadow: 0 10px 32px rgba(30, 20, 90, 0.06);
-        padding: 22px 30px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px 24px;
-        align-items: center;
-      "
-    >
-      @for (i of [0, 1, 2, 3, 4]; track i) {
-        <div style="display: flex; align-items: center; gap: 13px">
-          <div class="zx-skeleton" style="width: 30px; height: 30px; border-radius: 8px"></div>
-          <div style="flex: 1">
-            <div class="zx-skeleton" style="width: 70%; height: 14px; margin-bottom: 8px"></div>
-            <div class="zx-skeleton" style="width: 50%; height: 12px"></div>
-          </div>
-        </div>
-      }
-    </div>
-  </section>
+  <zx-skeleton kind="hero" />
+  <zx-skeleton kind="strip" />
 }
 
 <!-- pricing -->
 <section id="plans" style="padding: 56px 64px 10px">
   <h2
-    style="text-align: center; font-size: 32px; font-weight: 800; color: #161629; margin: 0 0 6px"
+    style="
+      text-align: center;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--zx-ink);
+      margin: 0 0 6px;
+    "
   >
     Choose Your
     <span
       style="
-        background: linear-gradient(135deg, #1269e8, #7c3aed);
+        background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -186,8 +150,27 @@
       >{{ product() }}</span
     >
   </h2>
-  <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 36px">
-    Flexible plans for every business and application.
+  <p style="text-align: center; color: var(--zx-text-faint); font-size: 15px; margin: 0 0 36px">
+    @if (selectedLocation(); as city) {
+      Showing plans in <strong style="color: var(--zx-primary-deep)">{{ city }}</strong> ·
+      <button
+        type="button"
+        (click)="selectLocation(null)"
+        style="
+          background: none;
+          border: 0;
+          padding: 0;
+          font: inherit;
+          color: var(--zx-primary);
+          font-weight: 600;
+          cursor: pointer;
+        "
+      >
+        Clear
+      </button>
+    } @else {
+      Flexible plans for every business and application.
+    }
   </p>
 
   <zx-plan-selector
@@ -197,6 +180,8 @@
     [loading]="plansStore.loading()"
     [licenseId]="selectedLicenseId()"
     [installLicense]="installLicense()"
+    [location]="selectedLocation()"
+    (clearLocation)="selectLocation(null)"
   />
 </section>
 
@@ -204,12 +189,18 @@
 @if (showPanelPicker()) {
   <section id="panels" style="padding: 56px 64px 10px">
     <h2
-      style="text-align: center; font-size: 32px; font-weight: 800; color: #161629; margin: 0 0 6px"
+      style="
+        text-align: center;
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--zx-ink);
+        margin: 0 0 6px;
+      "
     >
       Choose Your
       <span
         style="
-          background: linear-gradient(135deg, #1269e8, #7c3aed);
+          background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
@@ -217,7 +208,7 @@
         >Control Panel</span
       >
     </h2>
-    <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 12px">
+    <p style="text-align: center; color: var(--zx-text-faint); font-size: 15px; margin: 0 0 12px">
       Optional — pick the panel to ship with your server. Its licence is billed with the server.
     </p>
 
@@ -232,13 +223,14 @@
         gap: 12px;
         flex-wrap: wrap;
         font-size: 13.5px;
-        color: #3a3d5c;
+        color: var(--zx-text);
       "
     >
       @if (selectedLicense(); as license) {
         <span
-          >Selected: <strong style="color: #0b1f5c">{{ license.name }}</strong> ·
-          <strong>${{ license.priceStr }}</strong>/mo
+          >Selected: <strong style="color: var(--zx-primary-deep)">{{ license.name }}</strong> ·
+          <strong>${{ license.priceStr }}</strong
+          >/mo
           @if (installLicense()) {
             · <strong>+${{ license.installFeeStr }}</strong> install (one-off)
           }
@@ -251,16 +243,18 @@
             border-radius: 20px;
             font-size: 12.5px;
             font-weight: 600;
-            border: 1px solid #e0e3f5;
-            background: #fff;
-            color: #5b5e80;
+            border: 1px solid var(--zx-border);
+            background: var(--zx-bg);
+            color: var(--zx-text-muted);
             cursor: pointer;
           "
         >
           No control panel
         </button>
       } @else {
-        <span style="color: #8386ac">No control panel selected — the server ships bare.</span>
+        <span style="color: var(--zx-text-faint)"
+          >No control panel selected — the server ships bare.</span
+        >
       }
     </div>
 
@@ -270,14 +264,21 @@
           style="
             font-weight: 700;
             font-size: 13px;
-            color: #1269e8;
+            color: var(--zx-primary);
             letter-spacing: 0.4px;
             margin-bottom: 14px;
           "
         >
           {{ group.category | uppercase }}
         </div>
-        <div class="zx-panel-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+        <div
+          class="zx-panel-grid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+          "
+        >
           @for (license of group.items; track license._id) {
             <zx-license-card
               [license]="license"
@@ -295,8 +296,14 @@
                   font-weight: 700;
                   font-size: 13px;
                 "
-                [style.background]="selectedLicenseId() === license._id ? 'linear-gradient(135deg, #1269e8, #7c3aed)' : '#eef0fe'"
-                [style.color]="selectedLicenseId() === license._id ? '#fff' : '#1269e8'"
+                [style.background]="
+                  selectedLicenseId() === license._id
+                    ? 'linear-gradient(135deg, var(--zx-primary), var(--zx-violet))'
+                    : 'var(--zx-surface-active)'
+                "
+                [style.color]="
+                  selectedLicenseId() === license._id ? 'var(--zx-on-accent)' : 'var(--zx-primary)'
+                "
               >
                 {{ selectedLicenseId() === license._id ? 'Selected ✓' : 'Select this panel' }}
               </div>
@@ -305,7 +312,7 @@
         </div>
       </div>
     } @empty {
-      <p style="text-align: center; color: #8386ac; font-size: 14px; padding: 28px 0">
+      <p style="text-align: center; color: var(--zx-text-faint); font-size: 14px; padding: 28px 0">
         {{ licensesStore.loading() ? 'Loading panels…' : 'No control panels are published yet.' }}
       </p>
     }
@@ -321,14 +328,14 @@
           text-align: center;
           font-size: 32px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 6px;
         "
       >
         Why Choose
         <span
           style="
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -350,23 +357,34 @@
           <div
             class="zx-hover-card"
             style="
-              border: 1px solid #eef0fa;
+              border: 1px solid var(--zx-border-soft);
               border-radius: 18px;
               padding: 26px 22px;
               text-align: center;
               position: relative;
               overflow: hidden;
-              background: #fff;
+              background: var(--zx-bg);
               box-shadow: 0 6px 20px rgba(18, 105, 232, 0.06);
             "
           >
             <div style="display: flex; justify-content: center; margin: 6px auto 14px">
-              <zx-line-icon [icon]="item.icon" [size]="30" [color]="i % 2 ? '#7C3AED' : '#1269E8'" />
+              <zx-line-icon
+                [icon]="item.icon"
+                [size]="30"
+                [color]="i % 2 ? 'var(--zx-violet)' : 'var(--zx-primary)'"
+              />
             </div>
-            <div style="font-weight: 800; font-size: 14.5px; margin: 0 0 4px; color: #0b1f5c">
+            <div
+              style="
+                font-weight: 800;
+                font-size: 14.5px;
+                margin: 0 0 4px;
+                color: var(--zx-primary-deep);
+              "
+            >
               {{ item.title }}
             </div>
-            <div style="font-size: 12px; color: #8386ac">{{ item.subtitle }}</div>
+            <div style="font-size: 12px; color: var(--zx-text-faint)">{{ item.subtitle }}</div>
           </div>
         }
       </div>
@@ -385,16 +403,16 @@
       "
     >
       @for (grid of grids(); track grid.title) {
-        <div style="border: 1px solid #eef0fa; border-radius: 18px; padding: 26px">
+        <div style="border: 1px solid var(--zx-border-soft); border-radius: 18px; padding: 26px">
           <div style="font-weight: 700; font-size: 17px; margin-bottom: 4px">{{ grid.title }}</div>
-          <div style="font-size: 13px; color: #8386ac; margin-bottom: 18px">
+          <div style="font-size: 13px; color: var(--zx-text-faint); margin-bottom: 18px">
             {{ grid.subtitle }}
           </div>
           <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px">
             @for (item of grid.items; track item.label) {
               <div
                 style="
-                  border: 1px solid #eef0fa;
+                  border: 1px solid var(--zx-border-soft);
                   border-radius: 12px;
                   padding: 16px 8px;
                   text-align: center;
@@ -424,17 +442,21 @@
           text-align: center;
           font-size: 30px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 6px;
         "
       >
         Global Locations. Local Performance.
       </h2>
-      <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 30px">
-        Deploy in one of our premium datacenters.
+      <p style="text-align: center; color: var(--zx-text-faint); font-size: 15px; margin: 0 0 30px">
+        Deploy in one of our premium datacenters — pick a location to see its plans.
       </p>
       <div style="max-width: 1520px; margin: 0 auto 24px">
-        <zx-locations-map [locations]="locationsStore.locations()" />
+        <zx-locations-map
+          [locations]="locationsStore.locations()"
+          [selected]="selectedLocation()"
+          (select)="selectLocation($event)"
+        />
       </div>
       <div
         style="
@@ -447,33 +469,44 @@
       >
         @for (location of c.locations; track location.city) {
           <div
-            class="zx-hover-card"
+            class="zx-hover-card zx-location-card"
+            [class.zx-location-card--active]="selectedLocation() === location.city"
+            role="button"
+            tabindex="0"
+            [attr.aria-pressed]="selectedLocation() === location.city"
+            (click)="selectLocation(location.city)"
+            (keydown.enter)="selectLocation(location.city)"
+            (keydown.space)="selectLocation(location.city); $event.preventDefault()"
             style="
-              border: 1px solid #eef0fa;
+              border: 1px solid var(--zx-border-soft);
               border-radius: 16px;
               padding: 20px 22px;
-              background: #fff;
+              background: var(--zx-bg);
               box-shadow: 0 6px 20px rgba(18, 105, 232, 0.06);
+              cursor: pointer;
             "
           >
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px">
               <span style="font-size: 22px">{{ location.flag }}</span>
               <div>
-                <div style="font-weight: 800; font-size: 16px; color: #0b1f5c">
+                <div style="font-weight: 800; font-size: 16px; color: var(--zx-primary-deep)">
                   {{ location.city }}
                 </div>
-                <div style="font-size: 12.5px; color: #8386ac">{{ location.country }}</div>
+                <div style="font-size: 12.5px; color: var(--zx-text-faint)">
+                  {{ location.country }}
+                </div>
               </div>
             </div>
-            <div style="display: grid; gap: 7px; font-size: 13px; color: #4a5175">
+            <div style="display: grid; gap: 7px; font-size: 13px; color: var(--zx-text-slate)">
               <div style="display: flex; align-items: center; gap: 8px">
-                <span style="color: #1269e8; font-weight: 800">&#10003;</span>Low Latency
+                <span style="color: var(--zx-primary); font-weight: 800">&#10003;</span>Low Latency
               </div>
               <div style="display: flex; align-items: center; gap: 8px">
-                <span style="color: #1269e8; font-weight: 800">&#10003;</span>NVMe Storage
+                <span style="color: var(--zx-primary); font-weight: 800">&#10003;</span>NVMe Storage
               </div>
               <div style="display: flex; align-items: center; gap: 8px">
-                <span style="color: #1269e8; font-weight: 800">&#10003;</span>10Gbps Network
+                <span style="color: var(--zx-primary); font-weight: 800">&#10003;</span>10Gbps
+                Network
               </div>
             </div>
           </div>
@@ -490,7 +523,7 @@
           text-align: center;
           font-size: 32px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 30px;
         "
       >
@@ -502,7 +535,7 @@
         @for (item of c.faq; track item.question) {
           <details
             name="faq"
-            style="border: 1px solid #eef0fa; border-radius: 12px; padding: 16px 18px"
+            style="border: 1px solid var(--zx-border-soft); border-radius: 12px; padding: 16px 18px"
           >
             <summary
               style="
@@ -515,7 +548,9 @@
             >
               {{ item.question }} <span>&#9662;</span>
             </summary>
-            <p style="font-size: 13.5px; color: #5b5e80; margin: 10px 0 0">{{ item.answer }}</p>
+            <p style="font-size: 13.5px; color: var(--zx-text-muted); margin: 10px 0 0">
+              {{ item.answer }}
+            </p>
           </details>
         }
       </div>
@@ -553,10 +588,12 @@
         "
       ></div>
       <div style="position: relative; z-index: 1">
-        <div style="color: #fff; font-size: 26px; font-weight: 800; margin-bottom: 8px">
+        <div
+          style="color: var(--zx-on-accent); font-size: 26px; font-weight: 800; margin-bottom: 8px"
+        >
           {{ c.ctaHeading }}
         </div>
-        <div style="color: #b7b9e6; font-size: 14.5px">{{ c.ctaSubheading }}</div>
+        <div style="color: var(--zx-outline-soft); font-size: 14.5px">{{ c.ctaSubheading }}</div>
       </div>
       <div style="display: flex; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1">
         <a
@@ -564,8 +601,8 @@
           style="
             padding: 14px 26px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
-            color: #fff;
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+            color: var(--zx-on-accent);
             font-weight: 700;
             font-size: 14.5px;
             white-space: nowrap;
@@ -577,8 +614,8 @@
           style="
             padding: 14px 26px;
             border-radius: 10px;
-            background: #fff;
-            color: #161629;
+            background: var(--zx-bg);
+            color: var(--zx-ink);
             font-weight: 700;
             font-size: 14.5px;
             white-space: nowrap;

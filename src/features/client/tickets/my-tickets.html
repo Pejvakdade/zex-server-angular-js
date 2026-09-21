@@ -9,7 +9,9 @@
       margin-bottom: 20px;
     "
   >
-    <span style="font-size: 13px; color: #8386ac">{{ store.items().length }} tickets</span>
+    <span style="font-size: 13px; color: var(--zx-text-faint)"
+      >{{ store.items().length }} tickets</span
+    >
     <button type="button" (click)="openModal()" [style]="ui.addBtn">+ Open a ticket</button>
   </div>
 
@@ -17,9 +19,9 @@
     <div
       style="
         font-size: 13px;
-        color: #dc2626;
-        background: #fff6f6;
-        border: 1px solid #fbd5d5;
+        color: var(--zx-red-fg);
+        background: var(--zx-red-tint);
+        border: 1px solid var(--zx-red-border);
         border-radius: 10px;
         padding: 10px 12px;
         margin-bottom: 14px;
@@ -46,14 +48,21 @@
         "
       >
         <div style="min-width: 0">
-          <div style="font-size: 12px; color: #8386ac; font-weight: 700; margin-bottom: 4px">
+          <div
+            style="
+              font-size: 12px;
+              color: var(--zx-text-faint);
+              font-weight: 700;
+              margin-bottom: 4px;
+            "
+          >
             #{{ t.number }} · {{ ago(t.lastActivityAt) }}
           </div>
           <div
             style="
               font-size: 15px;
               font-weight: 700;
-              color: #161629;
+              color: var(--zx-ink);
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -68,7 +77,10 @@
         </div>
       </a>
     } @empty {
-      <div [style]="ui.card" style="text-align: center; color: #8386ac; font-size: 14px">
+      <div
+        [style]="ui.card"
+        style="text-align: center; color: var(--zx-text-faint); font-size: 14px"
+      >
         {{
           store.loading() ? 'Loading…' : 'No tickets yet — open one and we will get back to you.'
         }}

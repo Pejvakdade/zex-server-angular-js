@@ -16,6 +16,7 @@ import { AdminLocationsStore } from '@src/store/admin/admin-locations.store';
 import { ConfirmDialog } from './confirm-dialog';
 import { DataTable } from './data-table';
 import { EntityModal } from './entity-modal';
+import { ImageUpload } from './image-upload';
 import {
   FieldDef,
   ItemGroupConfig,
@@ -24,6 +25,7 @@ import {
   UI,
   optionLabel,
   optionValue,
+  BANNER_HINT,
 } from './admin-ui';
 import { LineIcon } from '@src/shared/components/line-icon/line-icon';
 import { NavIcon } from './nav-icon';
@@ -33,7 +35,7 @@ type Item = Record<string, any>;
 
 @Component({
   selector: 'zx-page-editor',
-  imports: [FormsModule, DataTable, EntityModal, ConfirmDialog, NavIcon, LineIcon],
+  imports: [FormsModule, DataTable, EntityModal, ConfirmDialog, NavIcon, LineIcon, ImageUpload],
   templateUrl: './page-editor.html',
 })
 export class PageEditor {
@@ -47,6 +49,7 @@ export class PageEditor {
   private readonly locations = inject(AdminLocationsStore);
 
   protected readonly ui = UI;
+  protected readonly bannerHint = BANNER_HINT;
   /** ngModel target for the scalar card; re-seeded whenever new content arrives. */
   protected draft: Record<string, any> = {};
 

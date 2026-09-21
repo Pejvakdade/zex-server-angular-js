@@ -1,0 +1,126 @@
+<section class="zx-blog-page" style="padding: 56px 64px 64px; font-family: var(--zx-font)">
+  <div style="max-width: 1520px; margin: 0 auto">
+    <div style="text-align: center; margin-bottom: 36px">
+      <div
+        style="
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: var(--zx-surface-active);
+          color: var(--zx-primary);
+          font-weight: 700;
+          font-size: 12.5px;
+          padding: 6px 14px;
+          border-radius: 20px;
+          margin-bottom: 18px;
+        "
+      >
+        &#9679; The ZexServer Blog
+      </div>
+      <h1
+        style="
+          font-size: 44px;
+          line-height: 1.12;
+          font-weight: 800;
+          margin: 0 0 12px;
+          color: var(--zx-ink);
+          letter-spacing: -0.5px;
+        "
+      >
+        Guides, updates &amp;
+        <span
+          style="
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+          "
+          >deep dives</span
+        >
+      </h1>
+      <p style="color: var(--zx-text-faint); font-size: 15.5px; margin: 0; max-width: 620px; margin-inline: auto">
+        Practical writing on servers, networks and running things in production — from the team that
+        runs the fleet.
+      </p>
+    </div>
+
+    <!-- filters -->
+    <div class="filters">
+      <div class="chips">
+        <button type="button" class="chip" [class.active]="store.tag() === null" (click)="pickTag(null)">
+          All
+        </button>
+        @for (tag of store.tags(); track tag) {
+          <button type="button" class="chip" [class.active]="store.tag() === tag" (click)="pickTag(tag)">
+            {{ tag }}
+          </button>
+        }
+      </div>
+      <form class="search" (submit)="submitSearch($event)" role="search">
+        <input
+          type="search"
+          [value]="searchDraft()"
+          (input)="onSearchInput($event)"
+          placeholder="Search posts…"
+          aria-label="Search posts"
+        />
+        @if (store.search()) {
+          <button type="button" class="clear" (click)="clearSearch()" aria-label="Clear search">&times;</button>
+        }
+      </form>
+    </div>
+
+    @if (store.error()) {
+      <div class="notice error">{{ store.error() }}</div>
+    }
+
+    <!-- grid -->
+    @if (store.loading() && !store.posts().length) {
+      <div class="grid" aria-busy="true">
+        @for (i of placeholders; track i) {
+          <div class="zx-skeleton" style="aspect-ratio: 4 / 5; border-radius: 16px"></div>
+        }
+      </div>
+    } @else if (store.posts().length) {
+      <div class="grid" [class.dim]="store.loading()">
+        @for (post of store.posts(); track post._id) {
+          <zx-blog-card [post]="post" />
+        }
+      </div>
+
+      @if (store.page().totalPages > 1) {
+        <nav class="pager" aria-label="Pages">
+          <button type="button" [disabled]="store.page().page <= 1" (click)="goTo(store.page().page - 1)">
+            &larr; Newer
+          </button>
+          <span>Page {{ store.page().page }} of {{ store.page().totalPages }}</span>
+          <button
+            type="button"
+            [disabled]="store.page().page >= store.page().totalPages"
+            (click)="goTo(store.page().page + 1)"
+          >
+            Older &rarr;
+          </button>
+        </nav>
+      }
+    } @else {
+      <div class="empty">
+        <div style="font-size: 34px; margin-bottom: 10px">&#9998;</div>
+        <div style="font-weight: 700; color: var(--zx-ink); margin-bottom: 6px">
+          @if (store.tag() || store.search()) {
+            Nothing matches that filter.
+          } @else {
+            No posts yet.
+          }
+        </div>
+        <div style="font-size: 13.5px; color: var(--zx-text-faint)">
+          @if (store.tag() || store.search()) {
+            Try another tag or clear the search.
+          } @else {
+            Check back soon — the first articles are on their way.
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>

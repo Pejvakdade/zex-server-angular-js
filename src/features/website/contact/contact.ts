@@ -16,11 +16,17 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
+import { heroBackground } from '@src/lib/assetUrl';
 import { LineIcon } from '@src/shared/components/line-icon/line-icon';
-import { TICKET_PRIORITIES, Ticket, TicketPriority } from '@src/shared/components/ticket/ticket.model';
+import {
+  TICKET_PRIORITIES,
+  Ticket,
+  TicketPriority,
+} from '@src/shared/components/ticket/ticket.model';
 import { AuthStore } from '@src/store/website/auth.store';
 import { MyTicketsStore } from '@src/store/website/my-tickets.store';
 import { SiteContentStore } from '@src/store/website/site-content.store';
+import { Skeleton } from '@src/shared/components/skeleton/skeleton';
 
 interface Channel {
   label: string;
@@ -32,6 +38,8 @@ interface Channel {
 interface ContactContent {
   heroHeading: string;
   heroSubheading: string;
+  /** Banner behind the hero text, uploaded from the dashboard (empty = gradient only). */
+  heroImage?: string;
   businessName: string;
   businessWebsite: string;
   businessAddress: string;
@@ -47,7 +55,7 @@ const CHANNEL_EMOJI: Record<string, string> = { mail: '✉️', headset: '🎧',
 
 @Component({
   selector: 'zx-contact',
-  imports: [ReactiveFormsModule, RouterLink, LineIcon],
+  imports: [ReactiveFormsModule, RouterLink, LineIcon, Skeleton],
   templateUrl: './contact.html',
   styleUrl: './contact.css',
 })
@@ -60,13 +68,15 @@ export class Contact {
   protected readonly routes = appRoutes;
   protected readonly priorities = TICKET_PRIORITIES;
   protected readonly content = computed(() => this.store.forPage()<ContactContent>('contact'));
+  protected readonly heroBackground = computed(() => heroBackground(this.content()?.heroImage));
+  protected readonly loading = computed(() => this.store.isLoading()('contact'));
 
   /** the ticket just opened from this page, driving the success state */
   protected readonly opened = signal<Ticket | null>(null);
   protected readonly validation = signal<string | null>(null);
 
   protected readonly inputStyle =
-    'padding:12px 14px;border-radius:10px;border:1.5px solid #E0E3F5;font-size:14px;width:100%;box-sizing:border-box;font-family:inherit;color:#161629;outline:none;resize:vertical;background:#fff;';
+    'padding:12px 14px;border-radius:10px;border:1.5px solid var(--zx-border);font-size:14px;width:100%;box-sizing:border-box;font-family:inherit;color:var(--zx-ink);outline:none;resize:vertical;background:var(--zx-bg);';
 
   /** Mirrors CreateTicketDto so the same rules apply on both sides. */
   protected readonly form = this.formBuilder.nonNullable.group({

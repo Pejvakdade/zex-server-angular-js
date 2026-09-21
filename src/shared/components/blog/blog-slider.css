@@ -1,0 +1,125 @@
+:host {
+  display: block;
+}
+
+.slider {
+  max-width: 1520px;
+  margin: 0 auto;
+  outline: none;
+}
+
+.slider:focus-visible {
+  outline: 2px solid var(--zx-primary);
+  outline-offset: 8px;
+  border-radius: 12px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.heading {
+  margin: 0 0 8px;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--zx-ink);
+  letter-spacing: -0.5px;
+}
+
+.sub {
+  margin: 0;
+  font-size: 15px;
+  color: var(--zx-text-faint);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.all {
+  font-weight: 700;
+  font-size: 13.5px;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid var(--zx-border);
+  background: var(--zx-bg);
+  color: var(--zx-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.arrow:hover {
+  border-color: var(--zx-primary);
+  color: var(--zx-primary);
+  background: var(--zx-surface-active);
+}
+
+.viewport {
+  overflow: hidden;
+  /* room for the card's hover lift + shadow, so it is not clipped by overflow:hidden */
+  padding: 8px 0 24px;
+  margin: -8px 0 -24px;
+}
+
+.track {
+  display: flex;
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+
+.slide {
+  flex: 0 0 33.333%;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 26px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: var(--zx-border);
+  cursor: pointer;
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
+
+.dot.active {
+  width: 24px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition: none;
+  }
+}

@@ -1,13 +1,10 @@
 <!-- hero -->
 @if (content(); as c) {
   <section
-    style="
-      background: linear-gradient(180deg, #f6f7fe 0%, #fff 100%);
-      padding: 0 0 44px;
-      position: relative;
-      overflow: hidden;
-      font-family: var(--zx-font);
-    "
+    class="zx-hero"
+    [class.zx-hero--image]="!!c.heroImage"
+    [style.background-image]="heroBackground()"
+    style="background: linear-gradient(180deg, var(--zx-bg-tint) 0%, var(--zx-bg) 100%)"
   >
     <div
       style="
@@ -21,46 +18,56 @@
         pointer-events: none;
       "
     ></div>
-    <div style="position: relative; text-align: left; padding: 64px 56px; max-width: 760px">
-      <div
-        style="
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: #eef0fe;
-          color: #1269e8;
-          font-weight: 700;
-          font-size: 12.5px;
-          padding: 6px 14px;
-          border-radius: 20px;
-          margin-bottom: 22px;
-        "
-      >
-        &#9679; {{ c.heroBadge }}
-      </div>
-      <h1
-        style="
-          font-size: 52px;
-          line-height: 1.12;
-          font-weight: 800;
-          margin: 0 0 18px;
-          color: #161629;
-        "
-      >
-        {{ c.heroHeading1 }}
-        <span
+    <div class="zx-hero__inner">
+      <div style="max-width: 760px">
+        <div
           style="
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--zx-surface-active);
+            color: var(--zx-primary);
+            font-weight: 700;
+            font-size: 12.5px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 22px;
           "
-          >{{ c.heroHeadingAccent }}</span
         >
-      </h1>
-      <p style="font-size: 17.5px; color: #4a5175; line-height: 1.6; max-width: 600px; margin: 0">
-        {{ c.heroSubheading }}
-      </p>
+          &#9679; {{ c.heroBadge }}
+        </div>
+        <h1
+          style="
+            font-size: 52px;
+            line-height: 1.12;
+            font-weight: 800;
+            margin: 0 0 18px;
+            color: var(--zx-ink);
+          "
+        >
+          {{ c.heroHeading1 }}
+          <span
+            style="
+              background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+              -webkit-background-clip: text;
+              background-clip: text;
+              color: transparent;
+            "
+            >{{ c.heroHeadingAccent }}</span
+          >
+        </h1>
+        <p
+          style="
+            font-size: 17.5px;
+            color: var(--zx-text-slate);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0;
+          "
+        >
+          {{ c.heroSubheading }}
+        </p>
+      </div>
     </div>
   </section>
 
@@ -70,8 +77,8 @@
         style="
           max-width: 1520px;
           margin: 0 auto;
-          background: #fff;
-          border: 1px solid #eef0fa;
+          background: var(--zx-bg);
+          border: 1px solid var(--zx-border-soft);
           border-radius: 18px;
           box-shadow: 0 10px 32px rgba(30, 20, 90, 0.06);
           padding: 22px 30px;
@@ -85,24 +92,33 @@
             <zx-line-icon [icon]="item.icon" [size]="30" />
             <div>
               <div style="font-weight: 700; font-size: 14.5px">{{ item.title }}</div>
-              <div style="font-size: 12.5px; color: #8386ac">{{ item.subtitle }}</div>
+              <div style="font-size: 12.5px; color: var(--zx-text-faint)">{{ item.subtitle }}</div>
             </div>
           </div>
         }
       </div>
     </section>
   }
+} @else if (contentStore.loading()) {
+  <zx-skeleton kind="hero" />
+  <zx-skeleton kind="strip" />
 }
 
 <!-- licence catalogue -->
 <section id="licenses" style="padding: 56px 64px 10px; font-family: var(--zx-font)">
   <h2
-    style="text-align: center; font-size: 32px; font-weight: 800; color: #161629; margin: 0 0 6px"
+    style="
+      text-align: center;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--zx-ink);
+      margin: 0 0 6px;
+    "
   >
     Software
     <span
       style="
-        background: linear-gradient(135deg, #1269e8, #7c3aed);
+        background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -110,7 +126,7 @@
       >Licenses</span
     >
   </h2>
-  <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 36px">
+  <p style="text-align: center; color: var(--zx-text-faint); font-size: 15px; margin: 0 0 36px">
     Official licences with optional installation and configuration.
   </p>
 
@@ -120,7 +136,7 @@
         style="
           font-weight: 700;
           font-size: 13px;
-          color: #1269e8;
+          color: var(--zx-primary);
           letter-spacing: 0.4px;
           margin-bottom: 14px;
         "
@@ -147,8 +163,8 @@
                 text-align: center;
                 padding: 11px;
                 border-radius: 10px;
-                background: linear-gradient(135deg, #1269e8, #7c3aed);
-                color: #fff;
+                background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+                color: var(--zx-on-accent);
                 font-weight: 700;
                 font-size: 13px;
               "
@@ -159,9 +175,15 @@
       </div>
     </div>
   } @empty {
-    <p style="text-align: center; color: #8386ac; font-size: 14px; padding: 28px 0">
-      {{ store.loading() ? 'Loading licences…' : 'No licences are published yet.' }}
-    </p>
+    @if (store.loading()) {
+      <div style="margin: 0 -64px">
+        <zx-skeleton kind="cards" [count]="6" [heading]="false" />
+      </div>
+    } @else {
+      <p style="text-align: center; color: var(--zx-text-faint); font-size: 14px; padding: 28px 0">
+        No licences are published yet.
+      </p>
+    }
   }
 </section>
 
@@ -173,14 +195,14 @@
           text-align: center;
           font-size: 32px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 6px;
         "
       >
         Why Choose
         <span
           style="
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -203,21 +225,32 @@
           <div
             class="zx-license-card"
             style="
-              border: 1px solid #eef0fa;
+              border: 1px solid var(--zx-border-soft);
               border-radius: 18px;
               padding: 26px 22px;
               text-align: center;
-              background: #fff;
+              background: var(--zx-bg);
               box-shadow: 0 6px 20px rgba(18, 105, 232, 0.06);
             "
           >
             <div style="display: flex; justify-content: center; margin: 6px auto 14px">
-              <zx-line-icon [icon]="item.icon" [size]="30" [color]="i % 2 ? '#7C3AED' : '#1269E8'" />
+              <zx-line-icon
+                [icon]="item.icon"
+                [size]="30"
+                [color]="i % 2 ? 'var(--zx-violet)' : 'var(--zx-primary)'"
+              />
             </div>
-            <div style="font-weight: 800; font-size: 14.5px; margin: 0 0 4px; color: #0b1f5c">
+            <div
+              style="
+                font-weight: 800;
+                font-size: 14.5px;
+                margin: 0 0 4px;
+                color: var(--zx-primary-deep);
+              "
+            >
               {{ item.title }}
             </div>
-            <div style="font-size: 12px; color: #8386ac">{{ item.subtitle }}</div>
+            <div style="font-size: 12px; color: var(--zx-text-faint)">{{ item.subtitle }}</div>
           </div>
         }
       </div>
@@ -231,7 +264,7 @@
           text-align: center;
           font-size: 32px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 30px;
         "
       >
@@ -243,7 +276,7 @@
         @for (item of c.faq; track item.question) {
           <details
             name="faq"
-            style="border: 1px solid #eef0fa; border-radius: 12px; padding: 16px 18px"
+            style="border: 1px solid var(--zx-border-soft); border-radius: 12px; padding: 16px 18px"
           >
             <summary
               style="
@@ -256,7 +289,9 @@
             >
               {{ item.question }} <span>&#9662;</span>
             </summary>
-            <p style="font-size: 13.5px; color: #5b5e80; margin: 10px 0 0">{{ item.answer }}</p>
+            <p style="font-size: 13.5px; color: var(--zx-text-muted); margin: 10px 0 0">
+              {{ item.answer }}
+            </p>
           </details>
         }
       </div>
@@ -293,10 +328,12 @@
         "
       ></div>
       <div style="position: relative; z-index: 1">
-        <div style="color: #fff; font-size: 26px; font-weight: 800; margin-bottom: 8px">
+        <div
+          style="color: var(--zx-on-accent); font-size: 26px; font-weight: 800; margin-bottom: 8px"
+        >
           {{ c.ctaHeading }}
         </div>
-        <div style="color: #b7b9e6; font-size: 14.5px">{{ c.ctaSubheading }}</div>
+        <div style="color: var(--zx-outline-soft); font-size: 14.5px">{{ c.ctaSubheading }}</div>
       </div>
       <div style="display: flex; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1">
         <a
@@ -304,8 +341,8 @@
           style="
             padding: 14px 26px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
-            color: #fff;
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+            color: var(--zx-on-accent);
             font-weight: 700;
             font-size: 14.5px;
             white-space: nowrap;
@@ -317,8 +354,8 @@
           style="
             padding: 14px 26px;
             border-radius: 10px;
-            background: #fff;
-            color: #161629;
+            background: var(--zx-bg);
+            color: var(--zx-ink);
             font-weight: 700;
             font-size: 14.5px;
             white-space: nowrap;

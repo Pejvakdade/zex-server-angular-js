@@ -36,16 +36,18 @@
         [style]="ui.search"
       />
     </div>
-    <span style="font-size: 13px; color: #8386ac">{{ store.page().totalDocs }} customers</span>
+    <span style="font-size: 13px; color: var(--zx-text-faint)"
+      >{{ store.page().totalDocs }} customers</span
+    >
   </div>
 
   @if (store.error() && !modalOpen()) {
     <div
       style="
         font-size: 13px;
-        color: #dc2626;
-        background: #fff6f6;
-        border: 1px solid #fbd5d5;
+        color: var(--zx-red-fg);
+        background: var(--zx-red-tint);
+        border: 1px solid var(--zx-red-border);
         border-radius: 10px;
         padding: 10px 12px;
         margin-bottom: 14px;
@@ -73,7 +75,7 @@
         gap: 8px;
         margin-top: 16px;
         font-size: 13px;
-        color: #5b5e80;
+        color: var(--zx-text-muted);
       "
     >
       <button

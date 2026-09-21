@@ -14,7 +14,7 @@ import { UI } from './admin-ui';
   template: `
     @if (page().totalPages > 1) {
       <div
-        style="display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:16px;font-size:13px;color:#5B5E80;"
+        style="display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:16px;font-size:13px;color:var(--zx-text-muted);"
       >
         <button
           type="button"

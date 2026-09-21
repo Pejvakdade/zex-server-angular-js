@@ -50,6 +50,19 @@ export const apiRoutes = {
   ticketMe: 'ticket/me',
   ticketById: (id: string) => `ticket/${id}`,
   ticketReply: (id: string) => `ticket/${id}/reply`,
+
+  // Dashboard uploads (hero banners, blog covers)
+  uploadBanner: 'upload/banner',
+  uploadBlogCover: 'upload/blog-cover',
+
+  // Blog
+  blog: 'blog',
+  blogHome: 'blog/home',
+  blogTags: 'blog/tags',
+  blogBySlug: (slug: string) => `blog/slug/${encodeURIComponent(slug)}`,
+  blogAdmin: 'blog/admin',
+  blogAdminById: (id: string) => `blog/admin/${id}`,
+  blogById: (id: string) => `blog/${id}`,
 } as const;
 
 export default apiRoutes;

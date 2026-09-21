@@ -11,7 +11,6 @@ import apiRoutes from '@src/common/apiRoutes';
 import { ApiService } from '@src/lib/api.service';
 import { readError } from '@src/lib/readError';
 
-
 export interface AdminOverview {
   customers: number | null;
   staff: number | null;

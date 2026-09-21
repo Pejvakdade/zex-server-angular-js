@@ -1,5 +1,11 @@
 <nav
-  style="border-bottom: 1px solid #eef0fa; position: sticky; top: 0; background: #fff; z-index: 50"
+  style="
+    border-bottom: 1px solid var(--zx-border-soft);
+    position: sticky;
+    top: 0;
+    background: var(--zx-bg);
+    z-index: 50;
+  "
 >
   <div
     style="
@@ -26,17 +32,17 @@
             letter-spacing: 0.3px;
             background: linear-gradient(
               100deg,
-              #0b3fa8 0%,
-              #1269e8 26%,
-              #5aa8ff 48%,
+              var(--zx-primary-strong) 0%,
+              var(--zx-primary) 26%,
+              var(--zx-cyan) 48%,
               #6e7b92 70%,
-              #d8dfea 86%,
+              var(--zx-border-slate) 86%,
               #94a2b8 100%
             );
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            color: #1269e8;
+            color: var(--zx-primary);
           "
           >ZEXSERVER</span
         >
@@ -51,7 +57,7 @@
           gap: 2px;
           font-size: 12.5px;
           font-weight: 600;
-          color: #3a3d5c;
+          color: var(--zx-text);
           white-space: nowrap;
         "
       >
@@ -61,7 +67,7 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           (click)="closeMenu()"
-          style="padding: 8px 10px; color: #3a3d5c; white-space: nowrap"
+          style="padding: 8px 10px; color: var(--zx-text); white-space: nowrap"
           >Home</a
         >
 
@@ -76,7 +82,13 @@
             <span
               tabindex="0"
               aria-haspopup="true"
-              style="color: #3a3d5c; cursor: default; display: flex; align-items: center; gap: 4px"
+              style="
+                color: var(--zx-text);
+                cursor: default;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+              "
               >{{ group.label }} <span style="font-size: 10px">&#9662;</span></span
             >
             <div
@@ -85,8 +97,8 @@
                 position: absolute;
                 top: 100%;
                 left: 0;
-                background: #fff;
-                border: 1px solid #eef0fa;
+                background: var(--zx-bg);
+                border: 1px solid var(--zx-border-soft);
                 border-radius: 12px;
                 box-shadow: 0 14px 32px rgba(30, 20, 90, 0.12);
                 padding: 16px;
@@ -100,7 +112,7 @@
                     style="
                       font-size: 11px;
                       font-weight: 700;
-                      color: #8386ac;
+                      color: var(--zx-text-faint);
                       letter-spacing: 0.4px;
                       text-transform: uppercase;
                       padding: 2px 10px 6px;
@@ -117,7 +129,7 @@
                       display: block;
                       padding: 8px 10px;
                       border-radius: 8px;
-                      color: #3a3d5c;
+                      color: var(--zx-text);
                       font-weight: 600;
                     "
                     >{{ link.label }}</a
@@ -133,7 +145,7 @@
           [routerLink]="routes.SoftwareLicenses"
           routerLinkActive="active"
           (click)="closeMenu()"
-          style="padding: 8px 10px; color: #3a3d5c; white-space: nowrap"
+          style="padding: 8px 10px; color: var(--zx-text); white-space: nowrap"
           >Software Licenses</a
         >
         <a
@@ -141,12 +153,21 @@
           [routerLink]="routes.Locations"
           routerLinkActive="active"
           (click)="closeMenu()"
-          style="padding: 8px 10px; color: #3a3d5c; white-space: nowrap"
+          style="padding: 8px 10px; color: var(--zx-text); white-space: nowrap"
           >Locations</a
+        >
+        <a
+          class="nav-link"
+          [routerLink]="routes.Blog"
+          routerLinkActive="active"
+          (click)="closeMenu()"
+          style="padding: 8px 10px; color: var(--zx-text); white-space: nowrap"
+          >Blog</a
         >
 
         <!-- On mobile the header CTAs are hidden, so the panel carries its own copy. -->
         <div class="nav-cta-mobile">
+          <zx-theme-toggle buttonClass="nav-theme-btn" />
           @if (auth.isAuthenticated()) {
             <a
               [routerLink]="dashboardLink()"
@@ -154,8 +175,8 @@
               style="
                 padding: 9px 18px;
                 border-radius: 10px;
-                background: linear-gradient(135deg, #1269e8, #7c3aed);
-                color: #fff;
+                background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+                color: var(--zx-on-accent);
                 font-weight: 700;
                 font-size: 13.5px;
               "
@@ -168,8 +189,8 @@
               style="
                 padding: 9px 16px;
                 border-radius: 10px;
-                border: 1.5px solid #e0e3f5;
-                color: #161629;
+                border: 1.5px solid var(--zx-border);
+                color: var(--zx-ink);
                 font-weight: 600;
                 font-size: 13.5px;
               "
@@ -181,8 +202,8 @@
               style="
                 padding: 9px 18px;
                 border-radius: 10px;
-                background: linear-gradient(135deg, #1269e8, #7c3aed);
-                color: #fff;
+                background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+                color: var(--zx-on-accent);
                 font-weight: 700;
                 font-size: 13.5px;
               "
@@ -194,6 +215,7 @@
     </div>
 
     <div class="nav-cta" style="display: flex; align-items: center; gap: 10px; flex-shrink: 0">
+      <zx-theme-toggle buttonClass="nav-theme-btn" />
       <!-- The reference is a static mockup with no session, so it always shows Log In / Get Started. -->
       @if (auth.isAuthenticated()) {
         <a
@@ -201,8 +223,8 @@
           style="
             padding: 9px 16px;
             border-radius: 10px;
-            border: 1.5px solid #e0e3f5;
-            color: #161629;
+            border: 1.5px solid var(--zx-border);
+            color: var(--zx-ink);
             font-weight: 600;
             font-size: 13.5px;
             white-space: nowrap;
@@ -216,8 +238,8 @@
             padding: 9px 18px;
             border-radius: 10px;
             border: none;
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
-            color: #fff;
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+            color: var(--zx-on-accent);
             font-weight: 700;
             font-size: 13.5px;
             font-family: inherit;
@@ -234,8 +256,8 @@
           style="
             padding: 9px 16px;
             border-radius: 10px;
-            border: 1.5px solid #e0e3f5;
-            color: #161629;
+            border: 1.5px solid var(--zx-border);
+            color: var(--zx-ink);
             font-weight: 600;
             font-size: 13.5px;
             white-space: nowrap;
@@ -247,8 +269,8 @@
           style="
             padding: 9px 18px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
-            color: #fff;
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+            color: var(--zx-on-accent);
             font-weight: 700;
             font-size: 13.5px;
             box-shadow: 0 8px 20px rgba(18, 105, 232, 0.28);

@@ -3,9 +3,9 @@
     <div
       style="
         font-size: 13px;
-        color: #dc2626;
-        background: #fff6f6;
-        border: 1px solid #fbd5d5;
+        color: var(--zx-red-fg);
+        background: var(--zx-red-tint);
+        border: 1px solid var(--zx-red-border);
         border-radius: 10px;
         padding: 10px 12px;
         margin-bottom: 14px;
@@ -16,11 +16,11 @@
   }
 
   @if (store.loading() && !store.items().length) {
-    <div style="font-size: 13px; color: #8386ac">Loading…</div>
+    <div style="font-size: 13px; color: var(--zx-text-faint)">Loading…</div>
   } @else if (!store.items().length) {
-    <div [style]="ui.card" style="text-align: center; color: #8386ac; font-size: 14px">
+    <div [style]="ui.card" style="text-align: center; color: var(--zx-text-faint); font-size: 14px">
       You have no services yet.
-      <a [routerLink]="routes.VpsHosting" style="color: #1269e8; font-weight: 600"
+      <a [routerLink]="routes.VpsHosting" style="color: var(--zx-primary); font-weight: 600"
         >Browse plans →</a
       >
     </div>
@@ -40,12 +40,16 @@
             "
           >
             <div>
-              <div style="font-size: 16px; font-weight: 800; color: #161629">{{ s.serviceId }}</div>
-              <div style="font-size: 13px; color: #5b5e80">{{ s.product }} · {{ s.label }}</div>
+              <div style="font-size: 16px; font-weight: 800; color: var(--zx-ink)">
+                {{ s.serviceId }}
+              </div>
+              <div style="font-size: 13px; color: var(--zx-text-muted)">
+                {{ s.product }} · {{ s.label }}
+              </div>
             </div>
             <span [style]="pill(tint(s.status))">{{ s.status }}</span>
           </div>
-          <div style="font-size: 12.5px; color: #8386ac; margin-bottom: 16px">
+          <div style="font-size: 12.5px; color: var(--zx-text-faint); margin-bottom: 16px">
             {{ s.location || '—' }} · Renews {{ expires(s.expiresAt) }} · ${{ s.monthlyPrice }}/mo
           </div>
 
@@ -59,7 +63,7 @@
                         display: flex;
                         justify-content: space-between;
                         font-size: 12px;
-                        color: #5b5e80;
+                        color: var(--zx-text-muted);
                         font-weight: 600;
                         margin-bottom: 4px;
                       "
@@ -68,7 +72,12 @@
                       <span>{{ s[m.key] }}%</span>
                     </div>
                     <div
-                      style="height: 6px; border-radius: 4px; background: #eef0fa; overflow: hidden"
+                      style="
+                        height: 6px;
+                        border-radius: 4px;
+                        background: var(--zx-border-soft);
+                        overflow: hidden;
+                      "
                     >
                       <div
                         [style.width.%]="s[m.key]"

@@ -7,7 +7,15 @@
  */
 import { SitePage } from '@src/store/website/site-content.store';
 
-import { FieldDef, ItemGroupConfig, PageEditorConfig } from './admin-ui';
+import { BANNER_HINT, FieldDef, ItemGroupConfig, PageEditorConfig } from './admin-ui';
+
+/** Every hero page shares one banner slot; the hint carries the exact pixel size the upload requires. */
+const heroImage: FieldDef = {
+  key: 'heroImage',
+  label: 'Hero banner image',
+  type: 'image',
+  hint: BANNER_HINT,
+};
 
 const iconItem: Array<FieldDef> = [
   { key: 'title', label: 'Title', type: 'text', required: true },
@@ -50,6 +58,7 @@ const HOME: PageEditorConfig = {
     { key: 'heroBadge', label: 'Hero badge text', type: 'text' },
     { key: 'heroHeading', label: 'Hero heading', type: 'text' },
     { key: 'heroSubheading', label: 'Hero subheading', type: 'textarea' },
+    heroImage,
     { key: 'primaryCta', label: 'Primary button label', type: 'text' },
     { key: 'secondaryCta', label: 'Secondary button label', type: 'text' },
     { key: 'reviewScore', label: 'Review score (blank hides the rating)', type: 'text' },
@@ -126,6 +135,7 @@ const ABOUT: PageEditorConfig = {
   fields: [
     { key: 'heroHeading', label: 'Hero heading', type: 'text' },
     { key: 'heroSubheading', label: 'Hero subheading', type: 'textarea' },
+    heroImage,
     { key: 'founded', label: 'Founded (year) — blank hides the stat', type: 'text' },
     { key: 'datacentersCount', label: 'Global datacenters', type: 'text' },
     { key: 'serversDeployed', label: 'Servers deployed', type: 'text' },
@@ -152,6 +162,7 @@ const CONTACT: PageEditorConfig = {
   fields: [
     { key: 'heroHeading', label: 'Hero heading', type: 'text' },
     { key: 'heroSubheading', label: 'Hero subheading', type: 'textarea' },
+    heroImage,
     { key: 'businessName', label: 'Business name', type: 'text' },
     { key: 'businessWebsite', label: 'Business website', type: 'text' },
     { key: 'businessAddress', label: 'Business address', type: 'textarea' },
@@ -190,6 +201,7 @@ const SUPPORT: PageEditorConfig = {
   fields: [
     { key: 'heroHeading', label: 'Hero heading', type: 'text' },
     { key: 'heroSubheading', label: 'Hero subheading', type: 'textarea' },
+    heroImage,
   ],
   groups: [
     {
@@ -284,6 +296,7 @@ export const PRODUCT_CONFIG: PageEditorConfig = {
     { key: 'heroHeading1', label: 'Hero heading (line 1)', type: 'text' },
     { key: 'heroHeadingAccent', label: 'Hero heading (accent line)', type: 'text' },
     { key: 'heroSubheading', label: 'Hero subheading', type: 'textarea' },
+    heroImage,
     { key: 'ctaHeading', label: 'CTA banner heading', type: 'text' },
     { key: 'ctaSubheading', label: 'CTA banner subheading', type: 'textarea' },
     { key: 'gridOneTitle', label: 'Feature grid 1 — title', type: 'text' },
@@ -329,7 +342,7 @@ export const PRODUCT_CONFIG: PageEditorConfig = {
     },
     {
       key: 'includedFeatures',
-      heading: 'Plan card — included features (listed after each plan\'s own specs)',
+      heading: "Plan card — included features (listed after each plan's own specs)",
       singular: 'Feature',
       fields: [{ key: 'label', label: 'Label', type: 'text', required: true }],
       display: (i) => ({ title: i['label'], subtitle: '', icon: '' }),

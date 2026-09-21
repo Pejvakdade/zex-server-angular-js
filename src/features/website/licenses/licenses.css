@@ -9,7 +9,7 @@
 .zx-license-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 16px 34px rgba(18, 105, 232, 0.14);
-  border-color: #1269e8;
+  border-color: var(--zx-primary);
 }
 
 details > summary {

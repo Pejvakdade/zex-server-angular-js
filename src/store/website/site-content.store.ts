@@ -25,13 +25,20 @@ export interface FooterContent {
 
 type SiteContentState = {
   byPage: Record<string, Record<string, unknown> | null>;
-  loading: boolean;
+  /** pages with a request in flight — per page, so a page's skeleton doesn't wait on the footer fetch */
+  pending: SitePage[];
 };
 
 export const SiteContentStore = signalStore(
   { providedIn: 'root' },
-  withState<SiteContentState>({ byPage: {}, loading: false }),
-  withComputed(({ byPage }) => ({
+  withState<SiteContentState>({ byPage: {}, pending: [] }),
+  withComputed(({ byPage, pending }) => ({
+    loading: computed(() => pending().length > 0),
+    isLoading: computed(
+      () =>
+        (page: SitePage): boolean =>
+          pending().includes(page),
+    ),
     forPage: computed(
       () =>
         <T = Record<string, unknown>>(page: SitePage): T | null =>
@@ -42,15 +49,21 @@ export const SiteContentStore = signalStore(
     async load(page: SitePage): Promise<void> {
       if (page in store.byPage()) return;
 
-      patchState(store, { loading: true });
+      if (store.pending().includes(page)) return;
+
+      patchState(store, { pending: [...store.pending(), page] });
+      const done = (content: Record<string, unknown> | null) =>
+        patchState(store, {
+          byPage: { ...store.byPage(), [page]: content },
+          pending: store.pending().filter((p) => p !== page),
+        });
       try {
-        const content = await firstValueFrom(
-          api.get<Record<string, unknown>>(apiRoutes.siteContentByPage(page)),
+        done(
+          await firstValueFrom(api.get<Record<string, unknown>>(apiRoutes.siteContentByPage(page))),
         );
-        patchState(store, { byPage: { ...store.byPage(), [page]: content }, loading: false });
       } catch {
         // null means "not published" — consumers render nothing rather than empty scaffolding.
-        patchState(store, { byPage: { ...store.byPage(), [page]: null }, loading: false });
+        done(null);
       }
     },
 

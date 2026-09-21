@@ -3,9 +3,9 @@
     <div
       style="
         font-size: 13px;
-        color: #dc2626;
-        background: #fff6f6;
-        border: 1px solid #fbd5d5;
+        color: var(--zx-red-fg);
+        background: var(--zx-red-tint);
+        border: 1px solid var(--zx-red-border);
         border-radius: 10px;
         padding: 10px 12px;
         margin-bottom: 14px;
@@ -16,63 +16,148 @@
   }
 
   @if (store.loading()) {
-    <div style="font-size: 13px; color: #8386ac">Loading plan…</div>
+    <div style="font-size: 13px; color: var(--zx-text-faint)">Loading plan…</div>
   } @else if (store.plan(); as plan) {
     <div [style]="ui.card">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px">
+      <div
+        style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px"
+      >
         <div>
-          <div style="font-size: 12px; font-weight: 700; color: #1269e8; letter-spacing: 0.04em; text-transform: uppercase">
+          <div
+            style="
+              font-size: 12px;
+              font-weight: 700;
+              color: var(--zx-primary);
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+            "
+          >
             {{ plan.product }}
           </div>
-          <div style="font-size: 22px; font-weight: 800; color: #161629; margin-top: 4px">{{ plan.name }}</div>
-          <div style="font-size: 13px; color: #5b5e80; margin-top: 2px">{{ plan.tagline }}</div>
-          <div style="font-size: 12.5px; color: #8386ac; margin-top: 8px">Datacenter: {{ plan.location }}</div>
+          <div style="font-size: 22px; font-weight: 800; color: var(--zx-ink); margin-top: 4px">
+            {{ plan.name }}
+          </div>
+          <div style="font-size: 13px; color: var(--zx-text-muted); margin-top: 2px">
+            {{ plan.tagline }}
+          </div>
+          <div style="font-size: 12.5px; color: var(--zx-text-faint); margin-top: 8px">
+            Datacenter: {{ plan.location }}
+          </div>
         </div>
         <div style="text-align: right; white-space: nowrap">
-          <div style="font-size: 26px; font-weight: 800; color: #161629">${{ plan.priceStr }}</div>
-          <div style="font-size: 12px; color: #8386ac">per month</div>
+          <div style="font-size: 26px; font-weight: 800; color: var(--zx-ink)">
+            ${{ plan.priceStr }}
+          </div>
+          <div style="font-size: 12px; color: var(--zx-text-faint)">per month</div>
         </div>
       </div>
 
-      <ul style="list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px">
+      <ul
+        style="
+          list-style: none;
+          padding: 0;
+          margin: 20px 0 0;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px 16px;
+        "
+      >
         @for (feature of plan.featureList; track feature) {
-          <li style="font-size: 13.5px; color: #3a3d5c; display: flex; gap: 8px; align-items: center">
-            <span style="color: #16a34a; font-weight: 800">✓</span>{{ feature }}
+          <li
+            style="
+              font-size: 13.5px;
+              color: var(--zx-text);
+              display: flex;
+              gap: 8px;
+              align-items: center;
+            "
+          >
+            <span style="color: var(--zx-green-fg); font-weight: 800">✓</span>{{ feature }}
           </li>
         }
       </ul>
 
       @if (addOn(); as license) {
-        <div style="margin-top: 22px; border-top: 1px solid #eef0fa; padding-top: 18px">
-          <div style="font-size: 12px; font-weight: 700; color: #1269e8; letter-spacing: 0.04em; text-transform: uppercase">
+        <div
+          style="margin-top: 22px; border-top: 1px solid var(--zx-border-soft); padding-top: 18px"
+        >
+          <div
+            style="
+              font-size: 12px;
+              font-weight: 700;
+              color: var(--zx-primary);
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+            "
+          >
             Control panel
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 6px">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: baseline;
+              gap: 16px;
+              margin-top: 6px;
+            "
+          >
             <div>
-              <div style="font-size: 16px; font-weight: 800; color: #161629">{{ license.name }}</div>
-              <div style="font-size: 12.5px; color: #8386ac">{{ license.category }}</div>
+              <div style="font-size: 16px; font-weight: 800; color: var(--zx-ink)">
+                {{ license.name }}
+              </div>
+              <div style="font-size: 12.5px; color: var(--zx-text-faint)">
+                {{ license.category }}
+              </div>
             </div>
-            <div style="text-align: right; white-space: nowrap; font-size: 13.5px; color: #3a3d5c">
-              <div><strong>${{ license.priceStr }}</strong> /month</div>
+            <div
+              style="
+                text-align: right;
+                white-space: nowrap;
+                font-size: 13.5px;
+                color: var(--zx-text);
+              "
+            >
+              <div>
+                <strong>${{ license.priceStr }}</strong> /month
+              </div>
               @if (installing()) {
-                <div>+ <strong>${{ license.installFeeStr }}</strong> install (one-off)</div>
+                <div>
+                  + <strong>${{ license.installFeeStr }}</strong> install (one-off)
+                </div>
               }
             </div>
           </div>
         </div>
       }
 
-      <div style="margin-top: 18px; border-top: 1px solid #eef0fa; padding-top: 14px; display: flex; justify-content: space-between; font-size: 14px; color: #3a3d5c">
-        <span>Then <strong>${{ monthly().toFixed(2) }}</strong> /month</span>
-        <span>First invoice: <strong style="font-size: 18px; color: #161629">${{ firstMonth().toFixed(2) }}</strong></span>
+      <div
+        style="
+          margin-top: 18px;
+          border-top: 1px solid var(--zx-border-soft);
+          padding-top: 14px;
+          display: flex;
+          justify-content: space-between;
+          font-size: 14px;
+          color: var(--zx-text);
+        "
+      >
+        <span
+          >Then <strong>${{ monthly().toFixed(2) }}</strong> /month</span
+        >
+        <span
+          >First invoice:
+          <strong style="font-size: 18px; color: var(--zx-ink)"
+            >${{ firstMonth().toFixed(2) }}</strong
+          ></span
+        >
       </div>
 
       <div
         style="
           margin-top: 22px;
           font-size: 12.5px;
-          color: #b45309;
-          background: #fef3c7;
+          color: var(--zx-amber-fg);
+          background: var(--zx-amber-bg);
           border: 1px solid #fde68a;
           border-radius: 10px;
           padding: 10px 12px;

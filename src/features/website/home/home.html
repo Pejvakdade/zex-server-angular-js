@@ -1,13 +1,10 @@
 @if (content(); as c) {
   <!-- hero -->
   <section
-    style="
-      background: linear-gradient(180deg, #f6f7fe 0%, #fff 100%);
-      padding: 0 0 44px;
-      position: relative;
-      overflow: hidden;
-      font-family: var(--zx-font);
-    "
+    class="zx-hero"
+    [class.zx-hero--image]="!!c.heroImage"
+    [style.background-image]="heroBackground()"
+    style="background: linear-gradient(180deg, var(--zx-bg-tint) 0%, var(--zx-bg) 100%)"
   >
     <div
       style="
@@ -33,86 +30,96 @@
         pointer-events: none;
       "
     ></div>
-    <div style="position: relative; text-align: left; padding: 64px 56px; max-width: 760px">
-      <div
-        style="
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: #eef0fe;
-          color: #1269e8;
-          font-weight: 700;
-          font-size: 12.5px;
-          padding: 6px 14px;
-          border-radius: 20px;
-          margin-bottom: 22px;
-        "
-      >
-        &#9679; {{ c.heroBadge }}
-      </div>
-      <h1
-        style="
-          font-size: 52px;
-          line-height: 1.12;
-          font-weight: 800;
-          margin: 0 0 18px;
-          color: #161629;
-        "
-      >
-        {{ c.heroHeading }}
-      </h1>
-      <p
-        style="
-          font-size: 17.5px;
-          color: #4a5175;
-          line-height: 1.6;
-          max-width: 600px;
-          margin: 0 0 30px;
-        "
-      >
-        {{ c.heroSubheading }}
-      </p>
-      <div style="display: flex; gap: 14px; margin-bottom: 26px; flex-wrap: wrap">
-        <a
-          [routerLink]="routes.VpsHosting"
+    <div class="zx-hero__inner">
+      <div style="max-width: 760px">
+        <div
           style="
-            padding: 14px 26px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
-            color: #fff;
-            font-weight: 700;
-            font-size: 15px;
-            box-shadow: 0 10px 24px rgba(18, 105, 232, 0.35);
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            white-space: nowrap;
+            gap: 6px;
+            background: var(--zx-surface-active);
+            color: var(--zx-primary);
+            font-weight: 700;
+            font-size: 12.5px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 22px;
           "
-          >{{ c.primaryCta }} &rarr;</a
         >
-        <a
-          [routerLink]="routes.ContactUs"
-          style="
-            padding: 14px 26px;
-            border-radius: 10px;
-            border: 1.5px solid #c9d2e8;
-            color: #161629;
-            font-weight: 600;
-            font-size: 15px;
-            white-space: nowrap;
-          "
-          >{{ c.secondaryCta }}</a
-        >
-      </div>
-      <!-- Only shown once a real score and review count are published; see rating() in home.ts. -->
-      @if (rating(); as r) {
-        <div
-          style="display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #4a5175"
-        >
-          <span style="color: #22c55e; font-weight: 800">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          Excellent &nbsp;{{ r.score }} out of 5 based on {{ r.count }} reviews
+          &#9679; {{ c.heroBadge }}
         </div>
-      }
+        <h1
+          style="
+            font-size: 52px;
+            line-height: 1.12;
+            font-weight: 800;
+            margin: 0 0 18px;
+            color: var(--zx-ink);
+          "
+        >
+          {{ c.heroHeading }}
+        </h1>
+        <p
+          style="
+            font-size: 17.5px;
+            color: var(--zx-text-slate);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 0 30px;
+          "
+        >
+          {{ c.heroSubheading }}
+        </p>
+        <div style="display: flex; gap: 14px; margin-bottom: 26px; flex-wrap: wrap">
+          <a
+            [routerLink]="routes.VpsHosting"
+            style="
+              padding: 14px 26px;
+              border-radius: 10px;
+              background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+              color: var(--zx-on-accent);
+              font-weight: 700;
+              font-size: 15px;
+              box-shadow: 0 10px 24px rgba(18, 105, 232, 0.35);
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
+              white-space: nowrap;
+            "
+            >{{ c.primaryCta }} &rarr;</a
+          >
+          <a
+            [routerLink]="routes.ContactUs"
+            style="
+              padding: 14px 26px;
+              border-radius: 10px;
+              border: 1.5px solid #c9d2e8;
+              color: var(--zx-ink);
+              font-weight: 600;
+              font-size: 15px;
+              white-space: nowrap;
+            "
+            >{{ c.secondaryCta }}</a
+          >
+        </div>
+        <!-- Only shown once a real score and review count are published; see rating() in home.ts. -->
+        @if (rating(); as r) {
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-size: 13.5px;
+              color: var(--zx-text-slate);
+            "
+          >
+            <span style="color: #22c55e; font-weight: 800"
+              >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+            >
+            Excellent &nbsp;{{ r.score }} out of 5 based on {{ r.count }} reviews
+          </div>
+        }
+      </div>
     </div>
   </section>
 
@@ -123,8 +130,8 @@
         style="
           max-width: 1520px;
           margin: 0 auto;
-          background: #fff;
-          border: 1px solid #eef0fa;
+          background: var(--zx-bg);
+          border: 1px solid var(--zx-border-soft);
           border-radius: 18px;
           box-shadow: 0 10px 32px rgba(30, 20, 90, 0.06);
           padding: 22px 30px;
@@ -153,7 +160,9 @@
             </div>
             <div>
               <div style="font-weight: 700; font-size: 14.5px">{{ feature.title }}</div>
-              <div style="font-size: 12.5px; color: #8386ac">{{ feature.subtitle }}</div>
+              <div style="font-size: 12.5px; color: var(--zx-text-faint)">
+                {{ feature.subtitle }}
+              </div>
             </div>
           </div>
         }
@@ -169,13 +178,13 @@
           text-align: center;
           font-size: 32px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 6px;
         "
       >
         Choose the Infrastructure That Fits Your Business
       </h2>
-      <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 36px">
+      <p style="text-align: center; color: var(--zx-text-faint); font-size: 15px; margin: 0 0 36px">
         VPS Hosting or Dedicated Servers &mdash; pick the option that matches your workload.
       </p>
       <div
@@ -197,7 +206,7 @@
               padding: 30px;
               display: flex;
               flex-direction: column;
-              background: #fff;
+              background: var(--zx-bg);
               position: relative;
               overflow: hidden;
               border: 2px solid;
@@ -223,7 +232,7 @@
             <div style="position: relative; z-index: 1; display: flex; flex-direction: column">
               <div
                 style="font-weight: 800; font-size: 22px; margin-bottom: 6px"
-                [style.color]="i % 2 === 0 ? '#0B1F5C' : '#2E1065'"
+                [style.color]="i % 2 === 0 ? 'var(--zx-primary-deep)' : 'var(--zx-violet-deep)'"
               >
                 {{ card.name }}
               </div>
@@ -233,7 +242,7 @@
               >
                 {{ card.tagline }}
               </div>
-              <div style="font-size: 13.5px; color: #4a5175; line-height: 1.6">
+              <div style="font-size: 13.5px; color: var(--zx-text-slate); line-height: 1.6">
                 {{ card.description }}
               </div>
               <div
@@ -245,13 +254,15 @@
                   flex-wrap: wrap;
                 "
               >
-                <span style="font-size: 13px; color: #8386ac; font-weight: 600">From</span>
+                <span style="font-size: 13px; color: var(--zx-text-faint); font-weight: 600"
+                  >From</span
+                >
                 <span
                   style="font-size: 30px; font-weight: 800"
-                  [style.color]="i % 2 === 0 ? '#0B1F5C' : '#2E1065'"
+                  [style.color]="i % 2 === 0 ? 'var(--zx-primary-deep)' : 'var(--zx-violet-deep)'"
                   >${{ card.price }}</span
                 >
-                <span style="font-size: 13px; color: #8386ac">/mo</span>
+                <span style="font-size: 13px; color: var(--zx-text-faint)">/mo</span>
               </div>
               <a
                 [routerLink]="i % 2 === 0 ? routes.VpsHosting : routes.DedicatedServers"
@@ -260,7 +271,7 @@
                   font-weight: 700;
                   font-size: 13.5px;
                   margin-top: 16px;
-                  color: #fff;
+                  color: var(--zx-on-accent);
                   padding: 11px 18px;
                   border-radius: 10px;
                   display: inline-flex;
@@ -270,8 +281,8 @@
                 "
                 [style.background]="
                   i % 2 === 0
-                    ? 'linear-gradient(135deg,#1269E8,#4E8FF0)'
-                    : 'linear-gradient(135deg,#7C3AED,#A972F0)'
+                    ? 'linear-gradient(135deg,var(--zx-primary),#4E8FF0)'
+                    : 'linear-gradient(135deg,var(--zx-violet),#A972F0)'
                 "
                 >{{ card.ctaLabel }} &rarr;</a
               >
@@ -290,13 +301,13 @@
           text-align: center;
           font-size: 32px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 6px;
         "
       >
         What Our Customers Say
       </h2>
-      <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 36px">
+      <p style="text-align: center; color: var(--zx-text-faint); font-size: 15px; margin: 0 0 36px">
         Trusted by businesses running production workloads on ZexServer.
       </p>
       <div class="zx-marquee-mask" style="max-width: 1520px; margin: 0 auto; overflow: hidden">
@@ -305,7 +316,7 @@
           @for (review of marquee(); track $index) {
             <div
               style="
-                border: 1px solid #eef0fa;
+                border: 1px solid var(--zx-border-soft);
                 border-radius: 18px;
                 padding: 26px;
                 width: 380px;
@@ -317,11 +328,18 @@
                   <span>&#9733;</span>
                 }
               </div>
-              <div style="font-size: 14px; color: #3a3d5c; line-height: 1.6; margin-bottom: 16px">
+              <div
+                style="
+                  font-size: 14px;
+                  color: var(--zx-text);
+                  line-height: 1.6;
+                  margin-bottom: 16px;
+                "
+              >
                 "{{ review.quote }}"
               </div>
               <div style="font-weight: 700; font-size: 13.5px">{{ review.name }}</div>
-              <div style="font-size: 12px; color: #8386ac">{{ review.role }}</div>
+              <div style="font-size: 12px; color: var(--zx-text-faint)">{{ review.role }}</div>
             </div>
           }
         </div>
@@ -337,14 +355,14 @@
           text-align: center;
           font-size: 32px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 6px;
         "
       >
         Why Businesses Choose
         <span
           style="
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -367,13 +385,13 @@
             class="zx-why-card"
             [class.zx-accent-purple]="i % 2 !== 0"
             style="
-              border: 1px solid #eef0fa;
+              border: 1px solid var(--zx-border-soft);
               border-radius: 18px;
               padding: 26px 22px;
               text-align: center;
               position: relative;
               overflow: hidden;
-              background: #fff;
+              background: var(--zx-bg);
             "
           >
             <div
@@ -399,11 +417,11 @@
             </div>
             <div
               style="font-weight: 800; font-size: 14.5px; margin: 0 0 4px"
-              [style.color]="i % 2 === 0 ? '#0B1F5C' : '#2E1065'"
+              [style.color]="i % 2 === 0 ? 'var(--zx-primary-deep)' : 'var(--zx-violet-deep)'"
             >
               {{ item.title }}
             </div>
-            <div style="font-size: 12px; color: #8386ac">{{ item.subtitle }}</div>
+            <div style="font-size: 12px; color: var(--zx-text-faint)">{{ item.subtitle }}</div>
           </div>
         }
       </div>
@@ -418,13 +436,13 @@
           text-align: center;
           font-size: 30px;
           font-weight: 800;
-          color: #161629;
+          color: var(--zx-ink);
           margin: 0 0 6px;
         "
       >
         Global Locations. Local Performance.
       </h2>
-      <p style="text-align: center; color: #8386ac; font-size: 15px; margin: 0 0 30px">
+      <p style="text-align: center; color: var(--zx-text-faint); font-size: 15px; margin: 0 0 30px">
         Deploy closer to your users, wherever they are.
       </p>
       <div style="max-width: 1520px; margin: 0 auto">
@@ -441,33 +459,35 @@
             <div
               class="zx-location-teaser"
               style="
-                border: 1px solid #eef0fa;
+                border: 1px solid var(--zx-border-soft);
                 border-radius: 16px;
                 padding: 20px 22px;
-                background: #fff;
+                background: var(--zx-bg);
                 box-shadow: 0 6px 20px rgba(18, 105, 232, 0.06);
               "
             >
               <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px">
                 <span style="font-size: 22px">{{ location.flag }}</span>
                 <div>
-                  <div style="font-weight: 800; font-size: 16px; color: #0b1f5c">
+                  <div style="font-weight: 800; font-size: 16px; color: var(--zx-primary-deep)">
                     {{ location.city }}
                   </div>
-                  <div style="font-size: 12.5px; color: #8386ac">{{ location.country }}</div>
+                  <div style="font-size: 12.5px; color: var(--zx-text-faint)">
+                    {{ location.country }}
+                  </div>
                 </div>
               </div>
-              <div style="display: grid; gap: 7px; font-size: 13px; color: #4a5175">
+              <div style="display: grid; gap: 7px; font-size: 13px; color: var(--zx-text-slate)">
                 <div style="display: flex; align-items: center; gap: 8px">
-                  <span style="color: #1269e8; font-weight: 800">&#10003;</span
+                  <span style="color: var(--zx-primary); font-weight: 800">&#10003;</span
                   >{{ location.latencyLabel }}: {{ location.latencyValue }}
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px">
-                  <span style="color: #1269e8; font-weight: 800">&#10003;</span
+                  <span style="color: var(--zx-primary); font-weight: 800">&#10003;</span
                   >{{ location.datacenter }}
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px">
-                  <span style="color: #1269e8; font-weight: 800">&#10003;</span
+                  <span style="color: var(--zx-primary); font-weight: 800">&#10003;</span
                   >{{ location.network }}
                 </div>
               </div>
@@ -489,7 +509,7 @@
       style="
         max-width: 1520px;
         margin: 0 auto;
-        background: #f6f7fe;
+        background: var(--zx-bg-tint);
         border-radius: 16px;
         padding: 22px 28px;
         display: flex;
@@ -503,7 +523,7 @@
         <span style="font-size: 26px">&#129504;</span>
         <div>
           <div style="font-weight: 700; font-size: 15px">{{ c.bannerTitle }}</div>
-          <div style="font-size: 13px; color: #5b5e80">{{ c.bannerSubtitle }}</div>
+          <div style="font-size: 13px; color: var(--zx-text-muted)">{{ c.bannerSubtitle }}</div>
         </div>
       </div>
       <a
@@ -512,7 +532,7 @@
           padding: 12px 22px;
           border-radius: 10px;
           background: #161629;
-          color: #fff;
+          color: var(--zx-on-accent);
           font-weight: 700;
           font-size: 14px;
           display: flex;
@@ -524,6 +544,13 @@
       >
     </div>
   </section>
+
+  <!-- from the blog — only once there is something published -->
+  @if (blogStore.home().length) {
+    <section style="padding: 64px 64px 10px">
+      <zx-blog-slider [posts]="blogStore.home()" />
+    </section>
+  }
 
   <!-- CTA -->
   <section style="padding: 64px 64px">
@@ -556,10 +583,12 @@
         "
       ></div>
       <div style="position: relative; z-index: 1">
-        <div style="color: #fff; font-size: 26px; font-weight: 800; margin-bottom: 8px">
+        <div
+          style="color: var(--zx-on-accent); font-size: 26px; font-weight: 800; margin-bottom: 8px"
+        >
           {{ c.ctaHeading }}
         </div>
-        <div style="color: #b7b9e6; font-size: 14.5px">{{ c.ctaSubheading }}</div>
+        <div style="color: var(--zx-outline-soft); font-size: 14.5px">{{ c.ctaSubheading }}</div>
       </div>
       <div style="display: flex; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1">
         <a
@@ -567,8 +596,8 @@
           style="
             padding: 14px 26px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #1269e8, #7c3aed);
-            color: #fff;
+            background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+            color: var(--zx-on-accent);
             font-weight: 700;
             font-size: 14.5px;
             white-space: nowrap;
@@ -580,8 +609,8 @@
           style="
             padding: 14px 26px;
             border-radius: 10px;
-            background: #fff;
-            color: #161629;
+            background: var(--zx-bg);
+            color: var(--zx-ink);
             font-weight: 700;
             font-size: 14.5px;
             white-space: nowrap;
@@ -591,4 +620,8 @@
       </div>
     </div>
   </section>
+} @else if (loading()) {
+  <zx-skeleton kind="hero" />
+  <zx-skeleton kind="strip" />
+  <zx-skeleton kind="cards" [count]="3" />
 }

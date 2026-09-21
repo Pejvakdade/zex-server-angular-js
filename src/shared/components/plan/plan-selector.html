@@ -62,9 +62,19 @@
               <span class="zx-plan-price-unit">/month</span>
             </div>
             @if (store.isStaff()) {
-              <span class="zx-plan-cta" style="opacity: 0.55; cursor: not-allowed" title="Staff provision services from the admin dashboard">Choose This Plan &rarr;</span>
+              <span
+                class="zx-plan-cta"
+                style="opacity: 0.55; cursor: not-allowed"
+                title="Staff provision services from the admin dashboard"
+                >Choose This Plan &rarr;</span
+              >
             } @else {
-              <a [routerLink]="orderLink(plan)" [queryParams]="orderParams(plan)" class="zx-plan-cta">Choose This Plan &rarr;</a>
+              <a
+                [routerLink]="orderLink(plan)"
+                [queryParams]="orderParams(plan)"
+                class="zx-plan-cta"
+                >Choose This Plan &rarr;</a
+              >
             }
           </div>
         </div>
@@ -73,7 +83,9 @@
           @for (column of columns(); track $index) {
             <div class="zx-plan-column">
               @for (feature of column; track feature) {
-                <div class="zx-plan-feature"><span class="zx-plan-check">&#10003;</span>{{ feature }}</div>
+                <div class="zx-plan-feature">
+                  <span class="zx-plan-check">&#10003;</span>{{ feature }}
+                </div>
               }
             </div>
           }
@@ -83,8 +95,17 @@
   } @else {
     <!-- The reference always had plans baked in, so it has no empty state. Say what is actually true
          rather than rendering an empty block that looks like a broken page. -->
-    <p class="zx-plan-empty">
-      {{ loading() ? 'Loading plans…' : 'No plans are published for this product yet.' }}
-    </p>
+    @if (!loading() && location(); as city) {
+      <p class="zx-plan-empty">
+        No {{ product() }} plans in {{ city }} yet.
+        <button type="button" class="zx-plan-empty-clear" (click)="clearLocation.emit()">
+          Show all locations
+        </button>
+      </p>
+    } @else {
+      <p class="zx-plan-empty">
+        {{ loading() ? 'Loading plans…' : 'No plans are published for this product yet.' }}
+      </p>
+    }
   }
 </div>

@@ -10,43 +10,44 @@ const PILL_BASE =
   'display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap;';
 
 const TINTS: Record<Tint, string> = {
-  green: 'background:#EAF6EC;color:#16A34A;',
-  red: 'background:#FEE2E2;color:#DC2626;',
-  amber: 'background:#FEF3C7;color:#B45309;',
-  blue: 'background:#EEF0FE;color:#1269E8;',
-  neutral: 'background:#F1F2F8;color:#6B6E96;',
+  green: 'background:var(--zx-green-bg);color:var(--zx-green-fg);',
+  red: 'background:var(--zx-red-bg);color:var(--zx-red-fg);',
+  amber: 'background:var(--zx-amber-bg);color:var(--zx-amber-fg);',
+  blue: 'background:var(--zx-surface-active);color:var(--zx-primary);',
+  neutral: 'background:var(--zx-neutral-bg);color:var(--zx-neutral-fg);',
 };
 
 export const pill = (tint: Tint): string => PILL_BASE + TINTS[tint];
 
 export const UI = {
   thead:
-    'text-align:left;font-size:12px;color:#8386AC;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;padding:10px 14px;border-bottom:1px solid #EEF0FA;',
-  td: 'padding:14px;font-size:13.5px;color:#3A3D5C;border-bottom:1px solid #F3F4FC;',
-  tdMuted: 'padding:14px;font-size:13px;color:#8386AC;border-bottom:1px solid #F3F4FC;',
+    'text-align:left;font-size:12px;color:var(--zx-text-faint);font-weight:700;text-transform:uppercase;letter-spacing:0.3px;padding:10px 14px;border-bottom:1px solid var(--zx-border-soft);',
+  td: 'padding:14px;font-size:13.5px;color:var(--zx-text);border-bottom:1px solid var(--zx-row-border);',
+  tdMuted:
+    'padding:14px;font-size:13px;color:var(--zx-text-faint);border-bottom:1px solid var(--zx-row-border);',
   addBtn:
-    'padding:10px 18px;border-radius:10px;border:none;background:linear-gradient(135deg,#1269E8,#7C3AED);color:#fff;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;box-shadow:0 8px 20px rgba(18,105,232,0.24);',
+    'padding:10px 18px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--zx-primary),var(--zx-violet));color:var(--zx-on-accent);font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;box-shadow:0 8px 20px rgba(18,105,232,0.24);',
   saveBtn:
-    'padding:11px 22px;border-radius:10px;border:none;background:linear-gradient(135deg,#1269E8,#7C3AED);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;box-shadow:0 8px 20px rgba(18,105,232,0.24);',
+    'padding:11px 22px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--zx-primary),var(--zx-violet));color:var(--zx-on-accent);font-weight:700;font-size:13.5px;cursor:pointer;box-shadow:0 8px 20px rgba(18,105,232,0.24);',
   editBtn:
-    'padding:6px 12px;border-radius:8px;border:1.5px solid #E0E3F5;background:#fff;color:#161629;font-weight:600;font-size:12px;cursor:pointer;margin-left:6px;',
+    'padding:6px 12px;border-radius:8px;border:1.5px solid var(--zx-border);background:var(--zx-bg);color:var(--zx-ink);font-weight:600;font-size:12px;cursor:pointer;margin-left:6px;',
   deleteBtn:
-    'padding:6px 12px;border-radius:8px;border:1.5px solid #FBD5D5;background:#fff;color:#DC2626;font-weight:600;font-size:12px;cursor:pointer;margin-left:6px;',
+    'padding:6px 12px;border-radius:8px;border:1.5px solid var(--zx-red-border);background:var(--zx-bg);color:var(--zx-red-fg);font-weight:600;font-size:12px;cursor:pointer;margin-left:6px;',
   viewBtn:
-    'padding:6px 12px;border-radius:8px;border:1.5px solid #E0E3F5;background:#fff;color:#161629;font-weight:600;font-size:12px;cursor:pointer;',
+    'padding:6px 12px;border-radius:8px;border:1.5px solid var(--zx-border);background:var(--zx-bg);color:var(--zx-ink);font-weight:600;font-size:12px;cursor:pointer;',
   input:
-    'padding:12px 14px;border-radius:10px;border:1.5px solid #E0E3F5;font-size:14px;width:100%;box-sizing:border-box;',
+    'padding:12px 14px;border-radius:10px;border:1.5px solid var(--zx-border);font-size:14px;width:100%;box-sizing:border-box;',
   textarea:
-    'padding:12px 14px;border-radius:10px;border:1.5px solid #E0E3F5;font-size:14px;width:100%;box-sizing:border-box;resize:vertical;',
-  chip: 'padding:7px 14px;border-radius:20px;font-size:12.5px;font-weight:600;border:1px solid #E0E3F5;background:#fff;color:#5B5E80;cursor:pointer;',
+    'padding:12px 14px;border-radius:10px;border:1.5px solid var(--zx-border);font-size:14px;width:100%;box-sizing:border-box;resize:vertical;',
+  chip: 'padding:7px 14px;border-radius:20px;font-size:12.5px;font-weight:600;border:1px solid var(--zx-border);background:var(--zx-bg);color:var(--zx-text-muted);cursor:pointer;',
   chipActive:
-    'padding:7px 14px;border-radius:20px;font-size:12.5px;font-weight:600;border:1px solid #1269E8;background:#EEF0FE;color:#1269E8;cursor:pointer;',
+    'padding:7px 14px;border-radius:20px;font-size:12.5px;font-weight:600;border:1px solid var(--zx-primary);background:var(--zx-surface-active);color:var(--zx-primary);cursor:pointer;',
   select:
-    'padding:9px 14px;border-radius:999px;border:1.5px solid #E0E3F5;background:#fff;color:#3A3D5C;font-weight:600;font-size:13px;cursor:pointer;',
+    'padding:9px 14px;border-radius:999px;border:1.5px solid var(--zx-border);background:var(--zx-bg);color:var(--zx-text);font-weight:600;font-size:13px;cursor:pointer;',
   search:
-    'padding:9px 14px;border-radius:10px;border:1.5px solid #E0E3F5;background:#fff;color:#161629;font-size:13px;min-width:200px;',
-  card: 'background:#fff;border:1px solid #EEF0FA;border-radius:16px;padding:28px 30px;box-shadow:0 4px 14px rgba(30,20,90,0.04);',
-  label: 'font-size:13px;font-weight:600;color:#3A3D5C;',
+    'padding:9px 14px;border-radius:10px;border:1.5px solid var(--zx-border);background:var(--zx-bg);color:var(--zx-ink);font-size:13px;min-width:200px;',
+  card: 'background:var(--zx-bg);border:1px solid var(--zx-border-soft);border-radius:16px;padding:28px 30px;box-shadow:0 4px 14px rgba(30,20,90,0.04);',
+  label: 'font-size:13px;font-weight:600;color:var(--zx-text);',
 } as const;
 
 /** The line icons an editor may pick for a content item — the reference's KB_ICON_OPTIONS. */
@@ -63,6 +64,30 @@ export const KB_ICON_OPTIONS = [
   'ticket',
   'gear',
   'key',
+  'database',
+  'cloud',
+  'cpu',
+  'harddrive',
+  'wifi',
+  'lock',
+  'unlock',
+  'terminal',
+  'code',
+  'rocket',
+  'zap',
+  'clock',
+  'refresh',
+  'alert',
+  'checkCircle',
+  'chat',
+  'fileText',
+  'folder',
+  'dollar',
+  'wrench',
+  'download',
+  'upload',
+  'activity',
+  'monitor',
 ] as const;
 
 /** A select option: a bare string (value = label) or a value/label pair (a uuid shown by name). */
@@ -73,16 +98,25 @@ export const optionValue = (opt: SelectOption): string =>
 export const optionLabel = (opt: SelectOption): string =>
   typeof opt === 'string' ? opt : opt.label;
 
+/** Hero banner requirements — the backend enforces the same numbers (`BANNER_*` in its constants). */
+export const BANNER_WIDTH = 1920;
+export const BANNER_HEIGHT = 560;
+export const BANNER_MAX_BYTES = 2 * 1024 * 1024;
+export const BANNER_HINT = `Required size: ${BANNER_WIDTH} × ${BANNER_HEIGHT} px · JPG, PNG or WebP · max 2 MB`;
+
 /**
  * One input in the add/edit modal. `options` for select / multiselect (multiselect stores an
- * array); `icon` is a chip picker over KB_ICON_OPTIONS; `date` stores an ISO yyyy-mm-dd string.
+ * array); `icon` is a chip picker over KB_ICON_OPTIONS; `date` stores an ISO yyyy-mm-dd string;
+ * `image` is an upload slot (zx-image-upload) that stores the uploaded file's URL, with `hint`
+ * telling the editor which size to upload.
  */
 export interface FieldDef {
   key: string;
   label: string;
-  type: 'text' | 'number' | 'textarea' | 'select' | 'checkbox' | 'multiselect' | 'icon' | 'date';
+  type: 'text' | 'number' | 'textarea' | 'select' | 'checkbox' | 'multiselect' | 'icon' | 'date' | 'image';
   options?: ReadonlyArray<SelectOption>;
   required?: boolean;
+  hint?: string;
 }
 
 /** A repeated-item section of a page editor (feature strip, FAQ, footer columns …). */

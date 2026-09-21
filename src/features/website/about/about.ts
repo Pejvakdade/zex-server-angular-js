@@ -15,8 +15,10 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
+import { heroBackground } from '@src/lib/assetUrl';
 import { FleetStatsStore } from '@src/store/website/fleet-stats.store';
 import { SiteContentStore } from '@src/store/website/site-content.store';
+import { Skeleton } from '@src/shared/components/skeleton/skeleton';
 
 interface AboutValue {
   title: string;
@@ -26,6 +28,8 @@ interface AboutValue {
 interface AboutContent {
   heroHeading: string;
   heroSubheading: string;
+  /** Banner behind the hero text, uploaded from the dashboard (empty = gradient only). */
+  heroImage?: string;
   founded: string;
   datacentersCount: string;
   serversDeployed: string;
@@ -40,7 +44,7 @@ interface AboutContent {
 
 @Component({
   selector: 'zx-about',
-  imports: [RouterLink],
+  imports: [RouterLink, Skeleton],
   templateUrl: './about.html',
   styleUrl: './about.css',
 })
@@ -50,6 +54,8 @@ export class About {
 
   protected readonly routes = appRoutes;
   protected readonly content = computed(() => this.store.forPage()<AboutContent>('about'));
+  protected readonly heroBackground = computed(() => heroBackground(this.content()?.heroImage));
+  protected readonly loading = computed(() => this.store.isLoading()('about'));
 
   /**
    * Only tiles with a real value are shown. An empty strip disappears entirely rather than

@@ -23,10 +23,11 @@ import { Toast } from '@src/features/admin/_component/toast';
 import { AuthStore } from '@src/store/website/auth.store';
 
 import { CLIENT_NAV } from './client-nav';
+import { ThemeToggle } from '@src/shared/components/theme-toggle/theme-toggle';
 
 @Component({
   selector: 'zx-client-layout',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NavIcon, Toast],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NavIcon, Toast, ThemeToggle],
   templateUrl: './client-layout.html',
   styleUrl: '../../admin/_component/admin-layout.css',
 })

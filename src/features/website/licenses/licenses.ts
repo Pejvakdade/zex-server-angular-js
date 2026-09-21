@@ -13,25 +13,28 @@ import { RouterLink } from '@angular/router';
 import { UpperCasePipe } from '@angular/common';
 
 import appRoutes from '@src/common/appRoutes';
+import { heroBackground } from '@src/lib/assetUrl';
 import { LicenseCard } from '@src/shared/components/license/license-card';
 import { LineIcon } from '@src/shared/components/line-icon/line-icon';
 import { License, LicensesStore } from '@src/store/website/licenses.store';
 import { ProductContentStore } from '@src/store/website/product-content.store';
+import { Skeleton } from '@src/shared/components/skeleton/skeleton';
 
 const PRODUCT = 'Software Licenses';
 
 @Component({
   selector: 'zx-licenses',
-  imports: [RouterLink, UpperCasePipe, LineIcon, LicenseCard],
+  imports: [RouterLink, UpperCasePipe, LineIcon, LicenseCard, Skeleton],
   templateUrl: './licenses.html',
   styleUrl: './licenses.css',
 })
 export class Licenses {
   protected readonly store = inject(LicensesStore);
-  private readonly contentStore = inject(ProductContentStore);
+  protected readonly contentStore = inject(ProductContentStore);
 
   protected readonly routes = appRoutes;
   protected readonly content = computed(() => this.contentStore.forProduct()(PRODUCT));
+  protected readonly heroBackground = computed(() => heroBackground(this.content()?.heroImage));
 
   /** Ids of licences whose install fee the visitor has opted into. */
   private readonly withInstall = signal<ReadonlySet<string>>(new Set());

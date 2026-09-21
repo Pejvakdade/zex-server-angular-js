@@ -23,9 +23,11 @@ import { NavIcon } from './nav-icon';
     >
       <div
         (click)="$event.stopPropagation()"
-        style="background:#fff;border-radius:18px;padding:28px;max-width:560px;width:100%;box-shadow:0 24px 60px rgba(20,10,60,0.28);max-height:90vh;display:flex;flex-direction:column;"
+        style="background:var(--zx-bg);border-radius:18px;padding:28px;max-width:560px;width:100%;box-shadow:0 24px 60px rgba(20,10,60,0.28);max-height:90vh;display:flex;flex-direction:column;"
       >
-        <div style="font-size:18px;font-weight:800;color:#161629;margin-bottom:18px;flex-shrink:0;">
+        <div
+          style="font-size:18px;font-weight:800;color:var(--zx-ink);margin-bottom:18px;flex-shrink:0;"
+        >
           {{ title() }}
         </div>
 
@@ -89,7 +91,7 @@ import { NavIcon } from './nav-icon';
                 }
                 @case ('checkbox') {
                   <label
-                    style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#3A3D5C;"
+                    style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--zx-text);"
                   >
                     <input type="checkbox" [name]="f.key" [(ngModel)]="draft[f.key]" />
                     {{ f.label }}
@@ -128,7 +130,7 @@ import { NavIcon } from './nav-icon';
 
           @if (error()) {
             <div
-              style="font-size:13px;color:#DC2626;background:#FFF6F6;border:1px solid #FBD5D5;border-radius:10px;padding:10px 12px;"
+              style="font-size:13px;color:var(--zx-red-fg);background:var(--zx-red-tint);border:1px solid var(--zx-red-border);border-radius:10px;padding:10px 12px;"
             >
               {{ error() }}
             </div>
@@ -138,7 +140,7 @@ import { NavIcon } from './nav-icon';
             <button
               type="button"
               (click)="cancel.emit()"
-              style="padding:10px 18px;border-radius:10px;border:none;background:transparent;color:#5B5E80;font-weight:600;font-size:13px;cursor:pointer;"
+              style="padding:10px 18px;border-radius:10px;border:none;background:transparent;color:var(--zx-text-muted);font-weight:600;font-size:13px;cursor:pointer;"
             >
               Cancel
             </button>
@@ -176,9 +178,9 @@ export class EntityModal {
   protected readonly icons: ReadonlyArray<IconName> = KB_ICON_OPTIONS;
   /** The reference's icon tiles: a 40px square, blue-tinted when selected. */
   protected readonly iconTile =
-    'width:40px;height:40px;border-radius:9px;border:1.5px solid #E0E3F5;background:#fff;color:#3A3D5C;display:flex;align-items:center;justify-content:center;cursor:pointer;';
+    'width:40px;height:40px;border-radius:9px;border:1.5px solid var(--zx-border);background:var(--zx-bg);color:var(--zx-text);display:flex;align-items:center;justify-content:center;cursor:pointer;';
   protected readonly iconTileActive =
-    'width:40px;height:40px;border-radius:9px;border:1.5px solid #1269E8;background:#EEF0FE;color:#1269E8;display:flex;align-items:center;justify-content:center;cursor:pointer;';
+    'width:40px;height:40px;border-radius:9px;border:1.5px solid var(--zx-primary);background:var(--zx-surface-active);color:var(--zx-primary);display:flex;align-items:center;justify-content:center;cursor:pointer;';
   /** Mutable copy for ngModel; re-seeded whenever the parent hands over a new `initial`. */
   protected draft: Record<string, any> = {};
 

@@ -16,6 +16,8 @@ export const appRoutes = {
   WordPressHosting: '/wordpress-hosting',
   SoftwareLicenses: '/software-licenses',
   Locations: '/locations',
+  Blog: '/blog',
+  BlogPost: (slug: string) => `/blog/${slug}`,
   AboutUs: '/about-us',
   ContactUs: '/contact-us',
   Support: '/support',
@@ -42,6 +44,9 @@ export const appRoutes = {
   AdminSiteFooter: '/admin/site/footer',
   AdminSiteLegal: '/admin/site/legal',
   AdminSiteProductPages: '/admin/site/product-pages',
+  AdminBlog: '/admin/blog',
+  AdminBlogNew: '/admin/blog/new',
+  AdminBlogEdit: (id: string) => `/admin/blog/${id}`,
   AdminStaff: '/admin/staff',
   AdminSettings: '/admin/settings',
 

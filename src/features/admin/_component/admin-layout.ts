@@ -25,12 +25,13 @@ import { AuthStore } from '@src/store/website/auth.store';
 import { NAV_GROUPS, SectionTitle } from './admin-nav';
 import { NavIcon } from './nav-icon';
 import { Toast } from './toast';
+import { ThemeToggle } from '@src/shared/components/theme-toggle/theme-toggle';
 
 const COLLAPSE_KEY = 'zx_admin_sidebar_collapsed';
 
 @Component({
   selector: 'zx-admin-layout',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NavIcon, Toast],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NavIcon, Toast, ThemeToggle],
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.css',
 })

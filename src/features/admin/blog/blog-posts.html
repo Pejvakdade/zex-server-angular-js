@@ -1,0 +1,82 @@
+<div>
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    "
+  >
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap">
+        <button
+          type="button"
+          (click)="setStatus(null)"
+          [style]="store.filters().status === null ? ui.chipActive : ui.chip"
+        >
+          All
+        </button>
+        @for (s of statuses; track s) {
+          <button
+            type="button"
+            (click)="setStatus(s)"
+            [style]="store.filters().status === s ? ui.chipActive : ui.chip"
+          >
+            {{ s }}
+          </button>
+        }
+      </div>
+      <input
+        type="text"
+        [value]="store.filters().search ?? ''"
+        (change)="onSearch($event)"
+        placeholder="Search title or slug..."
+        [style]="ui.search"
+      />
+      <span style="font-size: 13px; color: var(--zx-text-faint)"
+        >{{ store.page().totalDocs }} posts</span
+      >
+    </div>
+    <a [routerLink]="routes.AdminBlogNew" [style]="ui.addBtn" style="text-decoration: none">
+      + New post
+    </a>
+  </div>
+
+  @if (store.error() && !deleting()) {
+    <div
+      style="
+        font-size: 13px;
+        color: var(--zx-red-fg);
+        background: var(--zx-red-tint);
+        border: 1px solid var(--zx-red-border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 14px;
+      "
+    >
+      {{ store.error() }}
+    </div>
+  }
+
+  <zx-data-table
+    [columns]="columns"
+    [rows]="rows()"
+    [loading]="store.loading()"
+    emptyText="No posts yet — write the first one."
+    (edit)="openEdit($event)"
+    (remove)="deleting.set($any($event))"
+  />
+
+  <zx-pager [page]="store.page()" (goTo)="store.load($event)" />
+
+  @if (deleting(); as row) {
+    <zx-confirm-dialog
+      [label]="row.label"
+      [busy]="store.saving()"
+      (confirm)="confirmDelete()"
+      (cancel)="deleting.set(null)"
+    />
+  }
+</div>

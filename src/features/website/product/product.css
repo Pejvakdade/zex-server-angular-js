@@ -10,7 +10,20 @@
 .zx-hover-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 16px 34px rgba(18, 105, 232, 0.16);
-  border-color: #1269e8;
+  border-color: var(--zx-primary);
+}
+
+/* Location cards double as plan filters; the picked one keeps the hover border and a tinted surface.
+   Inline `border`/`background` on the card lose to these thanks to !important. */
+.zx-location-card--active {
+  border-color: var(--zx-primary) !important;
+  background: var(--zx-surface-active) !important;
+  box-shadow: 0 16px 34px rgba(18, 105, 232, 0.16) !important;
+}
+
+.zx-location-card:focus-visible {
+  outline: 2px solid var(--zx-primary);
+  outline-offset: 2px;
 }
 
 details > summary {
@@ -77,28 +90,5 @@ details > summary::-webkit-details-marker {
 
   :host ::ng-deep h1 {
     font-size: 36px !important;
-  }
-}
-
-/* loading placeholders for the hero and feature strip */
-.zx-skeleton {
-  background: #e3e8fa;
-  border-radius: 8px;
-  animation: zx-skeleton-pulse 1.4s ease-in-out infinite;
-}
-
-@keyframes zx-skeleton-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.55;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .zx-skeleton {
-    animation: none;
   }
 }

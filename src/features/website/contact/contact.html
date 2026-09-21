@@ -1,45 +1,52 @@
 @if (content(); as c) {
   <!-- hero -->
   <section
-    style="
-      background: linear-gradient(180deg, #f6f7fe 0%, #fff 100%);
-      padding: 0 0 40px;
-      position: relative;
-      overflow: hidden;
-      font-family: var(--zx-font);
-    "
+    class="zx-hero"
+    [class.zx-hero--image]="!!c.heroImage"
+    [style.background-image]="heroBackground()"
+    style="background: linear-gradient(180deg, var(--zx-bg-tint) 0%, var(--zx-bg) 100%)"
   >
-    <div style="position: relative; text-align: left; padding: 64px 56px; max-width: 760px">
-      <div
-        style="
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: #eef0fe;
-          color: #1269e8;
-          font-weight: 700;
-          font-size: 12.5px;
-          padding: 6px 14px;
-          border-radius: 20px;
-          margin-bottom: 22px;
-        "
-      >
-        &#9679; CONTACT US
+    <div class="zx-hero__inner">
+      <div style="max-width: 760px">
+        <div
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--zx-surface-active);
+            color: var(--zx-primary);
+            font-weight: 700;
+            font-size: 12.5px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 22px;
+          "
+        >
+          &#9679; CONTACT US
+        </div>
+        <h1
+          style="
+            font-size: 52px;
+            line-height: 1.12;
+            font-weight: 800;
+            margin: 0 0 18px;
+            color: var(--zx-ink);
+          "
+        >
+          {{ c.heroHeading }}
+        </h1>
+        <p
+          style="
+            font-size: 17.5px;
+            color: var(--zx-text-slate);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0;
+          "
+        >
+          {{ c.heroSubheading }}
+        </p>
       </div>
-      <h1
-        style="
-          font-size: 52px;
-          line-height: 1.12;
-          font-weight: 800;
-          margin: 0 0 18px;
-          color: #161629;
-        "
-      >
-        {{ c.heroHeading }}
-      </h1>
-      <p style="font-size: 17.5px; color: #4a5175; line-height: 1.6; max-width: 600px; margin: 0">
-        {{ c.heroSubheading }}
-      </p>
     </div>
   </section>
 
@@ -60,7 +67,7 @@
           <div
             class="zx-hover-card"
             style="
-              border: 1px solid #eef0fa;
+              border: 1px solid var(--zx-border-soft);
               border-radius: 16px;
               padding: 24px;
               text-align: center;
@@ -71,7 +78,7 @@
                 width: 48px;
                 height: 48px;
                 border-radius: 12px;
-                background: linear-gradient(135deg, #dce9ff, #eaf1ff);
+                background: linear-gradient(135deg, var(--zx-tint-blue), var(--zx-tint-blue-2));
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -84,7 +91,7 @@
             <div style="font-weight: 700; font-size: 15px; margin-bottom: 4px">
               {{ channel.label }}
             </div>
-            <div style="font-size: 13px; color: #5b5e80; margin-bottom: 6px">
+            <div style="font-size: 13px; color: var(--zx-text-muted); margin-bottom: 6px">
               {{ channel.description }}
             </div>
             @if (channelHref(channel); as href) {
@@ -118,16 +125,16 @@
         align-items: start;
       "
     >
-      <div style="border: 1px solid #eef0fa; border-radius: 18px; padding: 30px">
-        <h2 style="font-size: 22px; font-weight: 800; color: #161629; margin: 0 0 6px">
+      <div style="border: 1px solid var(--zx-border-soft); border-radius: 18px; padding: 30px">
+        <h2 style="font-size: 22px; font-weight: 800; color: var(--zx-ink); margin: 0 0 6px">
           Open a Support Ticket
         </h2>
-        <p style="font-size: 13.5px; color: #8386ac; margin: 0 0 22px">
+        <p style="font-size: 13.5px; color: var(--zx-text-faint); margin: 0 0 22px">
           We'll track this and follow up by email.
         </p>
 
         @if (!auth.isAuthenticated()) {
-          <p style="font-size: 14px; color: #3a3d5c; line-height: 1.6; margin: 0 0 18px">
+          <p style="font-size: 14px; color: var(--zx-text); line-height: 1.6; margin: 0 0 18px">
             Tickets are tied to your account so we can follow up on your services. Log in to open
             one, or create an account in a minute.
           </p>
@@ -137,8 +144,8 @@
               style="
                 padding: 13px 24px;
                 border-radius: 10px;
-                background: linear-gradient(135deg, #1269e8, #7c3aed);
-                color: #fff;
+                background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+                color: var(--zx-on-accent);
                 font-weight: 700;
                 font-size: 14px;
                 box-shadow: 0 10px 24px rgba(18, 105, 232, 0.28);
@@ -150,8 +157,8 @@
               style="
                 padding: 13px 24px;
                 border-radius: 10px;
-                border: 1.5px solid #e0e3f5;
-                color: #161629;
+                border: 1.5px solid var(--zx-border);
+                color: var(--zx-ink);
                 font-weight: 700;
                 font-size: 14px;
               "
@@ -161,8 +168,8 @@
         } @else if (opened(); as ticket) {
           <p
             style="
-              background: #eaf6ec;
-              color: #16a34a;
+              background: var(--zx-green-bg);
+              color: var(--zx-green-fg);
               font-size: 14px;
               font-weight: 600;
               padding: 14px 16px;
@@ -186,7 +193,7 @@
                 background: none;
                 border: 0;
                 padding: 0;
-                color: #8386ac;
+                color: var(--zx-text-faint);
                 font: inherit;
                 font-size: 13.5px;
                 cursor: pointer;
@@ -203,7 +210,9 @@
             style="display: flex; flex-direction: column; gap: 14px"
           >
             <div style="display: flex; flex-direction: column; gap: 6px">
-              <label for="ticket-subject" style="font-size: 13px; font-weight: 600; color: #3a3d5c"
+              <label
+                for="ticket-subject"
+                style="font-size: 13px; font-weight: 600; color: var(--zx-text)"
                 >Subject</label
               >
               <input
@@ -215,7 +224,9 @@
               />
             </div>
             <div style="display: flex; flex-direction: column; gap: 6px">
-              <label for="ticket-priority" style="font-size: 13px; font-weight: 600; color: #3a3d5c"
+              <label
+                for="ticket-priority"
+                style="font-size: 13px; font-weight: 600; color: var(--zx-text)"
                 >Priority</label
               >
               <select id="ticket-priority" formControlName="priority" [style]="inputStyle">
@@ -225,7 +236,9 @@
               </select>
             </div>
             <div style="display: flex; flex-direction: column; gap: 6px">
-              <label for="ticket-message" style="font-size: 13px; font-weight: 600; color: #3a3d5c"
+              <label
+                for="ticket-message"
+                style="font-size: 13px; font-weight: 600; color: var(--zx-text)"
                 >Message</label
               >
               <textarea
@@ -237,7 +250,9 @@
               ></textarea>
             </div>
             @if (validation() || tickets.error(); as error) {
-              <p style="color: #dc2626; font-size: 13px; margin: 0" role="alert">{{ error }}</p>
+              <p style="color: var(--zx-red-fg); font-size: 13px; margin: 0" role="alert">
+                {{ error }}
+              </p>
             }
             <button
               type="submit"
@@ -247,8 +262,8 @@
                 padding: 13px;
                 border-radius: 10px;
                 border: 0;
-                background: linear-gradient(135deg, #1269e8, #7c3aed);
-                color: #fff;
+                background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+                color: var(--zx-on-accent);
                 font-weight: 700;
                 font-size: 14px;
                 font-family: inherit;
@@ -262,8 +277,8 @@
         }
       </div>
 
-      <div style="border: 1px solid #eef0fa; border-radius: 18px; padding: 30px">
-        <h2 style="font-size: 18px; font-weight: 800; color: #161629; margin: 0 0 18px">
+      <div style="border: 1px solid var(--zx-border-soft); border-radius: 18px; padding: 30px">
+        <h2 style="font-size: 18px; font-weight: 800; color: var(--zx-ink); margin: 0 0 18px">
           Business details
         </h2>
         <div
@@ -272,7 +287,7 @@
             flex-direction: column;
             gap: 16px;
             font-size: 13.5px;
-            color: #3a3d5c;
+            color: var(--zx-text);
           "
         >
           <div>
@@ -304,11 +319,11 @@
                   width: 32px;
                   height: 32px;
                   border-radius: 8px;
-                  background: #eef0fe;
+                  background: var(--zx-surface-active);
                   display: flex;
                   align-items: center;
                   justify-content: center;
-                  color: #1269e8;
+                  color: var(--zx-primary);
                   font-weight: 700;
                   font-size: 12px;
                 "
@@ -329,18 +344,20 @@
   <!-- faq teaser -->
   <section style="padding: 56px 64px">
     <div style="max-width: 760px; margin: 0 auto; text-align: center">
-      <h2 style="font-size: 26px; font-weight: 800; color: #161629; margin: 0 0 8px">
+      <h2 style="font-size: 26px; font-weight: 800; color: var(--zx-ink); margin: 0 0 8px">
         {{ c.faqTeaserHeading }}
       </h2>
-      <p style="font-size: 14.5px; color: #8386ac; margin: 0 0 20px">{{ c.faqTeaserSubheading }}</p>
+      <p style="font-size: 14.5px; color: var(--zx-text-faint); margin: 0 0 20px">
+        {{ c.faqTeaserSubheading }}
+      </p>
       <a
         [routerLink]="routes.VpsHosting"
         fragment="faq"
         style="
           padding: 12px 24px;
           border-radius: 10px;
-          border: 1.5px solid #e0e3f5;
-          color: #161629;
+          border: 1.5px solid var(--zx-border);
+          color: var(--zx-ink);
           font-weight: 700;
           font-size: 14px;
           display: inline-block;
@@ -349,4 +366,7 @@
       >
     </div>
   </section>
+} @else if (loading()) {
+  <zx-skeleton kind="hero" />
+  <zx-skeleton kind="cards" [count]="3" />
 }

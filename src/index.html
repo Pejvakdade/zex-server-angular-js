@@ -14,6 +14,14 @@
     <link rel="icon" href="favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <!-- Same lookup as lib/theme.service.ts, run before first paint so a dark reload never flashes white. -->
+    <script>
+      (function () {
+        var m = document.cookie.match(/(?:^|; )zexTheme=(light|dark)/);
+        var t = m ? m[1] : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
   </head>
   <body>
     <app-root></app-root>

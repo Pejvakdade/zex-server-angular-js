@@ -50,6 +50,14 @@ const routes: Routes = [
         loadComponent: () => import('./locations/locations').then((m) => m.Locations),
       },
       {
+        path: 'blog',
+        loadComponent: () => import('./blog/blog').then((m) => m.Blog),
+      },
+      {
+        path: 'blog/:slug',
+        loadComponent: () => import('./blog/blog-post').then((m) => m.BlogPostPage),
+      },
+      {
         path: 'terms-of-service',
         data: { document: 'terms' },
         loadComponent: () => import('./legal/legal').then((m) => m.Legal),

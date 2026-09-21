@@ -1,9 +1,9 @@
 /* Matches the reference's iframe frame: white card, soft border, rounded, drop shadow. */
 .zx-map-card {
-  border: 1px solid #eef0fa;
+  border: 1px solid var(--zx-border-soft);
   border-radius: 20px;
   overflow: hidden;
-  background: #fff;
+  background: var(--zx-bg);
   box-shadow: 0 10px 32px rgba(30, 20, 90, 0.06);
 }
 
@@ -18,11 +18,38 @@
   font-family: var(--zx-font, Inter, system-ui, sans-serif);
   font-weight: 700;
   font-size: 15px;
-  fill: #0b1f5c;
+  fill: var(--zx-primary-deep);
   paint-order: stroke;
-  stroke: #fff;
+  stroke: var(--zx-on-accent);
   stroke-width: 5px;
   stroke-linejoin: round;
+}
+
+/* Markers double as plan filters, so they read as buttons: pointer, hover lift, filled when active. */
+.zx-map-marker {
+  cursor: pointer;
+  outline: none;
+}
+
+.zx-map-dot {
+  transition:
+    r 0.2s ease,
+    fill 0.2s ease;
+}
+
+.zx-map-marker:hover .zx-map-dot,
+.zx-map-marker:focus-visible .zx-map-dot {
+  r: 8;
+}
+
+.zx-map-marker--active .zx-map-dot {
+  r: 9;
+  fill: #1269e8;
+  stroke: #fff;
+}
+
+.zx-map-marker--active .zx-map-label {
+  fill: #1269e8;
 }
 
 @media (max-width: 660px) {

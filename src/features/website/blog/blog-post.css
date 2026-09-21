@@ -1,0 +1,138 @@
+.back {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 13.5px;
+  margin-bottom: 26px;
+}
+
+.head {
+  margin-bottom: 28px;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.tag {
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--zx-surface-active);
+  color: var(--zx-primary);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.title {
+  margin: 0 0 14px;
+  font-size: 42px;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--zx-ink);
+  letter-spacing: -0.5px;
+}
+
+.lead {
+  margin: 0 0 20px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--zx-text-slate);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--zx-text-faint);
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+  color: var(--zx-on-accent);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.author {
+  font-weight: 700;
+  color: var(--zx-text);
+}
+
+.dot {
+  opacity: 0.6;
+}
+
+.cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+  margin-bottom: 36px;
+  background: var(--zx-skeleton);
+}
+
+.foot {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--zx-border-soft);
+}
+
+.missing {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+  color: var(--zx-on-accent);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.more-heading {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--zx-ink);
+  margin: 0 0 26px;
+}
+
+.more-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+@media (max-width: 1024px) {
+  .zx-post-page {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  .more-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 30px;
+  }
+  .more-grid {
+    grid-template-columns: 1fr;
+  }
+}

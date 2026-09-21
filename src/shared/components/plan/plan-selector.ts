@@ -8,7 +8,16 @@
  *       by the product's `includedFeatures` from productContent — the extras the reference hardcoded
  *       per page ("Free SSL Certificate", "LiteSpeed Web Server", …), now admin-editable.
  */
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
@@ -16,7 +25,10 @@ import { AuthStore } from '@src/store/website/auth.store';
 import { Plan, PlanProduct } from './plan.model';
 
 /** Hosting plans are picked by size, so their tab shows the storage figure rather than "1 GB Hosting". */
-const SIZE_LABELLED: ReadonlySet<PlanProduct> = new Set<PlanProduct>(['Web Hosting', 'WordPress Hosting']);
+const SIZE_LABELLED: ReadonlySet<PlanProduct> = new Set<PlanProduct>([
+  'Web Hosting',
+  'WordPress Hosting',
+]);
 
 @Component({
   selector: 'zx-plan-selector',
@@ -33,6 +45,9 @@ export class PlanSelector {
   /** An add-on licence picked elsewhere on the page (Dedicated Servers' control-panel picker). */
   readonly licenseId = input<string | null>(null);
   readonly installLicense = input(false);
+  /** The city the page has filtered `plans` down to, so an empty list can say why it is empty. */
+  readonly location = input<string | null>(null);
+  readonly clearLocation = output<void>();
 
   protected readonly routes = appRoutes;
   protected readonly store = inject(AuthStore);

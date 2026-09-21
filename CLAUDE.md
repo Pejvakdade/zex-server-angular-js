@@ -55,7 +55,7 @@ docker compose up --build -d
 - `features/website/` — public storefront. `website.routes.ts` + `_component/website-layout.ts` (navbar/footer) + one folder per page.
 - `features/admin/` — admin dashboard, structurally separate. `admin.routes.ts` + `_component/admin-layout.ts` (the sidebar from `Admin Dashboard.dc.html`).
 - `features/client/` — the customer panel at `/account` (My Services / Invoices / Tickets / Profile), behind `clientGuard`. There is no reference page for it, so `_component/client-layout.*` borrows the admin shell (it shares `admin-layout.css`) and the pages reuse the admin's `data-table` / `entity-modal` / `pill` primitives.
-- `shared/components/` — cross-cutting UI used by more than one group (`plan/`, `ticket/`).
+- `shared/components/` — cross-cutting UI used by more than one group (`plan/`, `ticket/`, `blog/` — the post card, the homepage slider and the post model).
 
 ### Data layer
 
@@ -64,6 +64,7 @@ docker compose up --build -d
 - `src/lib/auth.interceptor.ts` — the Angular counterpart of Miveh's `FetchClient`. Prefixes relative URLs with `environment.baseUrl`, attaches `Authorization: Bearer` from the `zexUserToken` cookie, and on a `401` clears the cookie and redirects to `appRoutes.AdminLogin` or `appRoutes.Login` depending on whether the current route starts with `/admin`. Absolute `http(s)://` URLs pass through unprefixed.
 - `src/lib/api.service.ts` — thin `HttpClient` wrapper that unwraps the backend's `{ result, message, httpCode, statusCode }` envelope so callers receive `result` directly.
 - `src/lib/cookie.ts` — `document.cookie` helpers and the `TOKEN_COOKIE` name.
+- `src/lib/markdown.ts` — `renderMarkdown()`: `marked` + DOMPurify, the one path blog bodies take to HTML (editor preview and public post page alike); styled by the global `.zx-prose` rules in `styles.css`.
 
 ### State (`src/store`)
 

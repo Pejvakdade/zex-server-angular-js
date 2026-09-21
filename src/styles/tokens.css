@@ -39,6 +39,18 @@
   --zx-border-slate: #d8dfea;
   --zx-outline: #c7c9e8;
   --zx-outline-soft: #b7b9e6;
+  --zx-on-accent: #ffffff; /* text on the CTA gradient / dark chips — does NOT flip in dark mode */
+  --zx-hero-wash-1: #f4f6ff; /* hero gradient stops (product / about / skeleton) */
+  --zx-hero-wash-2: #e6ecfc;
+  --zx-surface-muted: #f6f7fc; /* ticket thread bubbles */
+  --zx-surface-mine: #eef3ff;
+  --zx-skeleton: #e3e8fa;
+  --zx-tint-blue: #dce9ff; /* contact hero gradient */
+  --zx-tint-blue-2: #eaf1ff;
+  --zx-violet-deep: #2e1065;
+  --zx-map-land: #e3e9f8; /* locations-map world land / borders / marker leader lines */
+  --zx-map-border: #cbd6ef;
+  --zx-map-leader: #a9bee9;
 
   /* Status pills (from Admin Dashboard TINTS) ------------------------------------------------------ */
   --zx-green-bg: #eaf6ec;
@@ -76,4 +88,73 @@
 
   /* Type ------------------------------------------------------------------------------------------ */
   --zx-font: 'Inter', system-ui, sans-serif;
+
+  /* Layout ---------------------------------------------------------------------------------------- */
+  /* Every public hero is this tall on desktop; the dashboard asks for 1920×560 banners to match. */
+  --zx-hero-height: 560px;
+}
+
+/* Dark theme ------------------------------------------------------------------------------------
+ * Applied by ThemeService (lib/theme.service.ts) via <html data-theme="dark">; the boot script in
+ * index.html sets it before first paint. Brand colours stay put — only surfaces, ink and tints flip.
+ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --zx-primary: #4e8ff0; /* one step lighter so links pass contrast on the dark surface */
+  --zx-primary-strong: #2e5fd0;
+  --zx-primary-deep: #a9bee9;
+  --zx-violet-strong: #a972f0;
+  --zx-violet-deep: #c4b5fd;
+
+  --zx-ink: #f1f2fa;
+  --zx-ink-body: #e4e5f7;
+  --zx-ink-strong: #e4e5f7;
+  --zx-ink-deep: #f1f2fa;
+  --zx-text: #c9cbe3;
+  --zx-text-muted: #a7aacb;
+  --zx-text-subtle: #9498cc;
+  --zx-text-faint: #8386ac;
+  --zx-text-slate: #b0b3d6;
+  --zx-text-slate-2: #b0b3d6;
+
+  --zx-bg: #10111f;
+  --zx-bg-tint: #161729;
+  --zx-surface-active: #1e2140;
+  --zx-surface-active-2: #1e2140;
+  --zx-border: #2a2d4d;
+  --zx-border-soft: #232640;
+  --zx-border-slate: #2a2d4d;
+  --zx-outline: #3a3d63;
+  --zx-outline-soft: #454a75;
+  --zx-hero-wash-1: #161729;
+  --zx-hero-wash-2: #1b1d38;
+  --zx-surface-muted: #181a2e;
+  --zx-surface-mine: #1c2140;
+  --zx-skeleton: #262a4a;
+  --zx-tint-blue: #1a2542;
+  --zx-tint-blue-2: #161e36;
+  --zx-map-land: #232744;
+  --zx-map-border: #33375c;
+  --zx-map-leader: #5b5f8f;
+
+  --zx-green-bg: #143020;
+  --zx-green-fg: #4ade80;
+  --zx-red-bg: #3a1a1a;
+  --zx-red-fg: #f87171;
+  --zx-red-border: #5a2a2a;
+  --zx-red-tint: #2a1616;
+  --zx-amber-bg: #3a2a10;
+  --zx-amber-fg: #fbbf24;
+  --zx-blue-bg: #1a2542;
+  --zx-blue-fg: #7cb0ff;
+  --zx-neutral-bg: #1e2140;
+  --zx-neutral-fg: #a7aacb;
+
+  --zx-admin-bg: #0c0d19;
+  --zx-row-border: #1e2140;
+  --zx-nav-label: #6b6e96;
+  --zx-row-hover: #161729;
+
+  --zx-shadow-cta: 0 8px 20px rgba(18, 105, 232, 0.35);
 }

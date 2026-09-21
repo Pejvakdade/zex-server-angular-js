@@ -11,7 +11,9 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
+import { heroBackground } from '@src/lib/assetUrl';
 import { SiteContentStore } from '@src/store/website/site-content.store';
+import { Skeleton } from '@src/shared/components/skeleton/skeleton';
 
 interface KbCategory {
   title: string;
@@ -22,13 +24,15 @@ interface KbCategory {
 interface SupportContent {
   heroHeading: string;
   heroSubheading: string;
+  /** Banner behind the hero text, uploaded from the dashboard (empty = gradient only). */
+  heroImage?: string;
   kbCategories: Array<KbCategory>;
   faqs: Array<{ question: string; answer: string }>;
 }
 
 @Component({
   selector: 'zx-support',
-  imports: [RouterLink],
+  imports: [RouterLink, Skeleton],
   templateUrl: './support.html',
   styleUrl: './support.css',
 })
@@ -37,6 +41,8 @@ export class Support {
 
   protected readonly routes = appRoutes;
   protected readonly content = computed(() => this.store.forPage()<SupportContent>('support'));
+  protected readonly heroBackground = computed(() => heroBackground(this.content()?.heroImage));
+  protected readonly loading = computed(() => this.store.isLoading()('support'));
 
   constructor() {
     void this.store.load('support');

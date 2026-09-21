@@ -17,16 +17,16 @@
 
 .nav-link:hover,
 .nav-panel a:hover {
-  color: #1269e8;
+  color: var(--zx-primary);
 }
 
 .nav-panel a:hover {
-  background: #eef0fe;
+  background: var(--zx-surface-active);
 }
 
 /* Active route gets the brand colour, as the reference does for Home. */
 .nav-link.active {
-  color: #1269e8;
+  color: var(--zx-primary);
 }
 
 /* ---------------------------------------------------------------------------------------------
@@ -37,11 +37,11 @@
 .nav-toggle {
   display: none;
   background: none;
-  border: 1.5px solid #e0e3f5;
+  border: 1.5px solid var(--zx-border);
   border-radius: 10px;
   padding: 7px 10px;
   cursor: pointer;
-  color: #161629;
+  color: var(--zx-ink);
 }
 
 @media (max-width: 1024px) {
@@ -61,8 +61,8 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: #fff;
-    border-bottom: 1px solid #eef0fa;
+    background: var(--zx-bg);
+    border-bottom: 1px solid var(--zx-border-soft);
     box-shadow: 0 14px 32px rgba(30, 20, 90, 0.12);
     padding: 12px 16px 18px;
     gap: 2px;
@@ -91,4 +91,24 @@
 
 .nav-cta-mobile {
   display: none;
+}
+
+/* light / dark switch — same chrome as the outlined "Log In" link */
+.nav-theme-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid var(--zx-border);
+  background: transparent;
+  color: var(--zx-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav-theme-btn:hover {
+  border-color: var(--zx-primary);
+  color: var(--zx-primary);
 }

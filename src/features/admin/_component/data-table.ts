@@ -17,7 +17,7 @@ import { Row, UI, pill } from './admin-ui';
             @for (col of columns(); track col) {
               <th [style]="ui.thead">{{ col }}</th>
             }
-            <th style="border-bottom:1px solid #EEF0FA;"></th>
+            <th style="border-bottom:1px solid var(--zx-border-soft);"></th>
           </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@ import { Row, UI, pill } from './admin-ui';
                 </td>
               }
               <td
-                style="padding:14px;border-bottom:1px solid #F3F4FC;text-align:right;white-space:nowrap;"
+                style="padding:14px;border-bottom:1px solid var(--zx-row-border);text-align:right;white-space:nowrap;"
               >
                 @if (actionLabel() && !row.noAction) {
                   <button type="button" (click)="action.emit(row)" [style]="ui.editBtn">
@@ -63,7 +63,7 @@ import { Row, UI, pill } from './admin-ui';
   `,
   styles: `
     .row:hover {
-      background: #f9faff;
+      background: var(--zx-row-hover);
     }
   `,
 })

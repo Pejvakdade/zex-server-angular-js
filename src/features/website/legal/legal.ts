@@ -9,6 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import appRoutes from '@src/common/appRoutes';
 import { SiteContentStore } from '@src/store/website/site-content.store';
+import { Skeleton } from '@src/shared/components/skeleton/skeleton';
 
 export type LegalDocument = 'terms' | 'privacy';
 
@@ -26,50 +27,58 @@ interface Block {
 
 @Component({
   selector: 'zx-legal',
-  imports: [RouterLink],
+  imports: [RouterLink, Skeleton],
   template: `
-    <section style="padding:64px 24px 80px;font-family:var(--zx-font);">
-      <div style="max-width:760px;margin:0 auto;">
-        <div
-          style="display:inline-flex;align-items:center;gap:6px;background:#EEF0FE;color:#1269E8;font-weight:700;font-size:12.5px;padding:6px 14px;border-radius:20px;margin-bottom:20px;"
-        >
-          &#9679; LEGAL
-        </div>
-        <h1
-          style="font-size:38px;font-weight:800;color:#161629;margin:0 0 10px;letter-spacing:-0.3px;"
-        >
-          {{ title() }}
-        </h1>
-
-        @if (lastUpdated()) {
-          <div style="font-size:13.5px;color:#8386AC;margin-bottom:40px;">
-            Last updated: {{ lastUpdated() }}
+    @if (loading() && !blocks().length) {
+      <zx-skeleton kind="article" />
+    } @else {
+      <section style="padding:64px 24px 80px;font-family:var(--zx-font);">
+        <div style="max-width:760px;margin:0 auto;">
+          <div
+            style="display:inline-flex;align-items:center;gap:6px;background:var(--zx-surface-active);color:var(--zx-primary);font-weight:700;font-size:12.5px;padding:6px 14px;border-radius:20px;margin-bottom:20px;"
+          >
+            &#9679; LEGAL
           </div>
-        }
+          <h1
+            style="font-size:38px;font-weight:800;color:var(--zx-ink);margin:0 0 10px;letter-spacing:-0.3px;"
+          >
+            {{ title() }}
+          </h1>
 
-        <div style="display:flex;flex-direction:column;gap:22px;">
-          @for (block of blocks(); track $index) {
-            <div>
-              @if (block.heading) {
-                <h3 style="font-size:17px;font-weight:700;color:#161629;margin:0 0 8px;">
-                  {{ block.heading }}
-                </h3>
-              }
-              <p style="font-size:15px;color:#3A3D5C;line-height:1.7;margin:0;">{{ block.body }}</p>
+          @if (lastUpdated()) {
+            <div style="font-size:13.5px;color:var(--zx-text-faint);margin-bottom:40px;">
+              Last updated: {{ lastUpdated() }}
             </div>
-          } @empty {
-            <p style="font-size:15px;color:#8386AC;">This document has not been published yet.</p>
           }
-        </div>
 
-        <div
-          style="margin-top:48px;padding-top:24px;border-top:1px solid #EEF0FA;font-size:13.5px;color:#8386AC;"
-        >
-          Questions about this document?
-          <a [routerLink]="routes.ContactUs" style="font-weight:700;">Contact us</a>.
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            @for (block of blocks(); track $index) {
+              <div>
+                @if (block.heading) {
+                  <h3 style="font-size:17px;font-weight:700;color:var(--zx-ink);margin:0 0 8px;">
+                    {{ block.heading }}
+                  </h3>
+                }
+                <p style="font-size:15px;color:var(--zx-text);line-height:1.7;margin:0;">
+                  {{ block.body }}
+                </p>
+              </div>
+            } @empty {
+              <p style="font-size:15px;color:var(--zx-text-faint);">
+                This document has not been published yet.
+              </p>
+            }
+          </div>
+
+          <div
+            style="margin-top:48px;padding-top:24px;border-top:1px solid var(--zx-border-soft);font-size:13.5px;color:var(--zx-text-faint);"
+          >
+            Questions about this document?
+            <a [routerLink]="routes.ContactUs" style="font-weight:700;">Contact us</a>.
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    }
   `,
 })
 export class Legal {
@@ -84,6 +93,7 @@ export class Legal {
   );
 
   private readonly content = computed(() => this.store.forPage()<LegalContent>('legal'));
+  protected readonly loading = computed(() => this.store.isLoading()('legal'));
 
   protected readonly title = computed(() =>
     this.document() === 'terms' ? 'Terms of Service' : 'Privacy Policy',

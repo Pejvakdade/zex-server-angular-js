@@ -13,17 +13,17 @@ import { map } from 'rxjs';
   selector: 'zx-section-placeholder',
   template: `
     <div
-      style="background:#fff;border:1px solid #EEF0FA;border-radius:16px;padding:40px 30px;box-shadow:0 4px 14px rgba(30,20,90,0.04);text-align:center;max-width:560px;"
+      style="background:var(--zx-bg);border:1px solid var(--zx-border-soft);border-radius:16px;padding:40px 30px;box-shadow:0 4px 14px rgba(30,20,90,0.04);text-align:center;max-width:560px;"
     >
       <div
-        style="width:44px;height:44px;border-radius:12px;background:#EEF0FE;color:#1269E8;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:20px;"
+        style="width:44px;height:44px;border-radius:12px;background:var(--zx-surface-active);color:var(--zx-primary);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:20px;"
       >
         &#9203;
       </div>
-      <div style="font-weight:800;font-size:16px;color:#161629;margin-bottom:6px;">
+      <div style="font-weight:800;font-size:16px;color:var(--zx-ink);margin-bottom:6px;">
         Not built yet
       </div>
-      <p style="margin:0;font-size:13.5px;color:#5B5E80;">{{ note() }}</p>
+      <p style="margin:0;font-size:13.5px;color:var(--zx-text-muted);">{{ note() }}</p>
     </div>
   `,
 })

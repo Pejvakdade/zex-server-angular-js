@@ -12,10 +12,11 @@ import { MetricPipe } from '@src/lib/metric.pipe';
 import { readReturnUrl } from '@src/lib/returnUrl';
 import { AuthStore } from '@src/store/website/auth.store';
 import { FleetStatsStore, PLACEHOLDER } from '@src/store/website/fleet-stats.store';
+import { Skeleton } from '@src/shared/components/skeleton/skeleton';
 
 @Component({
   selector: 'zx-login',
-  imports: [ReactiveFormsModule, RouterLink, MetricPipe],
+  imports: [ReactiveFormsModule, RouterLink, MetricPipe, Skeleton],
   templateUrl: './login.html',
   styleUrl: '../_component/auth.css',
 })

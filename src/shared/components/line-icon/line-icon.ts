@@ -37,7 +37,11 @@ import { lookupIcon } from './line-icons';
               />
             }
             @case ('circle') {
-              <circle [attr.cx]="shape[1]['cx']" [attr.cy]="shape[1]['cy']" [attr.r]="shape[1]['r']" />
+              <circle
+                [attr.cx]="shape[1]['cx']"
+                [attr.cy]="shape[1]['cy']"
+                [attr.r]="shape[1]['r']"
+              />
             }
             @case ('ellipse') {
               <ellipse

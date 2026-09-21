@@ -1,8 +1,10 @@
-<div style="min-height: 100vh; display: flex; flex-direction: column; background: #f9fafc">
+<div
+  style="min-height: 100vh; display: flex; flex-direction: column; background: var(--zx-admin-bg)"
+>
   <nav
     style="
-      border-bottom: 1px solid #eef0fa;
-      background: #fff;
+      border-bottom: 1px solid var(--zx-border-soft);
+      background: var(--zx-bg);
       position: sticky;
       top: 0;
       z-index: 60;
@@ -32,17 +34,17 @@
               letter-spacing: 0.3px;
               background: linear-gradient(
                 100deg,
-                #0b3fa8 0%,
-                #1269e8 26%,
-                #5aa8ff 48%,
+                var(--zx-primary-strong) 0%,
+                var(--zx-primary) 26%,
+                var(--zx-cyan) 48%,
                 #6e7b92 70%,
-                #d8dfea 86%,
+                var(--zx-border-slate) 86%,
                 #94a2b8 100%
               );
               -webkit-background-clip: text;
               background-clip: text;
               -webkit-text-fill-color: transparent;
-              color: #1269e8;
+              color: var(--zx-primary);
             "
             >ZEXSERVER</span
           >
@@ -51,19 +53,20 @@
           style="
             font-size: 12px;
             font-weight: 700;
-            color: #8386ac;
+            color: var(--zx-text-faint);
             padding: 5px 12px;
             border-radius: 20px;
-            background: #f6f7fe;
+            background: var(--zx-bg-tint);
             letter-spacing: 0.2px;
           "
           >Admin Console</span
         >
       </div>
       <div style="display: flex; align-items: center; gap: 10px; position: relative">
-        <span style="font-size: 13px; font-weight: 600; color: #3a3d5c">{{
+        <span style="font-size: 13px; font-weight: 600; color: var(--zx-text)">{{
           auth.user()?.fullName
         }}</span>
+        <zx-theme-toggle buttonClass="topbar-btn topbar-icon-btn" />
         <a
           [routerLink]="routes.AdminSettings"
           aria-label="Admin settings"
@@ -72,12 +75,12 @@
             width: 38px;
             height: 38px;
             border-radius: 10px;
-            border: 1.5px solid #e0e3f5;
-            background: #fff;
+            border: 1.5px solid var(--zx-border);
+            background: var(--zx-bg);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #3a3d5c;
+            color: var(--zx-text);
             cursor: pointer;
           "
         >
@@ -92,13 +95,13 @@
             height: 38px;
             padding: 0 14px;
             border-radius: 10px;
-            border: 1.5px solid #e0e3f5;
-            background: #fff;
+            border: 1.5px solid var(--zx-border);
+            background: var(--zx-bg);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            color: #3a3d5c;
+            color: var(--zx-text);
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
@@ -109,8 +112,8 @@
               width: 24px;
               height: 24px;
               border-radius: 50%;
-              background: #eef0fe;
-              color: #1269e8;
+              background: var(--zx-surface-active);
+              color: var(--zx-primary);
               font-size: 11px;
               font-weight: 800;
               display: flex;
@@ -135,7 +138,7 @@
                 style="
                   font-size: 11px;
                   font-weight: 700;
-                  color: #adb0d0;
+                  color: var(--zx-nav-label);
                   letter-spacing: 0.5px;
                   text-transform: uppercase;
                   padding: 0 10px;
@@ -170,10 +173,12 @@
     </aside>
 
     <main style="flex: 1; min-width: 0; overflow-y: auto; padding: 36px 40px 80px">
-      <h1 style="margin: 0 0 6px; font-size: 26px; font-weight: 800; color: #161629">
+      <h1 style="margin: 0 0 6px; font-size: 26px; font-weight: 800; color: var(--zx-ink)">
         {{ section().title }}
       </h1>
-      <p style="margin: 0 0 26px; font-size: 14.5px; color: #8386ac">{{ section().subtitle }}</p>
+      <p style="margin: 0 0 26px; font-size: 14.5px; color: var(--zx-text-faint)">
+        {{ section().subtitle }}
+      </p>
       <router-outlet />
     </main>
   </div>

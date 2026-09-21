@@ -16,9 +16,13 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
+import { heroBackground } from '@src/lib/assetUrl';
+import { BlogSlider } from '@src/shared/components/blog/blog-slider';
+import { BlogStore } from '@src/store/website/blog.store';
 import { LocationsMap } from '@src/shared/components/locations-map/locations-map';
 import { LocationsStore } from '@src/store/website/locations.store';
 import { SiteContentStore } from '@src/store/website/site-content.store';
+import { Skeleton } from '@src/shared/components/skeleton/skeleton';
 
 interface IconItem {
   title: string;
@@ -46,6 +50,8 @@ interface HomeContent {
   heroBadge: string;
   heroHeading: string;
   heroSubheading: string;
+  /** Banner behind the hero text, uploaded from the dashboard (empty = gradient only). */
+  heroImage?: string;
   primaryCta: string;
   secondaryCta: string;
   reviewScore: string;
@@ -86,7 +92,7 @@ const FALLBACK_ICON = ICONS['globe'];
 
 @Component({
   selector: 'zx-home',
-  imports: [RouterLink, LocationsMap],
+  imports: [RouterLink, LocationsMap, Skeleton, BlogSlider],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -94,8 +100,11 @@ export class Home {
   private readonly store = inject(SiteContentStore);
 
   protected readonly locationsStore = inject(LocationsStore);
+  protected readonly blogStore = inject(BlogStore);
   protected readonly routes = appRoutes;
   protected readonly content = computed(() => this.store.forPage()<HomeContent>('home'));
+  protected readonly heroBackground = computed(() => heroBackground(this.content()?.heroImage));
+  protected readonly loading = computed(() => this.store.isLoading()('home'));
 
   /**
    * Null until both halves of the rating are published — a score with no review count, or a count
@@ -134,5 +143,6 @@ export class Home {
   constructor() {
     void this.store.load('home');
     void this.locationsStore.load();
+    void this.blogStore.loadHome();
   }
 }

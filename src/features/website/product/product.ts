@@ -14,6 +14,7 @@ import { UpperCasePipe } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import appRoutes from '@src/common/appRoutes';
+import { heroBackground } from '@src/lib/assetUrl';
 import { License, LicensesStore } from '@src/store/website/licenses.store';
 import { LocationsStore } from '@src/store/website/locations.store';
 import { PlansStore } from '@src/store/website/plans.store';
@@ -23,10 +24,11 @@ import { LineIcon } from '@src/shared/components/line-icon/line-icon';
 import { LocationsMap } from '@src/shared/components/locations-map/locations-map';
 import { PlanSelector } from '@src/shared/components/plan/plan-selector';
 import { PlanProduct } from '@src/shared/components/plan/plan.model';
+import { Skeleton } from '@src/shared/components/skeleton/skeleton';
 
 @Component({
   selector: 'zx-product',
-  imports: [PlanSelector, RouterLink, LocationsMap, LineIcon, LicenseCard, UpperCasePipe],
+  imports: [PlanSelector, RouterLink, LocationsMap, LineIcon, LicenseCard, UpperCasePipe, Skeleton],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })
@@ -49,8 +51,18 @@ export class Product {
   protected readonly product = signal<PlanProduct>(
     this.route.snapshot.data['product'] as PlanProduct,
   );
-  protected readonly plans = computed(() => this.plansStore.forProduct()(this.product()));
+  /**
+   * Location filter: clicking a city on the map or a location card narrows the pricing block to
+   * plans priced for that city. `Plan.location` is the city name, matching `Location.city`.
+   */
+  protected readonly selectedLocation = signal<string | null>(null);
+  protected readonly plans = computed(() => {
+    const all = this.plansStore.forProduct()(this.product());
+    const city = this.selectedLocation();
+    return city ? all.filter((plan) => plan.location === city) : all;
+  });
   protected readonly content = computed(() => this.contentStore.forProduct()(this.product()));
+  protected readonly heroBackground = computed(() => heroBackground(this.content()?.heroImage));
   /** the plan card's extra bullets, as plain strings */
   protected readonly includedFeatures = computed(
     () => this.content()?.includedFeatures?.map((item) => item.label) ?? [],
@@ -66,7 +78,9 @@ export class Product {
   protected readonly installLicense = signal(false);
   protected readonly selectedLicense = computed<License | null>(() => {
     const id = this.selectedLicenseId();
-    return id ? (this.licensesStore.licenses().find((license) => license._id === id) ?? null) : null;
+    return id
+      ? (this.licensesStore.licenses().find((license) => license._id === id) ?? null)
+      : null;
   });
 
   /** The two icon grids are structurally identical, so the template renders them from one loop. */
@@ -94,8 +108,16 @@ export class Product {
       // A panel picked for one product must not leak into the next.
       this.selectedLicenseId.set(null);
       this.installLicense.set(false);
+      this.selectedLocation.set(null);
       if (this.showPanelPicker()) void this.licensesStore.load();
     });
+  }
+
+  /** Clicking the picked city again clears the filter; a new pick jumps back up to the plans. */
+  protected selectLocation(city: string | null): void {
+    const next = city && city !== this.selectedLocation() ? city : null;
+    this.selectedLocation.set(next);
+    if (next) document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   /** Clicking the picked card again clears it — the "No control panel" card does the same. */

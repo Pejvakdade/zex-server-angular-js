@@ -1,0 +1,186 @@
+<div class="editor">
+  <!-- top bar -->
+  <div class="bar">
+    <button type="button" (click)="back()" [style]="ui.viewBtn">&larr; All posts</button>
+    <div class="bar-right">
+      @if (current(); as p) {
+        <span class="hint">
+          {{ p.status }}
+          @if (p.publishedAt) {
+            · published {{ formatDate(p.publishedAt) }}
+          }
+          · by {{ p.authorName }}
+        </span>
+        @if (publicUrl(); as url) {
+          <a [routerLink]="url" target="_blank" [style]="ui.viewBtn">View on site &nearr;</a>
+        }
+      }
+      @if (dirty()) {
+        <span class="hint unsaved">Unsaved changes</span>
+      }
+      <button type="button" [disabled]="!canSave()" (click)="save()" [style]="ui.viewBtn">
+        {{ store.saving() ? 'Saving…' : draft().status === 'Published' ? 'Save' : 'Save draft' }}
+      </button>
+      @if (draft().status === 'Published') {
+        <button type="button" [disabled]="!canSave()" (click)="save('Draft')" [style]="ui.viewBtn">
+          Unpublish
+        </button>
+      } @else {
+        <button type="button" [disabled]="!canSave()" (click)="save('Published')" [style]="ui.saveBtn">
+          Publish
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (store.error()) {
+    <div class="error">{{ store.error() }}</div>
+  }
+
+  @if (!isNew() && store.currentLoading()) {
+    <div class="zx-skeleton" style="height: 420px; border-radius: 16px"></div>
+  } @else if (!isNew() && !current()) {
+    <div [style]="ui.card" style="text-align: center; color: var(--zx-text-faint)">
+      This post could not be loaded.
+    </div>
+  } @else {
+    <div class="layout">
+      <!-- main column -->
+      <div class="main">
+        <div [style]="ui.card">
+          <label class="field">
+            <span [style]="ui.label">Title</span>
+            <input
+              type="text"
+              [ngModel]="draft().title"
+              (ngModelChange)="onTitle($event)"
+              placeholder="A clear, specific headline"
+              maxlength="200"
+              [style]="ui.input"
+              class="title-input"
+            />
+          </label>
+
+          <label class="field">
+            <span [style]="ui.label">
+              Slug
+              <span class="hint">&nbsp;/blog/{{ draft().slug || '…' }}</span>
+              @if (slugTouched() && draft().title) {
+                <button type="button" class="link-btn" (click)="resetSlug()">reset from title</button>
+              }
+            </span>
+            <input
+              type="text"
+              [ngModel]="draft().slug"
+              (ngModelChange)="onSlug($event)"
+              placeholder="generated-from-the-title"
+              maxlength="220"
+              [style]="ui.input"
+            />
+          </label>
+
+          <label class="field">
+            <span [style]="ui.label">Excerpt <span class="hint">— shown on cards and the slider</span></span>
+            <textarea
+              [ngModel]="draft().excerpt"
+              (ngModelChange)="patch('excerpt', $event)"
+              rows="2"
+              maxlength="400"
+              placeholder="One or two sentences that make someone want to read on."
+              [style]="ui.textarea"
+            ></textarea>
+          </label>
+        </div>
+
+        <div [style]="ui.card" style="margin-top: 18px">
+          <div class="body-head">
+            <span [style]="ui.label">Body <span class="hint">— Markdown · {{ words() }} words</span></span>
+            <div class="view-switch" role="tablist">
+              <button type="button" role="tab" [class.active]="view() === 'write'" (click)="view.set('write')">Write</button>
+              <button type="button" role="tab" [class.active]="view() === 'split'" (click)="view.set('split')">Split</button>
+              <button type="button" role="tab" [class.active]="view() === 'preview'" (click)="view.set('preview')">Preview</button>
+            </div>
+          </div>
+
+          <div class="body-grid" [class.split]="view() === 'split'">
+            @if (view() !== 'preview') {
+              <div class="write">
+                <zx-markdown-toolbar (pick)="onToolbar($event)" />
+                <textarea
+                  #bodyArea
+                  [ngModel]="draft().body"
+                  (ngModelChange)="patch('body', $event)"
+                  (keydown)="onBodyKey($event)"
+                  spellcheck="true"
+                  placeholder="Write here. **bold**, _italic_, ## headings, - lists, ```code```…"
+                  class="body-area"
+                ></textarea>
+              </div>
+            }
+            @if (view() !== 'write') {
+              <div class="preview">
+                @if (draft().body.trim()) {
+                  <div class="zx-prose" [innerHTML]="preview()"></div>
+                } @else {
+                  <div class="hint" style="padding: 20px">The preview appears as you type.</div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- side column -->
+      <aside class="side">
+        <div [style]="ui.card">
+          <div class="field">
+            <span [style]="ui.label">Status</span>
+            <select
+              [ngModel]="draft().status"
+              (ngModelChange)="patch('status', $event)"
+              [style]="ui.select"
+              style="border-radius: 10px; width: 100%"
+            >
+              <option value="Draft">Draft</option>
+              <option value="Published">Published</option>
+            </select>
+          </div>
+
+          <label class="check">
+            <input type="checkbox" [ngModel]="draft().featured" (ngModelChange)="patch('featured', $event)" />
+            <span>
+              <strong>Featured</strong>
+              <span class="hint">— pinned to the front of the homepage slider</span>
+            </span>
+          </label>
+        </div>
+
+        <div [style]="ui.card" style="margin-top: 18px">
+          <span [style]="ui.label">Tags <span class="hint">— Enter or comma to add</span></span>
+          <div class="tag-box">
+            @for (tag of draft().tags; track tag) {
+              <span class="tag">
+                {{ tag }}
+                <button type="button" (click)="removeTag(tag)" [attr.aria-label]="'Remove ' + tag">&times;</button>
+              </span>
+            }
+            <input
+              type="text"
+              [ngModel]="tagInput()"
+              (ngModelChange)="tagInput.set($event)"
+              (keydown)="onTagKey($event)"
+              (blur)="addTag()"
+              [placeholder]="draft().tags.length ? '' : 'e.g. VPS, Guides'"
+              maxlength="40"
+            />
+          </div>
+        </div>
+
+        <div [style]="ui.card" style="margin-top: 18px">
+          <span [style]="ui.label" style="display: block; margin-bottom: 10px">Cover image</span>
+          <zx-cover-upload [value]="draft().coverImage" (valueChange)="patch('coverImage', $event)" />
+        </div>
+      </aside>
+    </div>
+  }
+</div>

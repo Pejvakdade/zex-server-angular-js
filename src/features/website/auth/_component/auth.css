@@ -1,20 +1,20 @@
 /* Copied verbatim from the reference auth pages' <style> block. */
 :host {
   display: block;
-  background: #f3f4fc;
-  color: #1a1a2e;
+  background: var(--zx-row-border);
+  color: var(--zx-ink-body);
   font-family: var(--zx-font);
 }
 
 .zi {
-  border: 1.5px solid #e0e3f5;
+  border: 1.5px solid var(--zx-border);
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease;
 }
 
 .zi:focus-within {
-  border-color: #1269e8;
+  border-color: var(--zx-primary);
   box-shadow: 0 0 0 4px rgba(18, 105, 232, 0.1);
 }
 
@@ -25,7 +25,7 @@
   font-size: 14.5px;
   width: 100%;
   font-family: inherit;
-  color: #161629;
+  color: var(--zx-ink);
 }
 
 @keyframes zfloat {
@@ -40,8 +40,8 @@
 
 /* Not in the reference: it is a static mock-up with no failure state to show. */
 .zx-error {
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--zx-red-bg);
+  color: var(--zx-red-fg);
   font-size: 13px;
   font-weight: 600;
   padding: 11px 14px;
@@ -55,8 +55,8 @@
   padding: 14px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(135deg, #1269e8, #7c3aed);
-  color: #fff;
+  background: linear-gradient(135deg, var(--zx-primary), var(--zx-violet));
+  color: var(--zx-on-accent);
   font-weight: 700;
   font-size: 14.5px;
   font-family: inherit;

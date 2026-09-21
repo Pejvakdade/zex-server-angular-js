@@ -25,3 +25,220 @@ details > summary {
 details > summary::-webkit-details-marker {
   display: none;
 }
+
+/* loading placeholders (see shared/components/skeleton) */
+.zx-skeleton {
+  background: var(--zx-skeleton);
+  border-radius: 8px;
+  animation: zx-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes zx-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zx-skeleton {
+    animation: none;
+  }
+}
+
+/* Public page hero (home / about / contact / support / licenses / product) -------------------------
+ * One block so every hero is the same height. The page keeps its own background gradient and the
+ * decorative blobs inline; this only fixes the box, the inner padding, and the optional banner
+ * image behind the text (`heroImage` in site / product content, uploaded from the dashboard).
+ */
+.zx-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: var(--zx-hero-height);
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: var(--zx-font);
+}
+
+/* Readability wash over a photo: solid page colour on the text side, fading out to the right. */
+.zx-hero--image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--zx-bg) 0%,
+    color-mix(in srgb, var(--zx-bg) 78%, transparent) 55%,
+    color-mix(in srgb, var(--zx-bg) 25%, transparent) 100%
+  );
+  pointer-events: none;
+}
+
+.zx-hero__inner {
+  position: relative;
+  width: 100%;
+  max-width: 1520px;
+  margin: 0 auto;
+  padding: 64px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .zx-hero {
+    min-height: auto;
+  }
+
+  .zx-hero__inner {
+    padding: 40px 20px;
+  }
+}
+
+/* --------------------------------------------------------------------------------------------------------------------
+ * Rendered Markdown (blog posts, the editor's preview). Global on purpose: the HTML comes in through
+ * [innerHTML], which component styles cannot reach. Colours are the site's own tokens.
+ */
+.zx-prose {
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--zx-text);
+  overflow-wrap: anywhere;
+}
+
+.zx-prose > :first-child {
+  margin-top: 0;
+}
+
+.zx-prose h1,
+.zx-prose h2,
+.zx-prose h3,
+.zx-prose h4 {
+  color: var(--zx-ink);
+  font-weight: 800;
+  line-height: 1.25;
+  margin: 1.8em 0 0.6em;
+  letter-spacing: -0.3px;
+}
+
+.zx-prose h1 {
+  font-size: 30px;
+}
+
+.zx-prose h2 {
+  font-size: 25px;
+}
+
+.zx-prose h3 {
+  font-size: 20px;
+}
+
+.zx-prose h4 {
+  font-size: 17px;
+}
+
+.zx-prose p,
+.zx-prose ul,
+.zx-prose ol,
+.zx-prose blockquote,
+.zx-prose pre,
+.zx-prose table {
+  margin: 0 0 1.15em;
+}
+
+.zx-prose ul,
+.zx-prose ol {
+  padding-left: 1.5em;
+}
+
+.zx-prose li + li {
+  margin-top: 0.3em;
+}
+
+.zx-prose a {
+  color: var(--zx-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.zx-prose strong {
+  color: var(--zx-ink);
+}
+
+.zx-prose blockquote {
+  border-left: 4px solid var(--zx-primary);
+  background: var(--zx-surface-active);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 18px;
+  color: var(--zx-text-slate);
+}
+
+.zx-prose blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.zx-prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--zx-surface-muted);
+  border: 1px solid var(--zx-border-soft);
+  border-radius: 6px;
+  padding: 0.1em 0.4em;
+}
+
+.zx-prose pre {
+  background: #161629;
+  color: #e6e8f2;
+  border-radius: 12px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.zx-prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.zx-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin: 1.4em auto;
+}
+
+.zx-prose hr {
+  border: none;
+  border-top: 1px solid var(--zx-border-soft);
+  margin: 2em 0;
+}
+
+.zx-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+
+.zx-prose th,
+.zx-prose td {
+  border: 1px solid var(--zx-border-soft);
+  padding: 9px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.zx-prose th {
+  background: var(--zx-bg-tint);
+  color: var(--zx-ink);
+  font-weight: 700;
+}

@@ -12,8 +12,17 @@
       </radialGradient>
     </defs>
 
-    <path [attr.d]="landPath" fill="#E3E9F8" stroke="#fff" stroke-width="1.2" />
-    <path [attr.d]="bordersPath" fill="none" stroke="#CBD6EF" stroke-width="0.8" />
+    <path
+      [attr.d]="landPath"
+      style="fill: var(--zx-map-land); stroke: var(--zx-bg)"
+      stroke-width="1.2"
+    />
+    <path
+      [attr.d]="bordersPath"
+      fill="none"
+      style="stroke: var(--zx-map-border)"
+      stroke-width="0.8"
+    />
 
     @for (arc of arcs(); track $index) {
       <path
@@ -27,7 +36,18 @@
     }
 
     @for (m of markers(); track m.city) {
-      <g [attr.transform]="'translate(' + m.x + ',' + m.y + ')'">
+      <g
+        class="zx-map-marker"
+        [class.zx-map-marker--active]="m.city === selected()"
+        role="button"
+        tabindex="0"
+        [attr.aria-label]="'Show plans in ' + m.city"
+        [attr.aria-pressed]="m.city === selected()"
+        [attr.transform]="'translate(' + m.x + ',' + m.y + ')'"
+        (click)="select.emit(m.city)"
+        (keydown.enter)="select.emit(m.city)"
+        (keydown.space)="select.emit(m.city); $event.preventDefault()"
+      >
         <circle r="24" fill="url(#zx-map-glow)" />
         <circle r="5" fill="#1269E8" opacity="0.3">
           <animate
@@ -44,11 +64,11 @@
             y1="-8"
             [attr.x2]="leaderX(m)"
             [attr.y2]="m.dy - 6"
-            stroke="#A9BEE9"
+            style="stroke: var(--zx-map-leader)"
             stroke-width="1.4"
           />
         }
-        <circle r="6" fill="#fff" stroke="#1269E8" stroke-width="3" />
+        <circle class="zx-map-dot" r="6" fill="#fff" stroke="#1269E8" stroke-width="3" />
         <text class="zx-map-label" [attr.x]="m.dx" [attr.y]="m.dy" [attr.text-anchor]="m.anchor">
           {{ m.city }}
         </text>

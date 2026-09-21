@@ -35,7 +35,11 @@ export class MyServices {
 
   /** Bars turn amber past 75% and red past 90% — the usual "look at this" thresholds. */
   protected barColor(value: number): string {
-    return value >= 90 ? '#DC2626' : value >= 75 ? '#B45309' : '#1269E8';
+    return value >= 90
+      ? 'var(--zx-red-fg)'
+      : value >= 75
+        ? 'var(--zx-amber-fg)'
+        : 'var(--zx-primary)';
   }
 
   protected expires(iso: string): string {

@@ -37,6 +37,8 @@ export interface ProductContent {
   heroHeading1: string;
   heroHeadingAccent: string;
   heroSubheading: string;
+  /** Banner behind the hero text, uploaded from the dashboard (empty = gradient only). */
+  heroImage?: string;
   ctaHeading: string;
   ctaSubheading: string;
   featureStrip: Array<IconItem>;

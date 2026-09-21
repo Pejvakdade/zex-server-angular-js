@@ -40,7 +40,9 @@ export class OrderConfirm {
   protected readonly installing = computed(() => !!this.addOn() && this.install() === '1');
 
   /** Recurring monthly figure and the first invoice (which may include the one-off install). */
-  protected readonly monthly = computed(() => (this.store.plan()?.price ?? 0) + (this.addOn()?.price ?? 0));
+  protected readonly monthly = computed(
+    () => (this.store.plan()?.price ?? 0) + (this.addOn()?.price ?? 0),
+  );
   protected readonly firstMonth = computed(
     () => this.monthly() + (this.installing() ? (this.addOn()?.installFee ?? 0) : 0),
   );

@@ -38,7 +38,7 @@ const PC_PRODUCTS = [
     </div>
     @if (store.error() && !store.content()) {
       <div
-        style="font-size:13px;color:#DC2626;background:#FFF6F6;border:1px solid #FBD5D5;border-radius:10px;padding:10px 12px;margin-bottom:14px;"
+        style="font-size:13px;color:var(--zx-red-fg);background:var(--zx-red-tint);border:1px solid var(--zx-red-border);border-radius:10px;padding:10px 12px;margin-bottom:14px;"
       >
         {{ store.error() }}
       </div>

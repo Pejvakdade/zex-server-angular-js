@@ -3,13 +3,16 @@
  * @fileOverview one child route per sidebar item. `data.section` carries the heading the layout
  *               renders (the reference's TITLES).
  */
-import { Routes } from '@angular/router';
+import { CanDeactivateFn, Routes } from '@angular/router';
 
 import { guestGuard, staffGuard } from '@src/lib/auth.guard';
 import { AdminLayout } from './_component/admin-layout';
 import { TITLES } from './_component/admin-nav';
 
 const sitePage = () => import('./site/site-page').then((m) => m.SitePage);
+
+/** The blog editor asks before navigating away from unsaved edits. */
+const unsavedGuard: CanDeactivateFn<{ canLeave(): boolean }> = (component) => component.canLeave();
 
 export const adminRoutes: Routes = [
   /** The admin login sits outside AdminLayout — it must not render the dashboard shell. */
@@ -100,6 +103,25 @@ export const adminRoutes: Routes = [
         path: 'site/product-pages',
         data: { section: TITLES.productContent },
         loadComponent: () => import('./site/product-pages').then((m) => m.ProductPages),
+      },
+
+      // Blog — list, then one editor component for both "new" and "edit"
+      {
+        path: 'blog',
+        data: { section: TITLES.blog },
+        loadComponent: () => import('./blog/blog-posts').then((m) => m.BlogPosts),
+      },
+      {
+        path: 'blog/new',
+        data: { section: TITLES.blogEditor },
+        canDeactivate: [unsavedGuard],
+        loadComponent: () => import('./blog/blog-editor').then((m) => m.BlogEditor),
+      },
+      {
+        path: 'blog/:id',
+        data: { section: TITLES.blogEditor },
+        canDeactivate: [unsavedGuard],
+        loadComponent: () => import('./blog/blog-editor').then((m) => m.BlogEditor),
       },
 
       // Admin

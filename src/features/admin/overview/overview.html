@@ -2,8 +2,8 @@
   <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px">
     <div
       style="
-        background: #fff;
-        border: 1px solid #eef0fa;
+        background: var(--zx-bg);
+        border: 1px solid var(--zx-border-soft);
         border-radius: 16px;
         padding: 22px 24px;
         box-shadow: 0 4px 14px rgba(30, 20, 90, 0.04);
@@ -12,7 +12,7 @@
       <div
         style="
           font-size: 12px;
-          color: #8386ac;
+          color: var(--zx-text-faint);
           font-weight: 700;
           letter-spacing: 0.3px;
           text-transform: uppercase;
@@ -21,17 +21,17 @@
       >
         Active services
       </div>
-      <div style="font-size: 28px; font-weight: 800; color: #161629">
+      <div style="font-size: 28px; font-weight: 800; color: var(--zx-ink)">
         {{ metric(store.stats()?.activeServices) }}
       </div>
-      <div style="font-size: 13px; color: #5b5e80; margin-top: 6px">
+      <div style="font-size: 13px; color: var(--zx-text-muted); margin-top: 6px">
         Across {{ metric(store.stats()?.plans) }} active plans
       </div>
     </div>
     <div
       style="
-        background: #fff;
-        border: 1px solid #eef0fa;
+        background: var(--zx-bg);
+        border: 1px solid var(--zx-border-soft);
         border-radius: 16px;
         padding: 22px 24px;
         box-shadow: 0 4px 14px rgba(30, 20, 90, 0.04);
@@ -40,7 +40,7 @@
       <div
         style="
           font-size: 12px;
-          color: #8386ac;
+          color: var(--zx-text-faint);
           font-weight: 700;
           letter-spacing: 0.3px;
           text-transform: uppercase;
@@ -49,17 +49,17 @@
       >
         Revenue collected (paid invoices)
       </div>
-      <div style="font-size: 28px; font-weight: 800; color: #161629">
+      <div style="font-size: 28px; font-weight: 800; color: var(--zx-ink)">
         {{ money(store.stats()?.revenue) }}
       </div>
-      <div style="font-size: 13px; color: #5b5e80; margin-top: 6px">
+      <div style="font-size: 13px; color: var(--zx-text-muted); margin-top: 6px">
         {{ metric(store.stats()?.customers) }} customers
       </div>
     </div>
     <div
       style="
-        background: #fff;
-        border: 1px solid #eef0fa;
+        background: var(--zx-bg);
+        border: 1px solid var(--zx-border-soft);
         border-radius: 16px;
         padding: 22px 24px;
         box-shadow: 0 4px 14px rgba(30, 20, 90, 0.04);
@@ -68,7 +68,7 @@
       <div
         style="
           font-size: 12px;
-          color: #8386ac;
+          color: var(--zx-text-faint);
           font-weight: 700;
           letter-spacing: 0.3px;
           text-transform: uppercase;
@@ -77,12 +77,18 @@
       >
         Open tickets
       </div>
-      <div style="font-size: 28px; font-weight: 800; color: #161629">
+      <div style="font-size: 28px; font-weight: 800; color: var(--zx-ink)">
         {{ metric(store.stats()?.openTickets) }}
       </div>
       <a
         [routerLink]="routes.AdminTickets"
-        style="display: block; font-size: 13px; color: #1269e8; font-weight: 600; margin-top: 6px"
+        style="
+          display: block;
+          font-size: 13px;
+          color: var(--zx-primary);
+          font-weight: 600;
+          margin-top: 6px;
+        "
       >
         Waiting on a reply &rarr;
       </a>
@@ -93,8 +99,8 @@
     <a
       [routerLink]="routes.AdminPlans"
       style="
-        background: #fff;
-        border: 1px solid #eef0fa;
+        background: var(--zx-bg);
+        border: 1px solid var(--zx-border-soft);
         border-radius: 16px;
         padding: 18px 22px;
         box-shadow: 0 4px 14px rgba(30, 20, 90, 0.04);
@@ -104,16 +110,16 @@
         color: inherit;
       "
     >
-      <span style="font-size: 13.5px; font-weight: 700; color: #3a3d5c">Pricing plans</span>
-      <span style="font-size: 20px; font-weight: 800; color: #161629">{{
+      <span style="font-size: 13.5px; font-weight: 700; color: var(--zx-text)">Pricing plans</span>
+      <span style="font-size: 20px; font-weight: 800; color: var(--zx-ink)">{{
         metric(store.stats()?.plans)
       }}</span>
     </a>
     <a
       [routerLink]="routes.AdminLicenses"
       style="
-        background: #fff;
-        border: 1px solid #eef0fa;
+        background: var(--zx-bg);
+        border: 1px solid var(--zx-border-soft);
         border-radius: 16px;
         padding: 18px 22px;
         box-shadow: 0 4px 14px rgba(30, 20, 90, 0.04);
@@ -123,16 +129,18 @@
         color: inherit;
       "
     >
-      <span style="font-size: 13.5px; font-weight: 700; color: #3a3d5c">Software licenses</span>
-      <span style="font-size: 20px; font-weight: 800; color: #161629">{{
+      <span style="font-size: 13.5px; font-weight: 700; color: var(--zx-text)"
+        >Software licenses</span
+      >
+      <span style="font-size: 20px; font-weight: 800; color: var(--zx-ink)">{{
         metric(store.stats()?.licenses)
       }}</span>
     </a>
     <a
       [routerLink]="routes.AdminLocations"
       style="
-        background: #fff;
-        border: 1px solid #eef0fa;
+        background: var(--zx-bg);
+        border: 1px solid var(--zx-border-soft);
         border-radius: 16px;
         padding: 18px 22px;
         box-shadow: 0 4px 14px rgba(30, 20, 90, 0.04);
@@ -142,11 +150,10 @@
         color: inherit;
       "
     >
-      <span style="font-size: 13.5px; font-weight: 700; color: #3a3d5c">Locations</span>
-      <span style="font-size: 20px; font-weight: 800; color: #161629">{{
+      <span style="font-size: 13.5px; font-weight: 700; color: var(--zx-text)">Locations</span>
+      <span style="font-size: 20px; font-weight: 800; color: var(--zx-ink)">{{
         metric(store.stats()?.locations)
       }}</span>
     </a>
   </div>
-
 </div>

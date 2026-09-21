@@ -3,6 +3,7 @@
  * @fileOverview signed-in identity for the whole app. The JWT lives in the `zexUserToken` cookie so the
  *               interceptor can read it on every request; this store mirrors it plus the user record.
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { computed, inject } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { firstValueFrom } from 'rxjs';
@@ -43,7 +44,21 @@ const initialState: AuthState = {
   error: null,
 };
 
-/** The API returns `message` as a string for our own errors and as a string[] for ValidationPipe ones. */
+/** Whatever the API says about a rejected credential, the form shows one neutral line. */
+const INVALID_CREDENTIALS = 'Email or password is incorrect';
+const TOO_MANY_ATTEMPTS = 'Too many attempts. Please wait a minute and try again.';
+
+/**
+ * Maps a failed sign-in to what the login form shows. 400 (DTO validation) and 401 (unknown email or
+ * wrong password) collapse into the same message so nothing leaks about which one failed; 429 is the
+ * throttler; everything else (e.g. 403 suspended) keeps the backend's own wording via `readError`.
+ */
+const readSignInError = (error: unknown): string => {
+  const status = (error as HttpErrorResponse)?.status;
+  if (status === 400 || status === 401) return INVALID_CREDENTIALS;
+  if (status === 429) return TOO_MANY_ATTEMPTS;
+  return readError(error);
+};
 
 export const AuthStore = signalStore(
   { providedIn: 'root' },
@@ -69,7 +84,7 @@ export const AuthStore = signalStore(
           persist(result, keepLoggedIn);
           return true;
         } catch (error) {
-          patchState(store, { loading: false, error: readError(error) });
+          patchState(store, { loading: false, error: readSignInError(error) });
           return false;
         }
       },

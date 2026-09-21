@@ -8,15 +8,9 @@
  * @note Locations without coordinates are skipped silently — every seeded datacenter has them, and the
  *       admin form asks for them on new ones.
  */
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
-import {
-  BORDERS_PATH,
-  LAND_PATH,
-  WORLD_HEIGHT,
-  WORLD_PROJECTION,
-  WORLD_WIDTH,
-} from './world-land';
+import { BORDERS_PATH, LAND_PATH, WORLD_HEIGHT, WORLD_PROJECTION, WORLD_WIDTH } from './world-land';
 
 export interface MapLocation {
   city: string;
@@ -60,6 +54,10 @@ function project(latitude: number, longitude: number): [number, number] {
 })
 export class LocationsMap {
   readonly locations = input.required<Array<MapLocation>>();
+  /** The city currently used as a plan filter, if any — its marker is drawn highlighted. */
+  readonly selected = input<string | null>(null);
+  /** Emits the clicked marker's city; the page decides what to do with it. */
+  readonly select = output<string>();
 
   protected readonly width = WORLD_WIDTH;
   protected readonly height = WORLD_HEIGHT;

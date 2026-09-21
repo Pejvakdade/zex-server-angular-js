@@ -8,14 +8,14 @@
 .zx-hover-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 16px 34px rgba(18, 105, 232, 0.18);
-  border-color: #1269e8;
+  border-color: var(--zx-primary);
 }
 
 /* small caps labels in the business-details card */
 .zx-detail-label {
   font-size: 11.5px;
   font-weight: 700;
-  color: #8386ac;
+  color: var(--zx-text-faint);
   text-transform: uppercase;
   letter-spacing: 0.4px;
   margin-bottom: 4px;
@@ -24,7 +24,7 @@
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: #1269e8 !important;
+  border-color: var(--zx-primary) !important;
   box-shadow: 0 0 0 4px rgba(18, 105, 232, 0.1);
 }
 

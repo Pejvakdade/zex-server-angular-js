@@ -33,7 +33,12 @@ export const OrderStore = signalStore(
   { providedIn: 'root' },
   withState<OrderState>({ plan: null, loading: false, placing: false, error: null, result: null }),
   withMethods(
-    (store, api = inject(ApiService), services = inject(MyServicesStore), invoices = inject(MyInvoicesStore)) => ({
+    (
+      store,
+      api = inject(ApiService),
+      services = inject(MyServicesStore),
+      invoices = inject(MyInvoicesStore),
+    ) => ({
       async loadPlan(planId: string): Promise<void> {
         patchState(store, { plan: null, result: null, loading: true, error: null });
         try {

@@ -3,9 +3,9 @@
     <div
       style="
         font-size: 13px;
-        color: #dc2626;
-        background: #fff6f6;
-        border: 1px solid #fbd5d5;
+        color: var(--zx-red-fg);
+        background: var(--zx-red-tint);
+        border: 1px solid var(--zx-red-border);
         border-radius: 10px;
         padding: 10px 12px;
         margin-bottom: 14px;
@@ -21,8 +21,8 @@
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        background: #fef3c7;
-        color: #b45309;
+        background: var(--zx-amber-bg);
+        color: var(--zx-amber-fg);
         border-radius: 12px;
         padding: 10px 16px;
         font-size: 13.5px;
@@ -47,7 +47,7 @@
         <tbody>
           @for (i of store.items(); track i._id) {
             <tr>
-              <td [style]="ui.td" style="font-weight: 600; color: #161629">{{ i.number }}</td>
+              <td [style]="ui.td" style="font-weight: 600; color: var(--zx-ink)">{{ i.number }}</td>
               <td [style]="ui.td">{{ i.description || '—' }}</td>
               <td [style]="ui.td">{{ money(i.amount) }}</td>
               <td [style]="ui.td">

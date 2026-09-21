@@ -27,6 +27,13 @@
                   }
                 </div>
               }
+              @case ('image') {
+                <zx-image-upload
+                  [value]="draft[f.key] ?? ''"
+                  [hint]="f.hint ?? bannerHint"
+                  (valueChange)="draft[f.key] = $event"
+                />
+              }
               @default {
                 <input type="text" [name]="f.key" [(ngModel)]="draft[f.key]" [style]="ui.input" />
               }
@@ -38,9 +45,9 @@
         <div
           style="
             font-size: 13px;
-            color: #dc2626;
-            background: #fff6f6;
-            border: 1px solid #fbd5d5;
+            color: var(--zx-red-fg);
+            background: var(--zx-red-tint);
+            border: 1px solid var(--zx-red-border);
             border-radius: 10px;
             padding: 10px 12px;
             margin-top: 16px;
@@ -71,7 +78,7 @@
           margin-bottom: 14px;
         "
       >
-        <h2 style="font-size: 18px; font-weight: 800; margin: 0; color: #161629">
+        <h2 style="font-size: 18px; font-weight: 800; margin: 0; color: var(--zx-ink)">
           {{ group.heading }}
         </h2>
         <button type="button" (click)="openAdd(group)" [style]="ui.addBtn">
@@ -100,8 +107,8 @@
             @let shown = group.display(item);
             <div
               style="
-                background: #fff;
-                border: 1px solid #eef0fa;
+                background: var(--zx-bg);
+                border: 1px solid var(--zx-border-soft);
                 border-radius: 14px;
                 padding: 16px 18px;
               "
@@ -112,8 +119,8 @@
                     width: 36px;
                     height: 36px;
                     border-radius: 9px;
-                    background: #eef0fe;
-                    color: #1269e8;
+                    background: var(--zx-surface-active);
+                    color: var(--zx-primary);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -128,13 +135,15 @@
                   }
                 </div>
               }
-              <div style="font-weight: 700; font-size: 14px; color: #161629; margin-bottom: 4px">
+              <div
+                style="font-weight: 700; font-size: 14px; color: var(--zx-ink); margin-bottom: 4px"
+              >
                 {{ shown.title }}
               </div>
               <div
                 style="
                   font-size: 12.5px;
-                  color: #8386ac;
+                  color: var(--zx-text-faint);
                   margin-bottom: 12px;
                   white-space: pre-line;
                 "
@@ -154,7 +163,7 @@
               </button>
             </div>
           } @empty {
-            <div style="font-size: 13px; color: #8386ac; padding: 8px 2px">
+            <div style="font-size: 13px; color: var(--zx-text-faint); padding: 8px 2px">
               {{ content() ? 'Nothing here yet.' : 'Loading…' }}
             </div>
           }

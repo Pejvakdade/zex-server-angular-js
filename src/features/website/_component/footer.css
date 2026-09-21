@@ -1,5 +1,5 @@
 .zx-footer-link:hover {
-  color: #fff;
+  color: var(--zx-on-accent);
 }
 
 /* The reference footer is a fixed five-column grid that overflows on narrow screens. */

@@ -1,0 +1,31 @@
+<a class="card" [routerLink]="link()">
+  <div class="cover" [class.placeholder]="!cover()">
+    @if (cover()) {
+      <img [src]="cover()" [alt]="post().title" loading="lazy" />
+    } @else {
+      <span class="placeholder-mark">ZX</span>
+    }
+    @if (post().featured) {
+      <span class="featured">Featured</span>
+    }
+  </div>
+
+  <div class="body">
+    @if (tags().length) {
+      <div class="tags">
+        @for (tag of tags(); track tag) {
+          <span class="tag">{{ tag }}</span>
+        }
+      </div>
+    }
+    <h3 class="title">{{ post().title }}</h3>
+    <p class="excerpt">{{ post().excerpt }}</p>
+    <div class="meta">
+      <span>{{ post().authorName }}</span>
+      <span class="dot">·</span>
+      <span>{{ date() }}</span>
+      <span class="dot">·</span>
+      <span>{{ post().readingMinutes }} min read</span>
+    </div>
+  </div>
+</a>

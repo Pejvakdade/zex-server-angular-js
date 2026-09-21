@@ -1,0 +1,67 @@
+<article class="zx-post-page" style="padding: 40px 64px 64px; font-family: var(--zx-font)">
+  <div style="max-width: 860px; margin: 0 auto">
+    <a [routerLink]="routes.Blog" class="back">&larr; All posts</a>
+
+    @if (post(); as p) {
+      <header class="head">
+        @if (p.tags.length) {
+          <div class="tags">
+            @for (tag of p.tags; track tag) {
+              <span class="tag">{{ tag }}</span>
+            }
+          </div>
+        }
+        <h1 class="title">{{ p.title }}</h1>
+        @if (p.excerpt) {
+          <p class="lead">{{ p.excerpt }}</p>
+        }
+        <div class="meta">
+          <span class="avatar">{{ p.authorName.charAt(0) }}</span>
+          <span class="author">{{ p.authorName }}</span>
+          <span class="dot">·</span>
+          <span>{{ date() }}</span>
+          <span class="dot">·</span>
+          <span>{{ p.readingMinutes }} min read</span>
+        </div>
+      </header>
+
+      @if (cover()) {
+        <img class="cover" [src]="cover()" [alt]="p.title" />
+      }
+
+      <div class="zx-prose" [innerHTML]="html()"></div>
+
+      <footer class="foot">
+        <a [routerLink]="routes.Blog" class="back">&larr; Back to the blog</a>
+      </footer>
+    } @else if (store.postMissing()) {
+      <div class="missing">
+        <div style="font-size: 40px; margin-bottom: 10px">&#128269;</div>
+        <h1 class="title" style="font-size: 30px">That post isn't here</h1>
+        <p class="lead">It may have been unpublished, or the link is out of date.</p>
+        <a [routerLink]="routes.Blog" class="cta">Browse all posts &rarr;</a>
+      </div>
+    } @else {
+      <div aria-busy="true">
+        <div class="zx-skeleton" style="width: 40%; height: 22px; border-radius: 20px; margin-bottom: 18px"></div>
+        <div class="zx-skeleton" style="width: 90%; height: 46px; margin-bottom: 12px"></div>
+        <div class="zx-skeleton" style="width: 60%; height: 46px; margin-bottom: 28px"></div>
+        <div class="zx-skeleton" style="width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; margin-bottom: 32px"></div>
+        <div class="zx-skeleton" style="width: 100%; height: 16px; margin-bottom: 10px"></div>
+        <div class="zx-skeleton" style="width: 95%; height: 16px; margin-bottom: 10px"></div>
+        <div class="zx-skeleton" style="width: 80%; height: 16px"></div>
+      </div>
+    }
+  </div>
+
+  @if (post() && more().length) {
+    <section style="max-width: 1520px; margin: 72px auto 0">
+      <h2 class="more-heading">More from the blog</h2>
+      <div class="more-grid">
+        @for (item of more(); track item._id) {
+          <zx-blog-card [post]="item" />
+        }
+      </div>
+    </section>
+  }
+</article>

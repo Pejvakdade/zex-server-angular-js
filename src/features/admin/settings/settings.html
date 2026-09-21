@@ -3,14 +3,14 @@
   (ngSubmit)="save()"
   style="
     max-width: 480px;
-    background: #fff;
-    border: 1px solid #eef0fa;
+    background: var(--zx-bg);
+    border: 1px solid var(--zx-border-soft);
     border-radius: 16px;
     padding: 28px 30px;
     box-shadow: 0 4px 14px rgba(30, 20, 90, 0.04);
   "
 >
-  <h2 style="margin: 0 0 20px; font-size: 20px; font-weight: 800; color: #161629">
+  <h2 style="margin: 0 0 20px; font-size: 20px; font-weight: 800; color: var(--zx-ink)">
     {{ heading() }}
   </h2>
 
@@ -23,12 +23,12 @@
     <input type="email" formControlName="email" [style]="ui.input" />
   </div>
 
-  <div style="border-top: 1px solid #eef0fa; margin: 4px 0 20px"></div>
+  <div style="border-top: 1px solid var(--zx-border-soft); margin: 4px 0 20px"></div>
   <div
     style="
       font-size: 13px;
       font-weight: 700;
-      color: #8386ac;
+      color: var(--zx-text-faint);
       letter-spacing: 0.3px;
       text-transform: uppercase;
       margin-bottom: 12px;
@@ -60,9 +60,9 @@
     <div
       style="
         font-size: 13px;
-        color: #dc2626;
-        background: #fff6f6;
-        border: 1px solid #fbd5d5;
+        color: var(--zx-red-fg);
+        background: var(--zx-red-tint);
+        border: 1px solid var(--zx-red-border);
         border-radius: 10px;
         padding: 10px 12px;
         margin-bottom: 16px;
