@@ -11,6 +11,7 @@ export const apiRoutes = {
   // Counters
   fleetStats: 'stats/fleet',
   adminOverview: 'stats/overview',
+  adminActivity: 'stats/activity',
 
   // User / auth
   signIn: 'user/sign-in',
@@ -19,6 +20,7 @@ export const apiRoutes = {
   user: 'user',
   userById: (id: string) => `user/${id}`,
   staff: 'user/staff',
+  customers: 'user/customer',
 
   // Catalogue
   plan: 'plan',
@@ -51,9 +53,10 @@ export const apiRoutes = {
   ticketById: (id: string) => `ticket/${id}`,
   ticketReply: (id: string) => `ticket/${id}/reply`,
 
-  // Dashboard uploads (hero banners, blog covers)
+  // Dashboard uploads (hero banners, blog covers, brand assets)
   uploadBanner: 'upload/banner',
   uploadBlogCover: 'upload/blog-cover',
+  uploadBrand: 'upload/brand',
 
   // Blog
   blog: 'blog',

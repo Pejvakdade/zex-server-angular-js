@@ -1,13 +1,15 @@
 /** ---------------------------------------------------------------------------------------------------------------------
  * @file billing.ts
- * @fileOverview Admin → Billing: the reference's REG.billing table (Invoice, Customer, Amount, Status,
- *               Date) and INVOICE_FIELDS modal over the real `invoice` table, plus a per-row
+ * @fileOverview Admin → Billing: the reference's REG.billing table (Invoice, Customer, Product, Amount,
+ *               Status, Date) and INVOICE_FIELDS modal over the real `invoice` table, plus a per-row
  *               "Mark paid" that the reference did not have but the revenue counter needs.
  */
 import { Component, computed, inject, signal } from '@angular/core';
 
 import { AdminInvoicesStore, Invoice, InvoiceStatus } from '@src/store/admin/admin-invoices.store';
 import { AdminToastStore } from '@src/store/admin/admin-toast.store';
+
+import { PRODUCT_PAGES } from '../_component/admin-nav';
 
 import { ConfirmDialog } from '../_component/confirm-dialog';
 import { CustomerOptions, customerLabel } from '../_component/customer-options';
@@ -17,6 +19,12 @@ import { FieldDef, Row, Tint, UI } from '../_component/admin-ui';
 import { Pager } from '../_component/pager';
 
 const STATUSES: ReadonlyArray<InvoiceStatus> = ['Paid', 'Pending', 'Overdue'];
+
+/** The reference's product dropdown: the six plan products plus Software Licenses. */
+const INVOICE_PRODUCTS = [
+  { value: '', label: '— none —' },
+  ...PRODUCT_PAGES.map((page) => ({ value: page.product, label: page.product })),
+];
 
 /** The reference's invoiceTagStyle: green paid, red overdue, amber otherwise. */
 export const invoiceTint = (status: InvoiceStatus): Tint =>
@@ -37,11 +45,12 @@ export class Billing {
 
   protected readonly ui = UI;
   protected readonly statuses = STATUSES;
-  protected readonly columns = ['Invoice', 'Customer', 'Description', 'Amount', 'Status', 'Due'];
+  protected readonly columns = ['Invoice', 'Customer', 'Product', 'Description', 'Amount', 'Status', 'Due'];
 
   protected readonly fields = computed<Array<FieldDef>>(() => [
     { key: 'number', label: 'Invoice # (blank = next number)', type: 'text' },
     { key: 'customerId', label: 'Customer', type: 'select', options: this.customers.options() },
+    { key: 'product', label: 'Product', type: 'select', options: INVOICE_PRODUCTS },
     { key: 'description', label: 'Description', type: 'text' },
     { key: 'amount', label: 'Amount ($)', type: 'number', required: true },
     { key: 'status', label: 'Status', type: 'select', options: STATUSES },
@@ -57,6 +66,7 @@ export class Billing {
       cells: [
         { text: invoice.number },
         { text: customerLabel(invoice.customer) },
+        { text: invoice.product || '—' },
         { text: invoice.description || '—' },
         { text: money(invoice.amount) },
         { text: invoice.status, tint: invoiceTint(invoice.status) },
@@ -80,6 +90,7 @@ export class Billing {
     this.draft.set({
       number: '',
       customerId: '',
+      product: '',
       description: '',
       amount: null,
       status: 'Pending',
@@ -95,6 +106,7 @@ export class Billing {
     this.draft.set({
       number: invoice.number,
       customerId: invoice.customerId,
+      product: invoice.product ?? '',
       description: invoice.description,
       amount: invoice.amount,
       status: invoice.status,
@@ -108,6 +120,7 @@ export class Billing {
     // An empty number means "assign the next one" — the DTO rejects '' but accepts absence.
     const body = { ...draft } as Partial<Invoice>;
     if (!body.number) delete body.number;
+    if (!body.product) body.product = null;
 
     const editing = this.editing();
     const ok = editing ? await this.store.update(editing._id, body) : await this.store.create(body);

@@ -75,6 +75,9 @@ export const AdminTicketsStore = signalStore(
         ),
       remove: (id: string) =>
         store.write(() => firstValueFrom(api.delete(apiRoutes.ticketById(id)))),
+      /** Staff opening a ticket on a customer's behalf ("+ Add Ticket"); `customerId` picks the owner. */
+      create: (body: { subject: string; message: string; priority?: TicketPriority; customerId: string }) =>
+        store.write(() => firstValueFrom(api.post<Ticket>(apiRoutes.ticket, body))),
     };
   }),
 );

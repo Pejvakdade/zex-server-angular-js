@@ -1,3 +1,11 @@
+@if (showSite()) {
+  <!-- Site identity (name, logo, favicon, share image) — stored as the `settings` site-content page. -->
+  <section style="max-width: 720px; margin-bottom: 32px">
+    <h2 style="margin: 0 0 14px; font-size: 20px; font-weight: 800; color: var(--zx-ink)">Site settings</h2>
+    <zx-site-page page="settings" />
+  </section>
+}
+
 <form
   [formGroup]="form"
   (ngSubmit)="save()"

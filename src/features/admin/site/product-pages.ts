@@ -1,10 +1,14 @@
 /** ---------------------------------------------------------------------------------------------------------------------
  * @file product-pages.ts
- * @fileOverview Site Content → Product Pages: the reference's product <select> above the editor.
- *               "Software Licenses" is included — the reference stores content for it as a seventh
- *               product even though it has no pricing plans.
+ * @fileOverview Site Content → one product page (VPS Hosting … Software Licenses): the product comes
+ *               from the route's `data.product` (admin.routes.ts builds a route per PRODUCT_PAGES entry),
+ *               so each sidebar item lands on its own editor like the reference's console.
+ *               "Software Licenses" is included — content for it is stored as a seventh product even
+ *               though it has no pricing plans.
  */
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { AdminProductContentStore } from '@src/store/admin/admin-product-content.store';
 import { PageContent } from '@src/store/admin/admin-site-content.store';
@@ -12,30 +16,11 @@ import { AdminToastStore } from '@src/store/admin/admin-toast.store';
 
 import { PageEditor } from '../_component/page-editor';
 import { PRODUCT_CONFIG } from '../_component/site-content-configs';
-import { UI } from '../_component/admin-ui';
-
-const PC_PRODUCTS = [
-  'VPS Hosting',
-  'Windows VPS',
-  'Trading VPS',
-  'Dedicated Servers',
-  'Web Hosting',
-  'WordPress Hosting',
-  'Software Licenses',
-] as const;
 
 @Component({
   selector: 'zx-product-pages',
   imports: [PageEditor],
   template: `
-    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px;max-width:320px;">
-      <label [style]="ui.label">Product</label>
-      <select [value]="product()" (change)="select($event)" [style]="ui.input">
-        @for (p of products; track p) {
-          <option [value]="p">{{ p }}</option>
-        }
-      </select>
-    </div>
     @if (store.error() && !store.content()) {
       <div
         style="font-size:13px;color:var(--zx-red-fg);background:var(--zx-red-tint);border:1px solid var(--zx-red-border);border-radius:10px;padding:10px 12px;margin-bottom:14px;"
@@ -53,21 +38,20 @@ const PC_PRODUCTS = [
   `,
 })
 export class ProductPages {
+  private readonly route = inject(ActivatedRoute);
   private readonly toast = inject(AdminToastStore);
 
   protected readonly store = inject(AdminProductContentStore);
-  protected readonly ui = UI;
-  protected readonly products = PC_PRODUCTS;
   protected readonly config = PRODUCT_CONFIG;
-  protected readonly product = signal<string>(PC_PRODUCTS[0]);
+
+  /** `data.product` from the route; the same component instance is reused when moving between products. */
+  private readonly product = toSignal(this.route.data, { initialValue: this.route.snapshot.data });
 
   constructor() {
-    void this.store.load(this.product());
-  }
-
-  protected select(event: Event): void {
-    this.product.set((event.target as HTMLSelectElement).value);
-    void this.store.load(this.product());
+    effect(() => {
+      const product = this.product()['product'] as string | undefined;
+      if (product) void this.store.load(product);
+    });
   }
 
   protected async save(content: PageContent): Promise<void> {

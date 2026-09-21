@@ -156,4 +156,57 @@
       }}</span>
     </a>
   </div>
+
+  <!-- Recent activity — the reference's table, fed by GET /stats/activity -->
+  <h2 style="margin: 32px 0 14px; font-size: 18px; font-weight: 800; color: var(--zx-ink)">
+    Recent activity
+  </h2>
+  <div style="overflow-x: auto">
+    <table style="border-collapse: collapse; width: 100%">
+      <thead>
+        <tr>
+          <th [style]="ui.thead">Event</th>
+          <th [style]="ui.thead">Product</th>
+          <th [style]="ui.thead">Customer</th>
+          <th [style]="ui.thead">When</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of store.activity(); track item.id) {
+          <tr class="row">
+            <td [style]="ui.td">
+              <a
+                [routerLink]="activityLinks[item.kind]"
+                style="color: inherit; text-decoration: none; font-weight: 600"
+                >{{ item.event }}</a
+              >
+              @if (item.needsAttention) {
+                <span
+                  style="
+                    display: inline-block;
+                    width: 7px;
+                    height: 7px;
+                    border-radius: 50%;
+                    background: var(--zx-red-fg);
+                    margin-left: 8px;
+                    vertical-align: middle;
+                  "
+                  title="Needs attention"
+                ></span>
+              }
+            </td>
+            <td [style]="ui.td">{{ item.product ?? placeholder }}</td>
+            <td [style]="ui.td">{{ item.customer }}</td>
+            <td [style]="ui.tdMuted">{{ timeAgo(item.at) }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" [style]="ui.tdMuted" style="text-align: center; padding: 32px">
+              {{ store.activityLoaded() ? 'Nothing has happened yet.' : 'Loading…' }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -2,7 +2,8 @@
  * @file tickets.ts
  * @fileOverview Admin → Tickets: the reference's REG.tickets table (Ticket, Subject, Customer,
  *               Priority, Status, Updated) with its TICKET DETAIL DIALOG — thread, reply, mark closed —
- *               over the real `ticket` table. The table's Edit button opens the dialog ("View").
+ *               over the real `ticket` table. The table's Edit button opens the dialog ("View"), and
+ *               "+ Add Ticket" lets staff open one on a customer's behalf (POST /ticket + customerId).
  */
 import { Component, computed, inject, signal } from '@angular/core';
 
@@ -21,18 +22,20 @@ import {
 import { TicketThread } from '@src/shared/components/ticket/ticket-thread';
 
 import { ConfirmDialog } from '../_component/confirm-dialog';
-import { customerLabel } from '../_component/customer-options';
+import { CustomerOptions, customerLabel } from '../_component/customer-options';
 import { DataTable } from '../_component/data-table';
-import { Row, UI, pill } from '../_component/admin-ui';
+import { EntityModal } from '../_component/entity-modal';
+import { FieldDef, Row, UI, pill } from '../_component/admin-ui';
 import { Pager } from '../_component/pager';
 
 @Component({
   selector: 'zx-admin-tickets',
-  imports: [DataTable, ConfirmDialog, Pager, TicketThread],
+  imports: [DataTable, EntityModal, ConfirmDialog, Pager, TicketThread],
   templateUrl: './tickets.html',
 })
 export class Tickets {
   protected readonly store = inject(AdminTicketsStore);
+  private readonly customers = inject(CustomerOptions);
   private readonly toast = inject(AdminToastStore);
 
   protected readonly ui = UI;
@@ -62,8 +65,33 @@ export class Tickets {
 
   protected readonly deleting = signal<Row<Ticket> | null>(null);
 
+  /** "+ Add Ticket" — the reference's TICKET_FIELDS minus the number / status, which the backend assigns. */
+  protected readonly createFields = computed<Array<FieldDef>>(() => [
+    { key: 'subject', label: 'Subject', type: 'text', required: true },
+    { key: 'customerId', label: 'Customer', type: 'select', options: this.customers.options() },
+    { key: 'priority', label: 'Priority', type: 'select', options: TICKET_PRIORITIES },
+    { key: 'message', label: 'Message', type: 'textarea', required: true },
+  ]);
+  protected readonly createOpen = signal(false);
+  protected readonly createDraft = signal<Record<string, unknown>>({});
+
   constructor() {
     void this.store.load();
+    void this.customers.load();
+  }
+
+  protected openCreate(): void {
+    this.createDraft.set({ subject: '', customerId: '', priority: 'Medium', message: '' });
+    this.store.clearError();
+    this.createOpen.set(true);
+  }
+
+  protected async create(draft: Record<string, unknown>): Promise<void> {
+    const body = draft as { subject: string; message: string; priority: TicketPriority; customerId: string };
+    if (await this.store.create(body)) {
+      this.createOpen.set(false);
+      this.toast.flash('Ticket opened');
+    }
   }
 
   protected open(row: Row): void {

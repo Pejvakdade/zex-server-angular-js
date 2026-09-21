@@ -1,8 +1,9 @@
 /** ---------------------------------------------------------------------------------------------------------------------
  * @file settings.ts
- * @fileOverview Settings: the reference's "Admin account" card (name, email) plus a password change,
- *               saved through PATCH /user/me. The auth store's cached user is refreshed on success
- *               so the topbar name updates without a reload.
+ * @fileOverview Settings: the reference's "Site settings" card (name, logo, favicon, share image — the
+ *               `settings` site-content page through the generic editor) above its "Admin account"
+ *               card (name, email) plus a password change, saved through PATCH /user/me. The auth
+ *               store's cached user is refreshed on success so the topbar name updates without a reload.
  */
 import { Component, inject, input, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -15,10 +16,11 @@ import { AdminToastStore } from '@src/store/admin/admin-toast.store';
 import { AuthStore, PublicUser } from '@src/store/website/auth.store';
 
 import { UI } from '../_component/admin-ui';
+import { SitePage } from '../site/site-page';
 
 @Component({
   selector: 'zx-admin-settings',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SitePage],
   templateUrl: './settings.html',
 })
 export class Settings {
@@ -29,6 +31,8 @@ export class Settings {
 
   /** "Admin account" on the dashboard; the customer panel's Profile page reuses this with its own. */
   readonly heading = input('Admin account');
+  /** The site card is staff-only; the customer panel's Profile page turns it off. */
+  readonly showSite = input(true);
 
   protected readonly ui = UI;
   protected readonly saving = signal(false);

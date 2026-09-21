@@ -24,7 +24,7 @@
         [routerLink]="routes.Home"
         style="display: flex; align-items: center; gap: 8px; flex-shrink: 0"
       >
-        <img src="uploads/zx-mark-cropped.png" alt="ZexServer" style="height: 26px; width: auto" />
+        <img [src]="logoUrl()" [alt]="siteName()" style="height: 26px; width: auto" />
         <span
           style="
             font-weight: 800;

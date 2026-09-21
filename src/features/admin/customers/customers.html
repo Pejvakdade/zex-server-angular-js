@@ -36,9 +36,12 @@
         [style]="ui.search"
       />
     </div>
-    <span style="font-size: 13px; color: var(--zx-text-faint)"
-      >{{ store.page().totalDocs }} customers</span
-    >
+    <div style="display: flex; align-items: center; gap: 14px">
+      <span style="font-size: 13px; color: var(--zx-text-faint)"
+        >{{ store.page().totalDocs }} customers</span
+      >
+      <button type="button" (click)="openCreate()" [style]="ui.addBtn">+ Add Customer</button>
+    </div>
   </div>
 
   @if (store.error() && !modalOpen()) {
@@ -100,8 +103,8 @@
 
   @if (modalOpen()) {
     <zx-entity-modal
-      title="Edit customer"
-      [fields]="fields"
+      [title]="editing() ? 'Edit customer' : 'Add Customer'"
+      [fields]="editing() ? fields : createFields"
       [initial]="draft()"
       [saving]="store.saving()"
       [error]="store.error()"

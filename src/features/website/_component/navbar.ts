@@ -11,7 +11,10 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
+import { assetUrl } from '@src/lib/assetUrl';
+import { SiteSettings } from '@src/lib/site-meta.service';
 import { AuthStore } from '@src/store/website/auth.store';
+import { SiteContentStore } from '@src/store/website/site-content.store';
 import { ThemeToggle } from '@src/shared/components/theme-toggle/theme-toggle';
 
 interface NavLink {
@@ -37,10 +40,20 @@ interface NavMenu {
 })
 export class Navbar {
   private readonly router = inject(Router);
+  private readonly siteContent = inject(SiteContentStore);
 
   protected readonly auth = inject(AuthStore);
   protected readonly routes = appRoutes;
   protected readonly menuOpen = signal(false);
+
+  /** Admin → Settings: an uploaded logo replaces the bundled mark; the name is the image's alt text. */
+  private readonly settings = computed(() => this.siteContent.forPage()<SiteSettings>('settings'));
+  protected readonly logoUrl = computed(() => assetUrl(this.settings()?.logo) || 'uploads/zx-mark-cropped.png');
+  protected readonly siteName = computed(() => this.settings()?.siteName || 'ZexServer');
+
+  constructor() {
+    void this.siteContent.load('settings');
+  }
 
   /** Grouping and headings match the reference navbar exactly. */
   protected readonly menus: Array<NavMenu> = [

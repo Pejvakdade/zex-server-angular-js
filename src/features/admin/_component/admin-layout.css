@@ -79,3 +79,8 @@
   cursor: pointer;
   padding: 0;
 }
+
+/* notifications dropdown rows */
+.bell-row:hover {
+  background: var(--zx-row-hover);
+}

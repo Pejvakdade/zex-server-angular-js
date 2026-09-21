@@ -43,7 +43,8 @@ export const appRoutes = {
   AdminSiteSupport: '/admin/site/support',
   AdminSiteFooter: '/admin/site/footer',
   AdminSiteLegal: '/admin/site/legal',
-  AdminSiteProductPages: '/admin/site/product-pages',
+  /** One editor per product page (Site Content → VPS Hosting …); slug = product name kebab-cased. */
+  AdminSiteProduct: (slug: string) => `/admin/site/products/${slug}`,
   AdminBlog: '/admin/blog',
   AdminBlogNew: '/admin/blog/new',
   AdminBlogEdit: (id: string) => `/admin/blog/${id}`,

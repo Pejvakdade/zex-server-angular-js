@@ -39,6 +39,9 @@ export interface ProductContent {
   heroSubheading: string;
   /** Banner behind the hero text, uploaded from the dashboard (empty = gradient only). */
   heroImage?: string;
+  /** <title> / meta description; blank = derived from the product name and hero subheading. */
+  seoTitle?: string;
+  seoDescription?: string;
   ctaHeading: string;
   ctaSubheading: string;
   featureStrip: Array<IconItem>;

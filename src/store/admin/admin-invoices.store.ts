@@ -20,6 +20,8 @@ export interface Invoice {
   customerId: string;
   customer?: PublicUser;
   serviceId?: string | null;
+  /** Product line billed — a plan product or "Software Licenses"; null when unspecified. */
+  product?: string | null;
   amount: number;
   status: InvoiceStatus;
   /** yyyy-mm-dd. */

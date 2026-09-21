@@ -8,12 +8,13 @@
  *       in the mockup - plus an "Install License" checkbox that adds the one-off setup fee. That
  *       toggle is implemented here: ticking it shows the real total rather than only the monthly.
  */
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UpperCasePipe } from '@angular/common';
 
 import appRoutes from '@src/common/appRoutes';
 import { heroBackground } from '@src/lib/assetUrl';
+import { DEFAULT_SITE_NAME, SiteMetaService } from '@src/lib/site-meta.service';
 import { LicenseCard } from '@src/shared/components/license/license-card';
 import { LineIcon } from '@src/shared/components/line-icon/line-icon';
 import { License, LicensesStore } from '@src/store/website/licenses.store';
@@ -29,6 +30,8 @@ const PRODUCT = 'Software Licenses';
   styleUrl: './licenses.css',
 })
 export class Licenses {
+  private readonly siteMeta = inject(SiteMetaService);
+
   protected readonly store = inject(LicensesStore);
   protected readonly contentStore = inject(ProductContentStore);
 
@@ -42,6 +45,15 @@ export class Licenses {
   constructor() {
     void this.store.load();
     void this.contentStore.load(PRODUCT);
+
+    effect(() => {
+      const content = this.content();
+      if (!content) return;
+      this.siteMeta.setPage(
+        { title: content.seoTitle, description: content.seoDescription },
+        { title: `${PRODUCT} — ${DEFAULT_SITE_NAME}`, description: content.heroSubheading },
+      );
+    });
   }
 
   protected isInstalling(license: License): boolean {

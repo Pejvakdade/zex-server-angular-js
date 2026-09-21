@@ -10,6 +10,6 @@ import { Settings } from '@src/features/admin/settings/settings';
 @Component({
   selector: 'zx-client-profile',
   imports: [Settings],
-  template: `<zx-admin-settings heading="Your account" />`,
+  template: `<zx-admin-settings heading="Your account" [showSite]="false" />`,
 })
 export class Profile {}

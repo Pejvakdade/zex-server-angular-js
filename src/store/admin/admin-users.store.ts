@@ -99,6 +99,14 @@ export const AdminUsersStore = signalStore(
         password: string;
         userType: UserType;
       }) => write(() => firstValueFrom(api.post(apiRoutes.staff, body))),
+      /** Admin → Customers → "+ Add Customer": a CLIENT account with a temporary password (POST /user/customer). */
+      createCustomer: (body: {
+        company: string;
+        fullName?: string;
+        email: string;
+        password: string;
+        status?: UserStatus;
+      }) => write(() => firstValueFrom(api.post(apiRoutes.customers, body))),
       remove: (id: string) => write(() => firstValueFrom(api.delete(apiRoutes.userById(id)))),
       clearError: () => patchState(store, { error: null }),
     };

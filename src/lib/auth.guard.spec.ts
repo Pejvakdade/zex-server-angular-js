@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, convertToParamMap, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 
 import appRoutes from '@src/common/appRoutes';
 import { AuthStore } from '@src/store/website/auth.store';
@@ -19,8 +19,10 @@ describe('route guards', () => {
 
   /** Runs a guard the way the router would and normalises a UrlTree result to its path. */
   const run = async (guard: typeof authGuard): Promise<true | string> => {
+    // guestGuard reads `returnUrl` from the query string; an empty map is "no return url".
+    const route = { queryParamMap: convertToParamMap({}) } as ActivatedRouteSnapshot;
     const result = await TestBed.runInInjectionContext(() =>
-      guard({} as ActivatedRouteSnapshot, {} as RouterStateSnapshot),
+      guard(route, {} as RouterStateSnapshot),
     );
     return result instanceof UrlTree ? router.serializeUrl(result) : (result as true);
   };

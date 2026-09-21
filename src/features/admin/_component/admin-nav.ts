@@ -87,6 +87,10 @@ export const ICON_PATHS = {
       },
     ],
   ],
+  bell: [
+    ['path', { d: 'M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9' }],
+    ['path', { d: 'M13.7 21a2 2 0 0 1-3.4 0' }],
+  ],
   chevronLeft: [['path', { d: 'M15 18l-6-6 6-6' }]],
   chevronRight: [['path', { d: 'M9 18l6-6-6-6' }]],
   shield: [
@@ -229,6 +233,25 @@ export const ICON_PATHS = {
   ReadonlyArray<readonly [string, Record<string, string | number>]>
 >;
 
+/**
+ * The seven product pages, each its own Site Content entry like the reference's sidebar. The slug is
+ * the route segment; the product name is what `product-content/:product` expects.
+ */
+export const PRODUCT_PAGES = [
+  { slug: 'vps-hosting', product: 'VPS Hosting', icon: 'server' },
+  { slug: 'windows-vps', product: 'Windows VPS', icon: 'server' },
+  { slug: 'trading-vps', product: 'Trading VPS', icon: 'bars' },
+  { slug: 'dedicated-servers', product: 'Dedicated Servers', icon: 'server' },
+  { slug: 'web-hosting', product: 'Web Hosting', icon: 'globe' },
+  { slug: 'wordpress-hosting', product: 'WordPress Hosting', icon: 'globe' },
+  { slug: 'software-licenses', product: 'Software Licenses', icon: 'license' },
+] as const satisfies ReadonlyArray<{ slug: string; product: string; icon: IconName }>;
+
+export type ProductPageSlug = (typeof PRODUCT_PAGES)[number]['slug'];
+
+export const productForSlug = (slug: string): string | null =>
+  PRODUCT_PAGES.find((page) => page.slug === slug)?.product ?? null;
+
 export interface NavItem {
   label: string;
   icon: IconName;
@@ -263,12 +286,14 @@ export const NAV_GROUPS: Array<NavGroup> = [
     label: 'Site Content',
     items: [
       { label: 'Home', icon: 'home', path: appRoutes.AdminSiteHome },
+      ...PRODUCT_PAGES.map(
+        (page): NavItem => ({ label: page.product, icon: page.icon, path: appRoutes.AdminSiteProduct(page.slug) }),
+      ),
       { label: 'About Us', icon: 'info', path: appRoutes.AdminSiteAbout },
       { label: 'Contact Us', icon: 'mail', path: appRoutes.AdminSiteContact },
       { label: 'Support', icon: 'headset', path: appRoutes.AdminSiteSupport },
       { label: 'Footer', icon: 'grid', path: appRoutes.AdminSiteFooter },
       { label: 'Legal', icon: 'book', path: appRoutes.AdminSiteLegal },
-      { label: 'Product Pages', icon: 'server', path: appRoutes.AdminSiteProductPages },
       { label: 'Blog', icon: 'fileText', path: appRoutes.AdminBlog },
     ],
   },
@@ -319,14 +344,20 @@ export const TITLES = {
   },
   support: { title: 'Support page', subtitle: 'Copy and FAQ shown on the Support page.' },
   footer: { title: 'Footer', subtitle: 'Shown at the bottom of every page.' },
+  /** The seven product pages get "<Product> page" at runtime — see `productPageTitle`. */
   productContent: {
-    title: 'Product Pages',
-    subtitle:
-      'Hero, feature strip, why-choose cards, FAQ, grids and locations for each product page.',
+    title: 'Product page',
+    subtitle: 'Hero, SEO, feature strip, why-choose cards, FAQ, grids and locations for this product.',
   },
   legal: { title: 'Legal', subtitle: 'Terms of Service and Privacy Policy shown across the site.' },
   blog: { title: 'Blog', subtitle: 'Articles shown on the Blog page and the homepage slider.' },
   blogEditor: { title: 'Write post', subtitle: 'Markdown body with a live preview; save as a draft or publish.' },
   staff: { title: 'Staff & Users', subtitle: 'Admin console accounts.' },
-  settings: { title: 'Settings', subtitle: 'Your admin account.' },
+  settings: { title: 'Settings', subtitle: 'Site identity and your admin account.' },
 } as const satisfies Record<string, SectionTitle>;
+
+/** Heading for one product page editor, in the reference's wording ("Trading VPS page"). */
+export const productPageTitle = (product: string): SectionTitle => ({
+  title: `${product} page`,
+  subtitle: `Copy shown on the ${product} page.`,
+});

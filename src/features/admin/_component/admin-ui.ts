@@ -103,6 +103,8 @@ export const BANNER_WIDTH = 1920;
 export const BANNER_HEIGHT = 560;
 export const BANNER_MAX_BYTES = 2 * 1024 * 1024;
 export const BANNER_HINT = `Required size: ${BANNER_WIDTH} × ${BANNER_HEIGHT} px · JPG, PNG or WebP · max 2 MB`;
+export const BRAND_MAX_BYTES = 1 * 1024 * 1024;
+export const BRAND_HINT = 'JPG, PNG, WebP, SVG or ICO · max 1 MB';
 
 /**
  * One input in the add/edit modal. `options` for select / multiselect (multiselect stores an
@@ -117,7 +119,12 @@ export interface FieldDef {
   options?: ReadonlyArray<SelectOption>;
   required?: boolean;
   hint?: string;
+  /** `image` fields: which upload endpoint / rule set applies. `banner` (exact 1920×560) is the default. */
+  upload?: UploadKind;
 }
+
+/** `banner` = hero banners (exact size); `brand` = logo / favicon / share image (any size, SVG + ICO too). */
+export type UploadKind = 'banner' | 'brand';
 
 /** A repeated-item section of a page editor (feature strip, FAQ, footer columns …). */
 export interface ItemGroupConfig {

@@ -2,7 +2,8 @@
  * @file customers.ts
  * @fileOverview Customers: CLIENT accounts with the reference's REG.customers columns (Company,
  *               Contact email, Status, Customer since) and its CUSTOMER_FIELDS modal. The reference's
- *               `joined` text is the real createdAt here.
+ *               `joined` text is the real createdAt here, so "+ Add Customer" asks for a temporary
+ *               password instead of a "customer since" date (POST /user/customer).
  */
 import { Component, computed, inject, signal } from '@angular/core';
 
@@ -23,6 +24,15 @@ const FIELDS: Array<FieldDef> = [
   { key: 'status', label: 'Status', type: 'select', options: STATUSES },
 ];
 
+/** "+ Add Customer": the reference's Company / Contact email / Status, plus the sign-in details. */
+const CREATE_FIELDS: Array<FieldDef> = [
+  { key: 'company', label: 'Company', type: 'text', required: true },
+  { key: 'fullName', label: 'Contact name (blank = company)', type: 'text' },
+  { key: 'email', label: 'Contact email', type: 'text', required: true },
+  { key: 'password', label: 'Temporary password (min 8 characters)', type: 'text', required: true },
+  { key: 'status', label: 'Status', type: 'select', options: STATUSES },
+];
+
 @Component({
   selector: 'zx-admin-customers',
   imports: [DataTable, EntityModal, ConfirmDialog],
@@ -34,6 +44,7 @@ export class Customers {
 
   protected readonly ui = UI;
   protected readonly fields = FIELDS;
+  protected readonly createFields = CREATE_FIELDS;
   protected readonly statuses = STATUSES;
   protected readonly columns = ['Customer', 'Company', 'Contact email', 'Status', 'Customer since'];
 
@@ -62,6 +73,13 @@ export class Customers {
     void this.store.load();
   }
 
+  protected openCreate(): void {
+    this.editing.set(null);
+    this.draft.set({ company: '', fullName: '', email: '', password: '', status: 'Active' });
+    this.store.clearError();
+    this.modalOpen.set(true);
+  }
+
   protected openEdit(row: Row): void {
     const user = row.data as PublicUser;
     this.editing.set(user);
@@ -72,10 +90,15 @@ export class Customers {
 
   protected async save(draft: Record<string, unknown>): Promise<void> {
     const editing = this.editing();
-    if (!editing) return;
-    if (await this.store.update(editing._id, draft as Partial<PublicUser>)) {
+    const ok = editing
+      ? await this.store.update(editing._id, draft as Partial<PublicUser>)
+      : await this.store.createCustomer({
+          ...(draft as { company: string; email: string; password: string; status: UserStatus }),
+          fullName: (draft['fullName'] as string) || undefined,
+        });
+    if (ok) {
       this.modalOpen.set(false);
-      this.toast.flash('Customer updated');
+      this.toast.flash(editing ? 'Customer updated' : 'Customer added');
     }
   }
 

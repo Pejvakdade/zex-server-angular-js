@@ -7,7 +7,7 @@ import { CanDeactivateFn, Routes } from '@angular/router';
 
 import { guestGuard, staffGuard } from '@src/lib/auth.guard';
 import { AdminLayout } from './_component/admin-layout';
-import { TITLES } from './_component/admin-nav';
+import { PRODUCT_PAGES, productPageTitle, TITLES } from './_component/admin-nav';
 
 const sitePage = () => import('./site/site-page').then((m) => m.SitePage);
 
@@ -99,11 +99,12 @@ export const adminRoutes: Routes = [
         data: { section: TITLES.legal, page: 'legal' },
         loadComponent: sitePage,
       },
-      {
-        path: 'site/product-pages',
-        data: { section: TITLES.productContent },
+      // One route per product page (Site Content → VPS Hosting … Software Licenses), same editor component
+      ...PRODUCT_PAGES.map((page) => ({
+        path: `site/products/${page.slug}`,
+        data: { section: productPageTitle(page.product), product: page.product },
         loadComponent: () => import('./site/product-pages').then((m) => m.ProductPages),
-      },
+      })),
 
       // Blog — list, then one editor component for both "new" and "edit"
       {

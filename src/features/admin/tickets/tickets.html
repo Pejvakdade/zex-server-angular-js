@@ -46,12 +46,28 @@
         [style]="ui.search"
       />
     </div>
-    <span style="font-size: 13px; color: var(--zx-text-faint)"
-      >{{ store.page().totalDocs }} tickets</span
-    >
+    <div style="display: flex; align-items: center; gap: 14px">
+      <span style="font-size: 13px; color: var(--zx-text-faint)"
+        >{{ store.page().totalDocs }} tickets</span
+      >
+      <button type="button" (click)="openCreate()" [style]="ui.addBtn">+ Add Ticket</button>
+    </div>
   </div>
 
-  @if (store.error() && !store.selected()) {
+  @if (createOpen()) {
+    <zx-entity-modal
+      title="Add Ticket"
+      [fields]="createFields()"
+      [initial]="createDraft()"
+      [saving]="store.saving()"
+      [error]="store.error()"
+      saveLabel="Open ticket"
+      (save)="create($event)"
+      (cancel)="createOpen.set(false)"
+    />
+  }
+
+  @if (store.error() && !store.selected() && !createOpen()) {
     <div
       style="
         font-size: 13px;

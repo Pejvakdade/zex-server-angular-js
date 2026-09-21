@@ -5,7 +5,7 @@
  *               before anything is sent — a wrong-size file never leaves the machine. The accepted file goes to
  *               POST /upload/banner and the returned URL becomes the field's value.
  */
-import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 import apiRoutes from '@src/common/apiRoutes';
@@ -13,7 +13,7 @@ import { ApiService } from '@src/lib/api.service';
 import { assetUrl } from '@src/lib/assetUrl';
 import { readError } from '@src/lib/readError';
 
-import { BANNER_HEIGHT, BANNER_HINT, BANNER_MAX_BYTES, BANNER_WIDTH, UI } from './admin-ui';
+import { BANNER_HEIGHT, BANNER_HINT, BANNER_MAX_BYTES, BANNER_WIDTH, BRAND_MAX_BYTES, UI, UploadKind } from './admin-ui';
 
 interface UploadedBanner {
   url: string;
@@ -74,7 +74,7 @@ interface UploadedBanner {
           {{ uploading() ? 'Uploading…' : value() ? 'Replace image' : 'Upload image' }}
           <input
             type="file"
-            accept="image/jpeg,image/png,image/webp"
+            [accept]="accept()"
             [disabled]="uploading()"
             (change)="onPick($event)"
             style="display: none"
@@ -109,7 +109,15 @@ export class ImageUpload {
   /** Stored value: the backend-relative URL (`/uploads/banners/…`) or ''. */
   readonly value = input<string>('');
   readonly hint = input<string>(BANNER_HINT);
+  /** `banner` enforces the exact hero size client-side; `brand` only checks the byte limit. */
+  readonly kind = input<UploadKind>('banner');
   readonly valueChange = output<string>();
+
+  protected readonly accept = computed(() =>
+    this.kind() === 'brand'
+      ? 'image/jpeg,image/png,image/webp,image/svg+xml,image/x-icon,image/vnd.microsoft.icon,.ico,.svg'
+      : 'image/jpeg,image/png,image/webp',
+  );
 
   private readonly api = inject(ApiService);
 
@@ -134,23 +142,28 @@ export class ImageUpload {
 
     this.error.set(null);
 
-    if (file.size > BANNER_MAX_BYTES) {
+    const brand = this.kind() === 'brand';
+    const maxBytes = brand ? BRAND_MAX_BYTES : BANNER_MAX_BYTES;
+    if (file.size > maxBytes) {
       this.error.set(
-        `This file is ${(file.size / 1024 / 1024).toFixed(1)} MB — the limit is ${BANNER_MAX_BYTES / 1024 / 1024} MB.`,
+        `This file is ${(file.size / 1024 / 1024).toFixed(1)} MB — the limit is ${maxBytes / 1024 / 1024} MB.`,
       );
       return;
     }
 
-    const size = await readImageSize(file);
-    if (!size) {
-      this.error.set('That file could not be read as an image. Use a JPG, PNG or WebP.');
-      return;
-    }
-    if (size.width !== BANNER_WIDTH || size.height !== BANNER_HEIGHT) {
-      this.error.set(
-        `Your image is ${size.width} × ${size.height} px — please upload a ${BANNER_WIDTH} × ${BANNER_HEIGHT} px banner.`,
-      );
-      return;
+    // Brand assets (logo / favicon / share image) have no fixed size, and SVG / ICO cannot be decoded here anyway.
+    if (!brand) {
+      const size = await readImageSize(file);
+      if (!size) {
+        this.error.set('That file could not be read as an image. Use a JPG, PNG or WebP.');
+        return;
+      }
+      if (size.width !== BANNER_WIDTH || size.height !== BANNER_HEIGHT) {
+        this.error.set(
+          `Your image is ${size.width} × ${size.height} px — please upload a ${BANNER_WIDTH} × ${BANNER_HEIGHT} px banner.`,
+        );
+        return;
+      }
     }
 
     const body = new FormData();
@@ -159,7 +172,7 @@ export class ImageUpload {
     this.uploading.set(true);
     try {
       const uploaded = await firstValueFrom(
-        this.api.post<UploadedBanner>(apiRoutes.uploadBanner, body),
+        this.api.post<UploadedBanner>(brand ? apiRoutes.uploadBrand : apiRoutes.uploadBanner, body),
       );
       this.valueChange.emit(uploaded.url);
     } catch (e) {

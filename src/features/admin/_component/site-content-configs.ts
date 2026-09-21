@@ -2,12 +2,14 @@
  * @file site-content-configs.ts
  * @fileOverview one PageEditorConfig per site page plus the product-page one, transcribed from the
  *               reference dashboard's *_FIELDS lists and HOME_FIXED_GROUPS_CONFIG headings, minus the
- *               `heroBanner` image fields (no upload endpoint yet). Field keys match the stored
- *               content 1:1 — see the backend's siteContent.data.ts / productContent.data.ts.
+ *               `heroBanner` image fields, which became the `heroImage` upload once POST /upload/banner
+ *               existed. Field keys match the stored content 1:1 — see the backend's
+ *               siteContent.data.ts / productContent.data.ts. `SETTINGS` is the site-identity card on
+ *               Admin → Settings (stored as the `settings` site-content page).
  */
 import { SitePage } from '@src/store/website/site-content.store';
 
-import { BANNER_HINT, FieldDef, ItemGroupConfig, PageEditorConfig } from './admin-ui';
+import { BANNER_HINT, BRAND_HINT, FieldDef, ItemGroupConfig, PageEditorConfig } from './admin-ui';
 
 /** Every hero page shares one banner slot; the hint carries the exact pixel size the upload requires. */
 const heroImage: FieldDef = {
@@ -269,6 +271,23 @@ const LEGAL: PageEditorConfig = {
   groups: [],
 };
 
+/** Admin → Settings → "Site settings": name + brand images, each through POST /upload/brand. */
+const SETTINGS: PageEditorConfig = {
+  fields: [
+    { key: 'siteName', label: 'Site name', type: 'text', required: true },
+    { key: 'logo', label: 'Site logo', type: 'image', upload: 'brand', hint: `Shown in the header · ${BRAND_HINT}` },
+    { key: 'favicon', label: 'Favicon', type: 'image', upload: 'brand', hint: `32 × 32 or 64 × 64 px · ${BRAND_HINT}` },
+    {
+      key: 'shareImage',
+      label: 'Default social share image',
+      type: 'image',
+      upload: 'brand',
+      hint: `Used when pages are shared on social media (1200 × 630 recommended) · ${BRAND_HINT}`,
+    },
+  ],
+  groups: [],
+};
+
 export const SITE_CONFIGS: Record<SitePage, PageEditorConfig> = {
   home: HOME,
   about: ABOUT,
@@ -276,6 +295,7 @@ export const SITE_CONFIGS: Record<SitePage, PageEditorConfig> = {
   support: SUPPORT,
   footer: FOOTER,
   legal: LEGAL,
+  settings: SETTINGS,
 };
 
 /** Product pages: icons here are emoji, typed as text (the reference's PC_*_FIELDS). */
@@ -297,6 +317,13 @@ export const PRODUCT_CONFIG: PageEditorConfig = {
     { key: 'heroHeadingAccent', label: 'Hero heading (accent line)', type: 'text' },
     { key: 'heroSubheading', label: 'Hero subheading', type: 'textarea' },
     heroImage,
+    { key: 'seoTitle', label: 'SEO title', type: 'text', hint: 'Browser tab / search result title. Blank = "<Product> — ZexServer".' },
+    {
+      key: 'seoDescription',
+      label: 'SEO meta description',
+      type: 'textarea',
+      hint: 'Shown under the title in search results. Blank = the hero subheading.',
+    },
     { key: 'ctaHeading', label: 'CTA banner heading', type: 'text' },
     { key: 'ctaSubheading', label: 'CTA banner subheading', type: 'textarea' },
     { key: 'gridOneTitle', label: 'Feature grid 1 — title', type: 'text' },

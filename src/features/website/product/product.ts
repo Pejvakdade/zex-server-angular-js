@@ -22,6 +22,7 @@ import { ProductContentStore } from '@src/store/website/product-content.store';
 import { LicenseCard } from '@src/shared/components/license/license-card';
 import { LineIcon } from '@src/shared/components/line-icon/line-icon';
 import { LocationsMap } from '@src/shared/components/locations-map/locations-map';
+import { DEFAULT_SITE_NAME, SiteMetaService } from '@src/lib/site-meta.service';
 import { PlanSelector } from '@src/shared/components/plan/plan-selector';
 import { PlanProduct } from '@src/shared/components/plan/plan.model';
 import { Skeleton } from '@src/shared/components/skeleton/skeleton';
@@ -34,6 +35,7 @@ import { Skeleton } from '@src/shared/components/skeleton/skeleton';
 })
 export class Product {
   private readonly route = inject(ActivatedRoute);
+  private readonly siteMeta = inject(SiteMetaService);
 
   protected readonly plansStore = inject(PlansStore);
   protected readonly contentStore = inject(ProductContentStore);
@@ -99,6 +101,17 @@ export class Product {
     this.route.data
       .pipe(takeUntilDestroyed())
       .subscribe((data) => this.product.set(data['product'] as PlanProduct));
+
+    // <title> / meta description from the page's SEO fields, once its content is in.
+    effect(() => {
+      const product = this.product();
+      const content = this.content();
+      if (!content) return;
+      this.siteMeta.setPage(
+        { title: content.seoTitle, description: content.seoDescription },
+        { title: `${product} — ${DEFAULT_SITE_NAME}`, description: content.heroSubheading },
+      );
+    });
 
     // Fetches on first render and again whenever the route's product changes.
     effect(() => {

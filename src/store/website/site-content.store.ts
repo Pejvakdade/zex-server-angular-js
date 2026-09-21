@@ -9,7 +9,7 @@ import { firstValueFrom } from 'rxjs';
 import apiRoutes from '@src/common/apiRoutes';
 import { ApiService } from '@src/lib/api.service';
 
-export type SitePage = 'home' | 'about' | 'contact' | 'support' | 'footer' | 'legal';
+export type SitePage = 'home' | 'about' | 'contact' | 'support' | 'footer' | 'legal' | 'settings';
 
 export interface FooterLink {
   label: string;
